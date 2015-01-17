@@ -93,15 +93,9 @@
 				E138C7541A6A57FE00FC8934 /* AppDelegate.m */,
 				E138C75C1A6A57FE00FC8934 /* Images.xcassets */,
 				E138C74F1A6A57FE00FC8934 /* Supporting Files */,
-				E138C7751A6A5A8F00FC8934 /* ViewControllerSearch.h */,
-				E138C7761A6A5A8F00FC8934 /* ViewControllerSearch.m */,
-				E138C7771A6A5A8F00FC8934 /* ViewControllerSearch.xib */,
-				E138C77F1A6A6B8600FC8934 /* ViewControllerDictionary.h */,
-				E138C7801A6A6B8600FC8934 /* ViewControllerDictionary.m */,
-				E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */,
-				E138C7841A6A6BE100FC8934 /* ViewControllerTags.h */,
-				E138C7851A6A6BE100FC8934 /* ViewControllerTags.m */,
-				E138C7861A6A6BE100FC8934 /* ViewControllerTags.xib */,
+				E138C7891A6A758D00FC8934 /* VCSearch */,
+				E138C78A1A6A759F00FC8934 /* VCDictionary */,
+				E138C78B1A6A75B600FC8934 /* VCTags */,
 			);
 			path = MyDictionary;
 			sourceTree = "<group>";
@@ -130,6 +124,36 @@
 				E138C76A1A6A57FE00FC8934 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E138C7891A6A758D00FC8934 /* VCSearch */ = {
+			isa = PBXGroup;
+			children = (
+				E138C7751A6A5A8F00FC8934 /* ViewControllerSearch.h */,
+				E138C7761A6A5A8F00FC8934 /* ViewControllerSearch.m */,
+				E138C7771A6A5A8F00FC8934 /* ViewControllerSearch.xib */,
+			);
+			name = VCSearch;
+			sourceTree = "<group>";
+		};
+		E138C78A1A6A759F00FC8934 /* VCDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				E138C77F1A6A6B8600FC8934 /* ViewControllerDictionary.h */,
+				E138C7801A6A6B8600FC8934 /* ViewControllerDictionary.m */,
+				E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */,
+			);
+			name = VCDictionary;
+			sourceTree = "<group>";
+		};
+		E138C78B1A6A75B600FC8934 /* VCTags */ = {
+			isa = PBXGroup;
+			children = (
+				E138C7841A6A6BE100FC8934 /* ViewControllerTags.h */,
+				E138C7851A6A6BE100FC8934 /* ViewControllerTags.m */,
+				E138C7861A6A6BE100FC8934 /* ViewControllerTags.xib */,
+			);
+			name = VCTags;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
