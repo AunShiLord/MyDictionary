@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "ViewControllerSearch.h"
+#import "ViewControllerDictionary.h"
+#import "ViewControllerTags.h"
 
 @interface AppDelegate ()
 
@@ -25,8 +27,12 @@
     
     ViewControllerSearch *VCS = [[ViewControllerSearch alloc] init ];
     [VCS.tabBarItem setTitle: @"Search"];
+    ViewControllerDictionary *VCD = [[ViewControllerDictionary alloc] init];
+    [VCD.tabBarItem setTitle: @"My Dictionary"];
+    ViewControllerTags *VCT = [[ViewControllerTags alloc] init];
+    [VCT.tabBarItem setTitle: @"Tags"];
     
-    [TBC setViewControllers: @[VCS]];
+    [TBC setViewControllers: @[VCS, VCD, VCT]];
     
     [self.window makeKeyAndVisible];
     [self.window setRootViewController: TBC];

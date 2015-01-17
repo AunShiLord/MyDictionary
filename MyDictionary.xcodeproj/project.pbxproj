@@ -13,6 +13,10 @@
 		E138C76C1A6A57FE00FC8934 /* MyDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E138C76B1A6A57FE00FC8934 /* MyDictionaryTests.m */; };
 		E138C7781A6A5A8F00FC8934 /* ViewControllerSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = E138C7761A6A5A8F00FC8934 /* ViewControllerSearch.m */; };
 		E138C7791A6A5A8F00FC8934 /* ViewControllerSearch.xib in Resources */ = {isa = PBXBuildFile; fileRef = E138C7771A6A5A8F00FC8934 /* ViewControllerSearch.xib */; };
+		E138C7821A6A6B8600FC8934 /* ViewControllerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E138C7801A6A6B8600FC8934 /* ViewControllerDictionary.m */; };
+		E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */ = {isa = PBXBuildFile; fileRef = E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */; };
+		E138C7871A6A6BE100FC8934 /* ViewControllerTags.m in Sources */ = {isa = PBXBuildFile; fileRef = E138C7851A6A6BE100FC8934 /* ViewControllerTags.m */; };
+		E138C7881A6A6BE100FC8934 /* ViewControllerTags.xib in Resources */ = {isa = PBXBuildFile; fileRef = E138C7861A6A6BE100FC8934 /* ViewControllerTags.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,12 @@
 		E138C7751A6A5A8F00FC8934 /* ViewControllerSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerSearch.h; sourceTree = "<group>"; };
 		E138C7761A6A5A8F00FC8934 /* ViewControllerSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerSearch.m; sourceTree = "<group>"; };
 		E138C7771A6A5A8F00FC8934 /* ViewControllerSearch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerSearch.xib; sourceTree = "<group>"; };
+		E138C77F1A6A6B8600FC8934 /* ViewControllerDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerDictionary.h; sourceTree = "<group>"; };
+		E138C7801A6A6B8600FC8934 /* ViewControllerDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerDictionary.m; sourceTree = "<group>"; };
+		E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerDictionary.xib; sourceTree = "<group>"; };
+		E138C7841A6A6BE100FC8934 /* ViewControllerTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerTags.h; sourceTree = "<group>"; };
+		E138C7851A6A6BE100FC8934 /* ViewControllerTags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerTags.m; sourceTree = "<group>"; };
+		E138C7861A6A6BE100FC8934 /* ViewControllerTags.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerTags.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +96,12 @@
 				E138C7751A6A5A8F00FC8934 /* ViewControllerSearch.h */,
 				E138C7761A6A5A8F00FC8934 /* ViewControllerSearch.m */,
 				E138C7771A6A5A8F00FC8934 /* ViewControllerSearch.xib */,
+				E138C77F1A6A6B8600FC8934 /* ViewControllerDictionary.h */,
+				E138C7801A6A6B8600FC8934 /* ViewControllerDictionary.m */,
+				E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */,
+				E138C7841A6A6BE100FC8934 /* ViewControllerTags.h */,
+				E138C7851A6A6BE100FC8934 /* ViewControllerTags.m */,
+				E138C7861A6A6BE100FC8934 /* ViewControllerTags.xib */,
 			);
 			path = MyDictionary;
 			sourceTree = "<group>";
@@ -197,7 +213,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E138C7791A6A5A8F00FC8934 /* ViewControllerSearch.xib in Resources */,
+				E138C7881A6A6BE100FC8934 /* ViewControllerTags.xib in Resources */,
 				E138C75D1A6A57FE00FC8934 /* Images.xcassets in Resources */,
+				E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +234,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E138C7551A6A57FE00FC8934 /* AppDelegate.m in Sources */,
+				E138C7871A6A6BE100FC8934 /* ViewControllerTags.m in Sources */,
 				E138C7521A6A57FE00FC8934 /* main.m in Sources */,
+				E138C7821A6A6B8600FC8934 /* ViewControllerDictionary.m in Sources */,
 				E138C7781A6A5A8F00FC8934 /* ViewControllerSearch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,6 +409,7 @@
 				E138C7711A6A57FE00FC8934 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E138C7721A6A57FE00FC8934 /* Build configuration list for PBXNativeTarget "MyDictionaryTests" */ = {
 			isa = XCConfigurationList;
@@ -397,6 +418,7 @@
 				E138C7741A6A57FE00FC8934 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
