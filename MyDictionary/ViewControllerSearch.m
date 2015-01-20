@@ -30,11 +30,20 @@
 
 //- (IBAction)Search:(id)sender {
 - (IBAction)Search {
-    // NSURL *url12 = [NSURL URLWithString: @"http://bbs.sjtu.edu.cn/file/bbs/mobile/top100.html"];
-    NSURL *url12 = [NSURL URLWithString: [@"https://dictionary.yandex.net/api/v1/dicservice/lookup?key=dict.1.1.20150105T101949Z.bc712af51ea9580c.bd4702cc00d35c7a895636ff917b517502a61c5d&lang=en-en&text=" stringByAppendingString: self.textField.text]];
-    NSString *res = [NSString stringWithContentsOfURL: url12
-                                             encoding: CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000) error: nil];
+    // link to Yandex API.
+    // @"https://dictionary.yandex.net/api/v1/dicservice/lookup?key=dict.1.1.20150105T101949Z.bc712af51ea9580c.bd4702cc00d35c7a895636ff917b517502a61c5d&lang=ru-ru&text=" stringByAppendingString: self.textField.text]
+    // @"https://slovari.yandex.ru/~книги/Толковый%20словарь%20Даля/БАРДА/"
+    // @"https://slovari.yandex.ru/~%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8/%D0%A2%D0%BE%D0%BB%D0%BA%D0%BE%D0%B2%D1%8B%D0%B9%20%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%D1%80%D1%8C%20%D0%94%D0%B0%D0%BB%D1%8F/%D0%91%D0%90%D0%A0%D0%94%D0%90/"
+    // @"https://dictionary.yandex.net/api/v1/dicservice/lookup?key=dict.1.1.20150105T101949Z.bc712af51ea9580c.bd4702cc00d35c7a895636ff917b517502a61c5d&lang=ru-ru&text=кот"
+    
+    NSString *url_str = @"https://slovari.yandex.ru/~книги/Толковый словарь Даля/";
+    url_str = [[url_str stringByAppendingString: [self.textField.text uppercaseString]] stringByAppendingString: @"/"];
+    NSURL *dictionary_url = [NSURL URLWithString: [url_str stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
+    NSError * error;
+    NSString *res = [NSString stringWithContentsOfURL: dictionary_url encoding: NSUTF8StringEncoding error: &error];
+    
     NSLog(@"%@", res);
+
     self.textView.text = res;
 }
 
