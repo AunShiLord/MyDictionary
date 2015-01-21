@@ -17,6 +17,7 @@
 		E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */ = {isa = PBXBuildFile; fileRef = E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */; };
 		E138C7871A6A6BE100FC8934 /* ViewControllerTags.m in Sources */ = {isa = PBXBuildFile; fileRef = E138C7851A6A6BE100FC8934 /* ViewControllerTags.m */; };
 		E138C7881A6A6BE100FC8934 /* ViewControllerTags.xib in Resources */ = {isa = PBXBuildFile; fileRef = E138C7861A6A6BE100FC8934 /* ViewControllerTags.xib */; };
+		E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E138C78C1A6F942100FC8934 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		E138C7841A6A6BE100FC8934 /* ViewControllerTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerTags.h; sourceTree = "<group>"; };
 		E138C7851A6A6BE100FC8934 /* ViewControllerTags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerTags.m; sourceTree = "<group>"; };
 		E138C7861A6A6BE100FC8934 /* ViewControllerTags.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerTags.xib; sourceTree = "<group>"; };
+		E138C78C1A6F942100FC8934 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 		E138C7431A6A57FE00FC8934 = {
 			isa = PBXGroup;
 			children = (
+				E138C78C1A6F942100FC8934 /* Default-568h@2x.png */,
 				E138C74E1A6A57FE00FC8934 /* MyDictionary */,
 				E138C7681A6A57FE00FC8934 /* MyDictionaryTests */,
 				E138C74D1A6A57FE00FC8934 /* Products */,
@@ -239,6 +242,7 @@
 				E138C7791A6A5A8F00FC8934 /* ViewControllerSearch.xib in Resources */,
 				E138C7881A6A6BE100FC8934 /* ViewControllerTags.xib in Resources */,
 				E138C75D1A6A57FE00FC8934 /* Images.xcassets in Resources */,
+				E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */,
 				E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,6 +371,7 @@
 				INFOPLIST_FILE = MyDictionary/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -377,6 +382,7 @@
 				INFOPLIST_FILE = MyDictionary/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

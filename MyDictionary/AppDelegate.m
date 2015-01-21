@@ -26,13 +26,16 @@
     UITabBarController *TBC = [[UITabBarController alloc] init ];
     
     ViewControllerSearch *VCS = [[ViewControllerSearch alloc] init ];
-    [VCS.tabBarItem setTitle: @"Search"];
+    UINavigationController *NCVCS = [[UINavigationController alloc] initWithRootViewController: VCS];
+    [NCVCS.tabBarItem setTitle: @"Search"];
+    [NCVCS.toolbarItems setAccessibilityHint: @"SOMETHING"];
+    
     ViewControllerDictionary *VCD = [[ViewControllerDictionary alloc] init];
     [VCD.tabBarItem setTitle: @"My Dictionary"];
     ViewControllerTags *VCT = [[ViewControllerTags alloc] init];
     [VCT.tabBarItem setTitle: @"Tags"];
     
-    [TBC setViewControllers: @[VCS, VCD, VCT]];
+    [TBC setViewControllers: @[NCVCS, VCD, VCT]];
     
     [self.window makeKeyAndVisible];
     [self.window setRootViewController: TBC];
