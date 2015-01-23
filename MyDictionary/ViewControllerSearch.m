@@ -13,6 +13,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *textField;
 @property (strong, nonatomic) IBOutlet UIButton *searchButton;
 @property (strong, nonatomic) IBOutlet UITextView *textView;
+@property (strong, nonatomic) IBOutlet UIWebView *webView;
 
 @end
 
@@ -23,7 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"TempButton" style: UIBarButtonItemStylePlain target: self action: @selector(Search)]];
+        [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"TempButton" style: UIBarButtonItemStylePlain target: self action: @selector(getHtmlByWord)]];
     }
     
     return self;
@@ -39,8 +40,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (IBAction)Search:(id)sender {
-- (IBAction)Search {
+// Getting an html Data from online dictionary
+- (IBAction) getHtmlByWord {
     // link to Yandex API.
     // @"https://dictionary.yandex.net/api/v1/dicservice/lookup?key=dict.1.1.20150105T101949Z.bc712af51ea9580c.bd4702cc00d35c7a895636ff917b517502a61c5d&lang=ru-ru&text=" stringByAppendingString: self.textField.text]
     // @"https://slovari.yandex.ru/~книги/Толковый%20словарь%20Даля/БАРДА/"
@@ -49,13 +50,69 @@
     
     NSString *url_str = @"https://slovari.yandex.ru/~книги/Толковый словарь Даля/";
     url_str = [[url_str stringByAppendingString: [self.textField.text uppercaseString]] stringByAppendingString: @"/"];
-    NSURL *dictionary_url = [NSURL URLWithString: [url_str stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
-    NSError * error;
-    NSString *res = [NSString stringWithContentsOfURL: dictionary_url encoding: NSUTF8StringEncoding error: &error];
-    
-    NSLog(@"%@", res);
+    NSURL *dictionary_url = [NSURL URLWithString:
+                             [url_str stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
 
-    self.textView.text = res;
+    NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL: dictionary_url];
+    if (dictionaryHtmlData && ![self.textField.text  isEqual: @""])
+    {
+        [self parseHtml: dictionaryHtmlData];
+    }
+    else
+    {
+        self.textView.attributedText = [[NSAttributedString alloc] initWithString: @"Error!"];
+    }
+    
+}
+
+// Parsing dictionary html
+-(void) parseHtml: (NSData *) htmlData
+{
+    TFHpple *dictionaryParser = [TFHpple hppleWithHTMLData: htmlData];
+    
+    NSString *XpathString = @"//div[@class='body article']/p";
+    NSArray *dictionaryNodes = [dictionaryParser searchWithXPathQuery: XpathString];
+    NSArray *nonTextNodes = [[dictionaryNodes objectAtIndex: 0] children];
+    
+    NSMutableAttributedString *parsedText = [[NSMutableAttributedString alloc] init];
+    parsedText = [self goDeepAndFindText: nonTextNodes];
+
+    self.textView.attributedText = parsedText;
+}
+
+// Recursive unction that goes deep into the childs nodes tree and return right-attributed text. AShi.
+-(NSMutableAttributedString *) goDeepAndFindText: (NSArray *) childsNodes
+{
+    NSMutableAttributedString *parsedText = [[NSMutableAttributedString alloc] init];
+    for (TFHppleElement *i in childsNodes)
+    {
+        if ([i.tagName isEqual: @"text"])
+        {
+            if ([i.parent.tagName isEqual: @"strong"])
+            {
+                [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content
+                    attributes: @{NSFontAttributeName : [UIFont boldSystemFontOfSize: [UIFont systemFontSize]]} ]];
+            }
+            
+            else if ([i.parent.tagName isEqual: @"em"])
+            {
+                [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content
+                    attributes: @{NSFontAttributeName : [UIFont italicSystemFontOfSize: [UIFont systemFontSize]]} ]];
+            }
+                
+            //if ([i.parent.tagName isEqual: @"p"])
+            else
+            {
+                [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content]];
+            }
+        }
+        else
+        {
+            [parsedText appendAttributedString: [self goDeepAndFindText: i.children]];
+        }
+    }
+        
+    return parsedText;
 }
 
 /*

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TFHpple.h>
 
 @interface ViewControllerSearch : UIViewController
 
