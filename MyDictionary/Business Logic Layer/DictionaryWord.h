@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "DictionaryTag.h"
+#import <CoreData/CoreData.h>
 
-@interface DictionaryWord : NSObject
+@interface DictionaryWord : NSManagedObject
 
 // Returns id of the word
 @property (nonatomic, readonly) NSInteger *wordId;

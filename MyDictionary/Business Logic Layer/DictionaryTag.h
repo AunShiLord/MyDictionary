@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface DictionaryTag : NSObject
+@interface DictionaryTag : NSManagedObject
 
 // Returns id of the tag
 @property (atomic, readonly) NSInteger id;
