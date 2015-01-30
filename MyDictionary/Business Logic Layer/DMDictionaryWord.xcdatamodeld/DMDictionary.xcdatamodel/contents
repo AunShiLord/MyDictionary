@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Dictionary" syncable="YES">
+    <entity name="Dictionary" representedClassName="Dictionary" syncable="YES">
         <attribute name="definition" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="word_name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="word_id" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Dictionary_n_tags" inverseName="word_id" inverseEntity="Dictionary_n_tags" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Dictionary_n_tags" syncable="YES">
-        <relationship name="tag_id" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tags" inverseName="tag_id" inverseEntity="Tags" syncable="YES"/>
-        <relationship name="word_id" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dictionary" inverseName="word_id" inverseEntity="Dictionary" syncable="YES"/>
-    </entity>
-    <entity name="Tags" syncable="YES">
-        <attribute name="tag_name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="tag_id" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Dictionary_n_tags" inverseName="tag_id" inverseEntity="Dictionary_n_tags" syncable="YES"/>
+    <entity name="Dictionary_n_tags" syncable="YES"/>
+    <entity name="Tags" representedClassName="Tags" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Dictionary" positionX="-450" positionY="27" width="128" height="88"/>
-        <element name="Tags" positionX="-54" positionY="18" width="128" height="73"/>
-        <element name="Dictionary_n_tags" positionX="-254" positionY="-54" width="128" height="73"/>
+        <element name="Dictionary" positionX="-369" positionY="63" width="128" height="88"/>
+        <element name="Tags" positionX="-11" positionY="65" width="128" height="73"/>
+        <element name="Dictionary_n_tags" positionX="-191" positionY="-46" width="128" height="43"/>
     </elements>
 </model>

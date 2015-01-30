@@ -2,7 +2,7 @@
 //  ViewControllerSearch.m
 //  MyDictionary
 //
-//  Created by robert on 1/17/15.
+//  Created by Vladimir Kuzmin on 1/17/15.
 //  Copyright (c) 2015 ashi. All rights reserved.
 //
 
@@ -13,7 +13,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *textField;
 @property (strong, nonatomic) IBOutlet UIButton *searchButton;
 @property (strong, nonatomic) IBOutlet UITextView *textView;
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
+
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 @end
 
@@ -24,7 +25,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"TempButton" style: UIBarButtonItemStylePlain target: self action: @selector(getHtmlByWord)]];
+        [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Add" style: UIBarButtonItemStylePlain target: self action: @selector(addWordToDatabase)]];
+        [self.navigationItem.leftBarButtonItem setEnabled: NO];
+        isDataFound = NO;
     }
     
     return self;
@@ -33,6 +36,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
+    
+    self.textField.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,27 +48,42 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Action on pressing "Go" on keyboard;
+- (BOOL) textFieldShouldReturn: (UITextField *) textField
+{
+    [textField resignFirstResponder];
+    [self getHtmlByWord];
+    
+    return YES;
+}
+
 // Getting an html Data from online dictionary
 - (IBAction) getHtmlByWord {
-    // link to Yandex API.
-    // @"https://dictionary.yandex.net/api/v1/dicservice/lookup?key=dict.1.1.20150105T101949Z.bc712af51ea9580c.bd4702cc00d35c7a895636ff917b517502a61c5d&lang=ru-ru&text=" stringByAppendingString: self.textField.text]
-    // @"https://slovari.yandex.ru/~книги/Толковый%20словарь%20Даля/БАРДА/"
-    // @"https://slovari.yandex.ru/~%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8/%D0%A2%D0%BE%D0%BB%D0%BA%D0%BE%D0%B2%D1%8B%D0%B9%20%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%D1%80%D1%8C%20%D0%94%D0%B0%D0%BB%D1%8F/%D0%91%D0%90%D0%A0%D0%94%D0%90/"
-    // @"https://dictionary.yandex.net/api/v1/dicservice/lookup?key=dict.1.1.20150105T101949Z.bc712af51ea9580c.bd4702cc00d35c7a895636ff917b517502a61c5d&lang=ru-ru&text=кот"
     
-    NSString *url_str = @"https://slovari.yandex.ru/~книги/Толковый словарь Даля/";
-    url_str = [[url_str stringByAppendingString: [self.textField.text uppercaseString]] stringByAppendingString: @"/"];
-    NSURL *dictionary_url = [NSURL URLWithString:
+    if ( ![self.textField.text isEqual: @""] )
+    {
+        // link to Yandex Dictionary.
+        NSString *url_str = @"https://slovari.yandex.ru/~книги/Толковый словарь Даля/";
+        url_str = [[url_str stringByAppendingString: [self.textField.text uppercaseString]] stringByAppendingString: @"/"];
+        NSURL *dictionary_url = [NSURL URLWithString:
                              [url_str stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
 
-    NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL: dictionary_url];
-    if (dictionaryHtmlData && ![self.textField.text  isEqual: @""])
-    {
-        [self parseHtml: dictionaryHtmlData];
-    }
-    else
-    {
-        self.textView.attributedText = [[NSAttributedString alloc] initWithString: @"Error!"];
+        NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL: dictionary_url];
+        
+        // is data exists
+        if (dictionaryHtmlData)
+        {
+            [self.navigationItem.leftBarButtonItem setEnabled: YES];
+            [self parseHtml: dictionaryHtmlData];
+        }
+        else
+        {
+            UIAlertView *hialert = [[UIAlertView alloc]
+                                    initWithTitle: @"Ops!" message: @"Word is not found :( \n Sorry!" delegate: nil cancelButtonTitle: @"Okey" otherButtonTitles: nil];
+            [hialert show];
+            self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
+            [self.navigationItem.leftBarButtonItem setEnabled: NO];
+        }
     }
     
 }
@@ -80,7 +103,7 @@
     self.textView.attributedText = parsedText;
 }
 
-// Recursive unction that goes deep into the childs nodes tree and return right-attributed text. AShi.
+// Recursive function that goes deep into the childs nodes tree and return right-attributed text.
 -(NSMutableAttributedString *) goDeepAndFindText: (NSArray *) childsNodes
 {
     NSMutableAttributedString *parsedText = [[NSMutableAttributedString alloc] init];
@@ -88,23 +111,41 @@
     {
         if ([i.tagName isEqual: @"text"])
         {
+            
+            UIFont *font;
+            // setting bold, italic, italic-bold or common font
             if ([i.parent.tagName isEqual: @"strong"])
             {
-                [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content
-                    attributes: @{NSFontAttributeName : [UIFont boldSystemFontOfSize: [UIFont systemFontSize]]} ]];
+                if ([i.parent.parent.tagName isEqual: @"em"])
+                {
+                    font = [UIFont fontWithName: @"Helvetica-BoldOblique" size: [UIFont systemFontSize]];
+                }
+                else
+                {
+                    font = [UIFont fontWithName: @"Helvetica-Bold" size: [UIFont systemFontSize]];
+                }
             }
             
             else if ([i.parent.tagName isEqual: @"em"])
             {
-                [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content
-                    attributes: @{NSFontAttributeName : [UIFont italicSystemFontOfSize: [UIFont systemFontSize]]} ]];
+                if ([i.parent.parent.tagName isEqual: @"strong"])
+                {
+                    font = [UIFont fontWithName: @"Helvetica-BoldOblique" size: [UIFont systemFontSize]];
+                }
+                else
+                {
+                    font = [UIFont fontWithName: @"Helvetica-Oblique" size: [UIFont systemFontSize]];
+                }
             }
-                
-            //if ([i.parent.tagName isEqual: @"p"])
+            
             else
             {
-                [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content]];
+                font = [UIFont fontWithName: @"Helvetica" size: [UIFont systemFontSize]];
             }
+            
+            // appending string with attributes
+            [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content
+                                                                                       attributes: @{NSFontAttributeName : font} ]];
         }
         else
         {
@@ -114,6 +155,33 @@
         
     return parsedText;
 }
+
+// Adding data to database // test method //
+- (void) addWordToDatabase
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Dictionary" inManagedObjectContext: context];
+    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName: [entity name]  inManagedObjectContext: context];
+    [object setValue: self.textField.text forKey: @"name"];
+    //[object setValue: self.textView.attributedText forKey: @"definition"];
+    
+    [request setEntity: entity];
+    [request setIncludesPropertyValues: YES];
+    NSArray *results = [context executeFetchRequest: request error: nil];
+    for (NSManagedObject *obj in results)
+    {
+        NSString *str = [[NSString alloc] init];
+        str = [obj valueForKey: @"name"];
+        NSLog(@"I found! %@", str);
+    }
+    
+    //[context save: nil];
+    
+    
+}
+
 
 /*
 #pragma mark - Navigation
