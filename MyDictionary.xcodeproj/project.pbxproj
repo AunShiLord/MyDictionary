@@ -22,6 +22,8 @@
 		E15BFDA01A70EAD2009494AF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E15BFD9F1A70EAD2009494AF /* libxml2.dylib */; };
 		E19DD09B1A767191004E55AE /* DictionaryWord.m in Sources */ = {isa = PBXBuildFile; fileRef = E19DD09A1A767191004E55AE /* DictionaryWord.m */; };
 		E19DD09F1A7671FB004E55AE /* DictionaryTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E19DD09E1A7671FB004E55AE /* DictionaryTag.m */; };
+		E19DD0A11A7782C6004E55AE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19DD0A01A7782C6004E55AE /* CoreData.framework */; };
+		E19DD0A41A77854C004E55AE /* DMDictionaryWord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E19DD0A21A77854C004E55AE /* DMDictionaryWord.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		E19DD09A1A767191004E55AE /* DictionaryWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DictionaryWord.m; path = "Business Logic Layer/DictionaryWord.m"; sourceTree = "<group>"; };
 		E19DD09D1A7671FB004E55AE /* DictionaryTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DictionaryTag.h; path = "Business Logic Layer/DictionaryTag.h"; sourceTree = "<group>"; };
 		E19DD09E1A7671FB004E55AE /* DictionaryTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DictionaryTag.m; path = "Business Logic Layer/DictionaryTag.m"; sourceTree = "<group>"; };
+		E19DD0A01A7782C6004E55AE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		E19DD0A31A77854C004E55AE /* DMDictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DMDictionary.xcdatamodel; sourceTree = "<group>"; };
 		F9EA51182D66AF67803F7386 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -69,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E19DD0A11A7782C6004E55AE /* CoreData.framework in Frameworks */,
 				E15BFDA01A70EAD2009494AF /* libxml2.dylib in Frameworks */,
 				4E5542949ACB84DD93EC86C0 /* libPods.a in Frameworks */,
 			);
@@ -87,6 +92,7 @@
 		06014DE1A210BC2BDFE1B1D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E19DD0A01A7782C6004E55AE /* CoreData.framework */,
 				E15BFD9F1A70EAD2009494AF /* libxml2.dylib */,
 				F9EA51182D66AF67803F7386 /* libPods.a */,
 			);
@@ -213,6 +219,7 @@
 		E19DD0981A766E6C004E55AE /* Business Logic Layer */ = {
 			isa = PBXGroup;
 			children = (
+				E19DD0A21A77854C004E55AE /* DMDictionaryWord.xcdatamodeld */,
 				E19DD0991A767191004E55AE /* DictionaryWord.h */,
 				E19DD09A1A767191004E55AE /* DictionaryWord.m */,
 				E19DD09D1A7671FB004E55AE /* DictionaryTag.h */,
@@ -358,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E19DD0A41A77854C004E55AE /* DMDictionaryWord.xcdatamodeld in Sources */,
 				E19DD09F1A7671FB004E55AE /* DictionaryTag.m in Sources */,
 				E138C7551A6A57FE00FC8934 /* AppDelegate.m in Sources */,
 				E19DD09B1A767191004E55AE /* DictionaryWord.m in Sources */,
@@ -562,6 +570,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E19DD0A21A77854C004E55AE /* DMDictionaryWord.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E19DD0A31A77854C004E55AE /* DMDictionary.xcdatamodel */,
+			);
+			currentVersion = E19DD0A31A77854C004E55AE /* DMDictionary.xcdatamodel */;
+			name = DMDictionaryWord.xcdatamodeld;
+			path = "Business Logic Layer/DMDictionaryWord.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E138C7441A6A57FE00FC8934 /* Project object */;
 }
