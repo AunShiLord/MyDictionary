@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
+#import "Word.h"
 
-@interface ViewControllerDictionary : UIViewController
-
+@interface ViewControllerDictionary : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+{
+    NSArray *wordsFromDictionary;
+}
 @end

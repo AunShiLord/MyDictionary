@@ -8,6 +8,7 @@
 
 #import "ViewControllerSearch.h"
 
+
 @interface ViewControllerSearch ()
 
 @property (strong, nonatomic) IBOutlet UITextField *textField;
@@ -37,10 +38,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.textField.delegate = self;
+    //parsedWord = [parsedWord init];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear: animated];
+    
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
-    self.textField.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,6 +109,7 @@
     parsedText = [self goDeepAndFindText: nonTextNodes];
 
     self.textView.attributedText = parsedText;
+    
 }
 
 // Recursive function that goes deep into the childs nodes tree and return right-attributed text.
@@ -159,13 +168,18 @@
 // Adding data to database // test method //
 - (void) addWordToDatabase
 {
+    
     NSManagedObjectContext *context = [self managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
+
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Dictionary" inManagedObjectContext: context];
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName: [entity name]  inManagedObjectContext: context];
-    [object setValue: self.textField.text forKey: @"name"];
+    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Word" inManagedObjectContext: context];
+    //NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName: [entity name]  inManagedObjectContext: context];
+    //[object setValue: self.textField.text forKey: @"name"];
     //[object setValue: self.textView.attributedText forKey: @"definition"];
+    parsedWord = [NSEntityDescription insertNewObjectForEntityForName: @"Word" inManagedObjectContext: context];
+    [parsedWord setValue: self.textField.text forKey: @"name"];
+    [parsedWord setValue: self.textView.attributedText forKey: @"definition"];
     
     [request setEntity: entity];
     [request setIncludesPropertyValues: YES];
@@ -176,7 +190,6 @@
         str = [obj valueForKey: @"name"];
         NSLog(@"I found! %@", str);
     }
-    
     //[context save: nil];
     
     

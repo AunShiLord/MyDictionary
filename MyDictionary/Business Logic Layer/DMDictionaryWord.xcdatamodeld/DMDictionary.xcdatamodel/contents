@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Dictionary" representedClassName="Dictionary" syncable="YES">
-        <attribute name="definition" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="Tag" representedClassName="Tag" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="words" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Word" inverseName="tags" inverseEntity="Word" syncable="YES"/>
     </entity>
-    <entity name="Dictionary_n_tags" syncable="YES"/>
-    <entity name="Tags" representedClassName="Tags" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="Word" representedClassName="Word" syncable="YES">
+        <attribute name="definition" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="words" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Dictionary" positionX="-369" positionY="63" width="128" height="88"/>
-        <element name="Tags" positionX="-11" positionY="65" width="128" height="73"/>
-        <element name="Dictionary_n_tags" positionX="-191" positionY="-46" width="128" height="43"/>
+        <element name="Word" positionX="-225" positionY="108" width="128" height="88"/>
+        <element name="Tag" positionX="-11" positionY="65" width="128" height="73"/>
     </elements>
 </model>

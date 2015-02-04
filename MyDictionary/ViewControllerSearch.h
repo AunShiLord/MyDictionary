@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <TFHpple.h>
 #import "AppDelegate.h"
+#import "Word.h"
 
 @interface ViewControllerSearch : UIViewController <UITextFieldDelegate>
 {
     BOOL isDataFound;
+    Word *parsedWord;
 }
 
 @end
