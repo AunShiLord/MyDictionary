@@ -22,6 +22,8 @@
 		E15BFDA01A70EAD2009494AF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E15BFD9F1A70EAD2009494AF /* libxml2.dylib */; };
 		E19DD0A11A7782C6004E55AE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19DD0A01A7782C6004E55AE /* CoreData.framework */; };
 		E19DD0A41A77854C004E55AE /* DMDictionaryWord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E19DD0A21A77854C004E55AE /* DMDictionaryWord.xcdatamodeld */; };
+		E1A145DF1A83332500B63A05 /* ViewControllerEditWord.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */; };
+		E1A145E01A83332500B63A05 /* ViewControllerEditWord.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */; };
 		E1FA7E831A821B6000FE6C93 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA7E821A821B6000FE6C93 /* Tag.m */; };
 		E1FA7E861A821B6000FE6C93 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA7E851A821B6000FE6C93 /* Word.m */; };
 /* End PBXBuildFile section */
@@ -61,6 +63,9 @@
 		E15BFD9F1A70EAD2009494AF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		E19DD0A01A7782C6004E55AE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E19DD0A31A77854C004E55AE /* DMDictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DMDictionary.xcdatamodel; sourceTree = "<group>"; };
+		E1A145DC1A83332400B63A05 /* ViewControllerEditWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerEditWord.h; sourceTree = "<group>"; };
+		E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerEditWord.m; sourceTree = "<group>"; };
+		E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerEditWord.xib; sourceTree = "<group>"; };
 		E1FA7E811A821B6000FE6C93 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tag.h; path = "Business Logic Layer/Tag.h"; sourceTree = "<group>"; };
 		E1FA7E821A821B6000FE6C93 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tag.m; path = "Business Logic Layer/Tag.m"; sourceTree = "<group>"; };
 		E1FA7E841A821B6000FE6C93 /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Word.h; path = "Business Logic Layer/Word.h"; sourceTree = "<group>"; };
@@ -212,6 +217,7 @@
 				E138C7891A6A758D00FC8934 /* VCSearch */,
 				E138C78A1A6A759F00FC8934 /* VCDictionary */,
 				E138C78B1A6A75B600FC8934 /* VCTags */,
+				E1A145E11A83333700B63A05 /* VCEditWord */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -226,6 +232,16 @@
 				E1FA7E821A821B6000FE6C93 /* Tag.m */,
 			);
 			name = "Business Logic Layer";
+			sourceTree = "<group>";
+		};
+		E1A145E11A83333700B63A05 /* VCEditWord */ = {
+			isa = PBXGroup;
+			children = (
+				E1A145DC1A83332400B63A05 /* ViewControllerEditWord.h */,
+				E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */,
+				E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */,
+			);
+			name = VCEditWord;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +330,7 @@
 				E138C7881A6A6BE100FC8934 /* ViewControllerTags.xib in Resources */,
 				E138C75D1A6A57FE00FC8934 /* Images.xcassets in Resources */,
 				E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */,
+				E1A145E01A83332500B63A05 /* ViewControllerEditWord.xib in Resources */,
 				E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,6 +389,7 @@
 				E138C7871A6A6BE100FC8934 /* ViewControllerTags.m in Sources */,
 				E138C7521A6A57FE00FC8934 /* main.m in Sources */,
 				E138C7821A6A6B8600FC8934 /* ViewControllerDictionary.m in Sources */,
+				E1A145DF1A83332500B63A05 /* ViewControllerEditWord.m in Sources */,
 				E138C7781A6A5A8F00FC8934 /* ViewControllerSearch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

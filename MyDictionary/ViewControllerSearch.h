@@ -10,11 +10,14 @@
 #import <TFHpple.h>
 #import "AppDelegate.h"
 #import "Word.h"
+#import "ViewControllerEditWord.h"
 
 @interface ViewControllerSearch : UIViewController <UITextFieldDelegate>
 {
     BOOL isDataFound;
     Word *parsedWord;
 }
+@property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
+
 
 @end
