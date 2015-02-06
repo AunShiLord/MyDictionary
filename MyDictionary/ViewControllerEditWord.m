@@ -9,7 +9,10 @@
 #import "ViewControllerEditWord.h"
 
 @interface ViewControllerEditWord ()
+@property (strong, nonatomic) IBOutlet UITextView *textViewWordDefinition;
+@property (strong, nonatomic) IBOutlet UITextView *textViewTags;
 
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @end
 
 @implementation ViewControllerEditWord
@@ -22,7 +25,7 @@
     {
         //[self.navigationItem setTitle: @"Word"];
         [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Back" style: UIBarButtonItemStylePlain target: self action: @selector(back)]];
-        [self.navigationItem setRightBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Done" style:UIBarButtonItemStylePlain target: self action: nil]];
+        [self.navigationItem setRightBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Done" style:UIBarButtonItemStylePlain target: self action: @selector(done)]];
     }
     
     return self;
@@ -31,6 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self.navigationItem setTitle: self.selectedWord.name];
+    self.textViewWordDefinition.attributedText = self.selectedWord.definition;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,8 +45,14 @@
 
 -(IBAction) back
 {
-    [self.navigationController dismissViewControllerAnimated: YES completion: nil];
+    //[self.navigationController dismissViewControllerAnimated: YES completion: nil];
     [self dismissViewControllerAnimated: YES completion: nil];
+}
+
+-(IBAction) done
+{
+    self.selectedWord.definition = self.textViewWordDefinition.attributedText;
+    [self.navigationController dismissViewControllerAnimated: YES completion: nil];
 }
 
 /*

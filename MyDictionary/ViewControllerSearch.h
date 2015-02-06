@@ -15,7 +15,7 @@
 @interface ViewControllerSearch : UIViewController <UITextFieldDelegate>
 {
     BOOL isDataFound;
-    Word *parsedWord;
+    NSString *wordTitle;
 }
 @property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
 

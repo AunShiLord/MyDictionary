@@ -109,6 +109,7 @@
     parsedText = [self goDeepAndFindText: nonTextNodes];
 
     self.textView.attributedText = parsedText;
+    wordTitle = self.textField.text;
     
 }
 
@@ -175,20 +176,10 @@
     
     NSEntityDescription *entity = [NSEntityDescription entityForName: @"Word" inManagedObjectContext: context];
     //NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName: [entity name]  inManagedObjectContext: context];
-    //[object setValue: self.textField.text forKey: @"name"];
-    //[object setValue: self.textView.attributedText forKey: @"definition"];
-    /*
-    parsedWord = [NSEntityDescription insertNewObjectForEntityForName: @"Word" inManagedObjectContext: context];
-    parsedWord.name = self.textField.text;
-    parsedWord.definition = self.textView.attributedText;
-     */
     
-    Word *someWord = [NSEntityDescription insertNewObjectForEntityForName: @"Word" inManagedObjectContext: context];
-    someWord.name = self.textField.text;
-    someWord.definition = self.textView.attributedText;
-    
-    //[parsedWord setValue: self.textField.text forKey: @"name"];
-    //[parsedWord setValue: self.textView.attributedText forKey: @"definition"];
+    Word *wordFromOnlineDictionary = [NSEntityDescription insertNewObjectForEntityForName: @"Word" inManagedObjectContext: context];
+    wordFromOnlineDictionary.name = wordTitle;
+    wordFromOnlineDictionary.definition = self.textView.attributedText;
     
     [request setEntity: entity];
     [request setIncludesPropertyValues: YES];
@@ -202,7 +193,8 @@
     //[context save: nil];
     
     self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
-    self.viewControllerEditWord.navigationItem.title = someWord.name;
+    //self.viewControllerEditWord.navigationItem.title = wordFromOnlineDictionary.name;
+    self.viewControllerEditWord.selectedWord = wordFromOnlineDictionary;
     self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
     UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
     //[self.navigationController presentViewController: self.viewControllerEditWord animated:YES completion: nil];

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Word.h"
+#import "Tag.h"
+
 
 @interface ViewControllerEditWord : UIViewController
+
+@property (strong, nonatomic) Word *selectedWord;
 
 @end
