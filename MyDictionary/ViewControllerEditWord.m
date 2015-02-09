@@ -23,7 +23,6 @@
     
     if (self)
     {
-        //[self.navigationItem setTitle: @"Word"];
         [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Back" style: UIBarButtonItemStylePlain target: self action: @selector(back)]];
         [self.navigationItem setRightBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Done" style:UIBarButtonItemStylePlain target: self action: @selector(done)]];
     }
@@ -33,7 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // setting word name and definition
     [self.navigationItem setTitle: self.selectedWord.name];
     self.textViewWordDefinition.attributedText = self.selectedWord.definition;
 }
@@ -43,16 +43,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Cancel changes and returning to prev view
 -(IBAction) back
 {
     //[self.navigationController dismissViewControllerAnimated: YES completion: nil];
     [self dismissViewControllerAnimated: YES completion: nil];
 }
 
+// Save changes and returning to prev view
 -(IBAction) done
 {
     self.selectedWord.definition = self.textViewWordDefinition.attributedText;
     [self.navigationController dismissViewControllerAnimated: YES completion: nil];
+    //[self.managedObjectContext save: nil];
 }
 
 /*

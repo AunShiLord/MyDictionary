@@ -11,11 +11,13 @@
 #import "ViewControllerEditWord.h"
 #import "Word.h"
 
-@interface ViewControllerDictionary : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface ViewControllerDictionary : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate>
 {
-    NSArray *wordsFromDictionary;
+    NSMutableArray *wordsFromDictionary;
 }
 
 @property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
+
+-(void) handleSwipeLeft: gestureRecognizer;
 
 @end
