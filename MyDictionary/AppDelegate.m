@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewControllerSearch.h"
+#import "ViewControllerDictionary.h"
+#import "ViewControllerTag.h"
 
 
 @interface AppDelegate ()
@@ -26,14 +29,19 @@
     
     UITabBarController *TBC = [[UITabBarController alloc] init ];
     
+    // first tab viewController. Search in online dictionary
     ViewControllerSearch *VCS = [[ViewControllerSearch alloc] init ];
     UINavigationController *NCVCS = [[UINavigationController alloc] initWithRootViewController: VCS];
     [NCVCS.tabBarItem setTitle: @"Search"];
-    [NCVCS.toolbarItems setAccessibilityHint: @"SOMETHING"];
     
+    // second tab viewController. CoreData database, display words.
     ViewControllerDictionary *VCD = [[ViewControllerDictionary alloc] init];
+    VCD.entityName = @"Word";
     [VCD.tabBarItem setTitle: @"My Dictionary"];
-    ViewControllerTags *VCT = [[ViewControllerTags alloc] init];
+    
+    // third tab viewController. CoreData database, display tags.
+    ViewControllerTag *VCT = [[ViewControllerTag alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
+    VCT.entityName = @"Tag";
     [VCT.tabBarItem setTitle: @"Tags"];
     
     [TBC setViewControllers: @[NCVCS, VCD, VCT]];

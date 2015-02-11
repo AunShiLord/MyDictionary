@@ -7,6 +7,7 @@
 //
 
 #import "ViewControllerSearch.h"
+#import "ViewControllerEditWord.h"
 
 
 @interface ViewControllerSearch ()

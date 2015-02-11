@@ -33,9 +33,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
+    
     // setting word name and definition
     [self.navigationItem setTitle: self.selectedWord.name];
     self.textViewWordDefinition.attributedText = self.selectedWord.definition;
+    
+    // setting list of tags
+    NSSet *tags = [self.selectedWord tags];
+    NSString *stringOfTags = @"";
+    for (Tag *tag in tags)
+    {
+        stringOfTags = [stringOfTags stringByAppendingString: tag.name];
+        stringOfTags = [stringOfTags stringByAppendingString: @","];
+    }
+    self.textViewTags.text = stringOfTags;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,9 +66,23 @@
 // Save changes and returning to prev view
 -(IBAction) done
 {
+    // saving word definition
     self.selectedWord.definition = self.textViewWordDefinition.attributedText;
     [self.navigationController dismissViewControllerAnimated: YES completion: nil];
-    //[self.managedObjectContext save: nil];
+    
+    // saveing new tags
+    NSMutableString *stringOfTags = [NSMutableString stringWithString: self.textViewTags.text];
+    NSArray *components = [stringOfTags componentsSeparatedByString:@","];
+    for (NSString *component in components)
+    {
+        Tag *newTag = [NSEntityDescription insertNewObjectForEntityForName: @"Tag" inManagedObjectContext: self.managedObjectContext];
+        //NSManagedObject *newTag = [NSEntityDescription insertNewObjectForEntityForName: @"Tag" inManagedObjectContext: self.managedObjectContext];
+        //[newTag setValue: component forKey: @"name"];
+        newTag.name = component;
+        [self.selectedWord addTagsObject: newTag];
+    }
+    
+    [self.managedObjectContext save: nil];
 }
 
 /*

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Word.h"
 #import "Tag.h"
+#import "AppDelegate.h"
 
 
 @interface ViewControllerEditWord : UIViewController

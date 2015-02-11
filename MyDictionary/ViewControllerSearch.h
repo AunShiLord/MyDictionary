@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import <TFHpple.h>
 #import "AppDelegate.h"
 #import "Word.h"
-#import "ViewControllerEditWord.h"
+
+@class ViewControllerEditWord;
 
 @interface ViewControllerSearch : UIViewController <UITextFieldDelegate>
 {

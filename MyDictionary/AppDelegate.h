@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ViewControllerSearch.h"
-#import "ViewControllerDictionary.h"
-#import "ViewControllerTags.h"
 #import <CoreData/CoreData.h>
 #import <Foundation/Foundation.h>
+
+@class ViewControllerSearch;
+@class ViewControllerTag;
+@class ViewControllerDictionary;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
