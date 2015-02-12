@@ -35,53 +35,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    // setting delegates
     self.textField.delegate = self;
     self.dictionaryTableView.delegate = self;
     self.dictionaryTableView.dataSource = self;
     
-    self.entityName = @"Word";
-    self.textField.placeholder = @"Type a word...";
-    
 }
 
+/*
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
-    
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName: self.entityName inManagedObjectContext: self.managedObjectContext];
-    
-    // creating sort descriptor
-    NSSortDescriptor *nameDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    NSArray *sortDescriptors = @[nameDescriptor];
-    
-    // creating predicate
-    NSMutableString *predicateString = [NSMutableString stringWithString: self.textField.text];
-   
-    // if length of string in textfiled is more than 2, then Core Data will search words with format "_wordPart_*", else all words in database
-    if (predicateString.length > 2)
-        predicateString = [NSMutableString stringWithFormat: @"name LIKE[c] '%@*'",  self.textField.text];
-    else
-        predicateString = [NSMutableString stringWithFormat: @"name LIKE[c] '*'"];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: predicateString];
-    
-    // setting request attributes
-    [request setEntity: entity];
-    [request setIncludesPropertyValues: YES];
-    [request setSortDescriptors: sortDescriptors];
-    [request setPredicate: predicate];
-    
-    // executing request
-    managedObjectsFromDictionary = [NSMutableArray arrayWithArray: [self.managedObjectContext executeFetchRequest: request error: nil]];
-    
-    // reloading data
-    [self.dictionaryTableView reloadData];
 }
+*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -124,14 +90,14 @@
 // Action performed after tapping on the cell
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        // initialize new view controller
-        self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
+    // initialize new view controller
+    self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
     
-        // setting selected word
-        self.viewControllerEditWord.selectedWord = managedObjectsFromDictionary[indexPath.row];
-        self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
-        UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
-        [self presentViewController: NCvcEditWord animated: YES completion: nil];
+    // setting selected word
+    self.viewControllerEditWord.selectedWord = managedObjectsFromDictionary[indexPath.row];
+    self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
+    UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
+    [self presentViewController: NCvcEditWord animated: YES completion: nil];
 }
 
 // Gestures

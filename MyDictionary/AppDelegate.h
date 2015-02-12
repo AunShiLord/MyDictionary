@@ -12,7 +12,7 @@
 
 @class ViewControllerSearch;
 @class ViewControllerTag;
-@class ViewControllerDictionary;
+@class ViewControllerWords;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

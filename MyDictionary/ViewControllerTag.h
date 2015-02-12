@@ -12,6 +12,4 @@
 
 @interface ViewControllerTag: ViewControllerDictionary
 
-//@property (strong, nonatomic) ViewControllerWordsWithTag *viewControllerWordsWithTag;
-
 @end

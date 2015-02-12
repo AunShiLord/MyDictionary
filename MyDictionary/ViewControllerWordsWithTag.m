@@ -30,7 +30,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.entityName = @"Word";
+    self.textField.placeholder = @"Type a word...";
+    
     NSLog(@"%@", self.selectedTag.name);
+    // changing position of textfield and tableview
     [self.navigationItem setTitle: self.selectedTag.name];
     self.textField.center = CGPointMake(self.textField.center.x, self.textField.center.y + 30);
     self.dictionaryTableView.center = CGPointMake(self.dictionaryTableView.center.x, self.dictionaryTableView.center.y + 30);
@@ -40,39 +44,11 @@
 {
     [super viewWillAppear: animated];
     
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName: self.entityName inManagedObjectContext: self.managedObjectContext];
-    
-    // creating sort descriptor
-    NSSortDescriptor *nameDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    NSArray *sortDescriptors = @[nameDescriptor];
-    
-    // creating predicate
-    NSMutableString *predicateString = [NSMutableString stringWithString: self.textField.text];
-    
-    // if length of string in textfiled is more than 2, then Core Data will search words with format "_wordPart_*", else all words in database
-    if (predicateString.length > 2)
-        predicateString = [NSMutableString stringWithFormat: @"tags.name LIKE[c] '%@*'",  self.selectedTag.name];
-    else
-        predicateString = [NSMutableString stringWithFormat: @"tags.name LIKE[c] '%@*'",  self.selectedTag.name];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: predicateString];
-    
-    // setting request attributes
-    [request setEntity: entity];
-    [request setIncludesPropertyValues: YES];
-    [request setSortDescriptors: sortDescriptors];
-    [request setPredicate: predicate];
-    
-    // executing request
-    managedObjectsFromDictionary = [NSMutableArray arrayWithArray: [self.managedObjectContext executeFetchRequest: request error: nil]];
+    managedObjectsFromDictionary = [NSMutableArray arrayWithArray: [self.selectedTag.words allObjects]];
     
     // reloading data
     [self.dictionaryTableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {

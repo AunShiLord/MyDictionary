@@ -1,26 +1,24 @@
 //
-//  ViewControllerTag.m
+//  ViewControllerWords.m
 //  MyDictionary
 //
-//  Created by robert on 09/02/15.
+//  Created by robert on 12/02/15.
 //  Copyright (c) 2015 ashi. All rights reserved.
 //
 
-#import "ViewControllerTag.h"
+#import "ViewControllerWords.h"
 
-@interface ViewControllerTag ()
+@interface ViewControllerWords ()
 
 @end
 
-@implementation ViewControllerTag
+@implementation ViewControllerWords
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
-    self.entityName = @"Tag";
-    self.textField.placeholder = @"Type a tag...";
-    
+    self.entityName = @"Word";
+    self.textField.placeholder = @"Type a word...";
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -65,16 +63,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-// Action performed after tapping on the cell
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    ViewControllerWordsWithTag *viewControllerWordsWithTag = [[ViewControllerWordsWithTag alloc] initWithNibName: @"ViewControllerDictionary" bundle: nil];
-    viewControllerWordsWithTag.selectedTag = managedObjectsFromDictionary[indexPath.row];
-    viewControllerWordsWithTag.hidesBottomBarWhenPushed = YES;
-    UINavigationController *navigationControllerWordsWithTag = [[UINavigationController alloc] initWithRootViewController: viewControllerWordsWithTag];
-    [self presentViewController: navigationControllerWordsWithTag animated: YES completion: nil];
 }
 
 /*

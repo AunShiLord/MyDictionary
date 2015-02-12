@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 #import "ViewControllerSearch.h"
-#import "ViewControllerDictionary.h"
 #import "ViewControllerTag.h"
+#import "ViewControllerWords.h"
 
 
 @interface AppDelegate ()
@@ -35,16 +35,16 @@
     [NCVCS.tabBarItem setTitle: @"Search"];
     
     // second tab viewController. CoreData database, display words.
-    ViewControllerDictionary *VCD = [[ViewControllerDictionary alloc] init];
-    VCD.entityName = @"Word";
-    [VCD.tabBarItem setTitle: @"My Dictionary"];
+    ViewControllerWords *VCW = [[ViewControllerWords alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
+    VCW.entityName = @"Word";
+    [VCW.tabBarItem setTitle: @"Words"];
     
     // third tab viewController. CoreData database, display tags.
     ViewControllerTag *VCT = [[ViewControllerTag alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
     VCT.entityName = @"Tag";
     [VCT.tabBarItem setTitle: @"Tags"];
     
-    [TBC setViewControllers: @[NCVCS, VCD, VCT]];
+    [TBC setViewControllers: @[NCVCS, VCW, VCT]];
     
     [self.window makeKeyAndVisible];
     [self.window setRootViewController: TBC];
