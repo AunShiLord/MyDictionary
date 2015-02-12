@@ -2,7 +2,7 @@
 //  ViewControllerEditWord.m
 //  MyDictionary
 //
-//  Created by robert on 05/02/15.
+//  Created by Vladimir Kuzmin on 05/02/15.
 //  Copyright (c) 2015 ashi. All rights reserved.
 //
 
@@ -70,16 +70,45 @@
     self.selectedWord.definition = self.textViewWordDefinition.attributedText;
     [self.navigationController dismissViewControllerAnimated: YES completion: nil];
     
-    // saveing new tags
+    // deleting all tags
+    [self.selectedWord removeTags: self.selectedWord.tags];
+    
+    // setting entity
+    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Tag" inManagedObjectContext: self.managedObjectContext];
+    
+    // parsing string with tags
     NSMutableString *stringOfTags = [NSMutableString stringWithString: self.textViewTags.text];
     NSArray *components = [stringOfTags componentsSeparatedByString:@","];
+    
     for (NSString *component in components)
     {
-        Tag *newTag = [NSEntityDescription insertNewObjectForEntityForName: @"Tag" inManagedObjectContext: self.managedObjectContext];
-        //NSManagedObject *newTag = [NSEntityDescription insertNewObjectForEntityForName: @"Tag" inManagedObjectContext: self.managedObjectContext];
-        //[newTag setValue: component forKey: @"name"];
-        newTag.name = component;
-        [self.selectedWord addTagsObject: newTag];
+        // check if this tag exists
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name LIKE[c] %@", component];
+        
+        [fetchRequest setEntity: entity];
+        [fetchRequest setPredicate: predicate];
+        
+        NSError *error = nil;
+        NSArray *tagsWithPredicate = [self.managedObjectContext executeFetchRequest: fetchRequest error: &error];
+        if ([tagsWithPredicate count] == 0)
+        {
+            Tag *newTag = [NSEntityDescription insertNewObjectForEntityForName: @"Tag" inManagedObjectContext: self.managedObjectContext];
+            newTag.name = component;
+            [self.selectedWord addTagsObject: newTag];
+        }
+        else
+        {
+            // check if current word is aready have this tag
+            NSSet *wordsTags = self.selectedWord.tags;
+            // creating predicate
+            NSPredicate *wordPredicate = [NSPredicate predicateWithFormat: @"SELF.name LIKE[c] %@", component];
+            wordsTags = [wordsTags filteredSetUsingPredicate: wordPredicate];
+            if ([wordsTags count] == 0)
+            {
+                [self.selectedWord addTagsObject: tagsWithPredicate[0]];
+            }
+        }
     }
     
     [self.managedObjectContext save: nil];

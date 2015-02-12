@@ -48,7 +48,6 @@
     
     // reloading data
     [self.dictionaryTableView reloadData];
-    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -171,38 +171,43 @@
 - (void) addWordToDatabase
 {
     
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-
+    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Word" inManagedObjectContext: self.managedObjectContext];
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Word" inManagedObjectContext: context];
-    //NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName: [entity name]  inManagedObjectContext: context];
+    // creating fetch request and predicate
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name LIKE[c] %@", wordTitle];
     
-    Word *wordFromOnlineDictionary = [NSEntityDescription insertNewObjectForEntityForName: @"Word" inManagedObjectContext: context];
-    wordFromOnlineDictionary.name = wordTitle;
-    wordFromOnlineDictionary.definition = self.textView.attributedText;
+    [fetchRequest setEntity: entity];
+    [fetchRequest setPredicate: predicate];
     
-    [request setEntity: entity];
-    [request setIncludesPropertyValues: YES];
-    NSArray *results = [context executeFetchRequest: request error: nil];
-    for (NSManagedObject *obj in results)
+    NSError *error = nil;
+    NSUInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error: &error];
+    
+    if (count == 0)
     {
-        NSString *str = [[NSString alloc] init];
-        str = [obj valueForKey: @"name"];
-        NSLog(@"I found! %@", str);
+        // adding word to date base
+        Word *wordFromOnlineDictionary = [NSEntityDescription insertNewObjectForEntityForName: @"Word" inManagedObjectContext: self.managedObjectContext];
+    
+        wordFromOnlineDictionary.name = wordTitle;
+        wordFromOnlineDictionary.definition = self.textView.attributedText;
+        
+        //[context save: nil];
+        
+        self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
+        //self.viewControllerEditWord.navigationItem.title = wordFromOnlineDictionary.name;
+        self.viewControllerEditWord.selectedWord = wordFromOnlineDictionary;
+        self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
+        UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
+        //[self.navigationController presentViewController: self.viewControllerEditWord animated:YES completion: nil];
+        //[self.navigationController pushViewController: NCvcEditWord animated: YES];
+        [self presentViewController: NCvcEditWord animated: YES completion: nil];
     }
-    //[context save: nil];
-    
-    self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
-    //self.viewControllerEditWord.navigationItem.title = wordFromOnlineDictionary.name;
-    self.viewControllerEditWord.selectedWord = wordFromOnlineDictionary;
-    self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
-    UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
-    //[self.navigationController presentViewController: self.viewControllerEditWord animated:YES completion: nil];
-    //[self.navigationController pushViewController: NCvcEditWord animated: YES];
-    [self presentViewController: NCvcEditWord animated: YES completion: nil];
-    
-    
+    else
+    {
+        // informing user that the word is already in datebase
+        NSLog(@"Word %@ is in the datebase!", wordTitle);
+    }
+
 }
 
 
