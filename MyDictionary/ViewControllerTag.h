@@ -6,18 +6,12 @@
 //  Copyright (c) 2015 ashi. All rights reserved.
 //
 
-//#import <UIKit/UIKit.h>
-//#import "AppDelegate.h"
-//#import <MyDictionary/User Interface/VCDictionary/ViewControllerDictionary.h>
-#import "ViewControllerDictionary.h"
+#import "ViewControllerWordsWithTag.h"
 
-//@class ViewControllerDictionary;
+@class ViewControllerDictionary;
 
 @interface ViewControllerTag: ViewControllerDictionary
-{
-    NSString *temp;
-}
 
-@property id randomProp;
+//@property (strong, nonatomic) ViewControllerWordsWithTag *viewControllerWordsWithTag;
 
 @end

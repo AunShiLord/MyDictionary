@@ -44,11 +44,6 @@
     
 }
 
--(void) additionalSetup
-{
-    NSLog(@"I am in word!");
-}
-
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear: animated];
@@ -129,8 +124,6 @@
 // Action performed after tapping on the cell
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.entityName isEqual: @"Word"])
-    {
         // initialize new view controller
         self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
     
@@ -139,15 +132,6 @@
         self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
         UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
         [self presentViewController: NCvcEditWord animated: YES completion: nil];
-    }
-    else if ([self.entityName isEqual: @"Tag"])
-    {
-        ViewControllerDictionary *viewControllerWordsWithTag = [[ViewControllerDictionary alloc] init];
-        viewControllerWordsWithTag.entityName = @"Word";
-        UINavigationController *navigationControllerWordsWithTag = [[UINavigationController alloc] initWithRootViewController: viewControllerWordsWithTag];
-        [self presentViewController: navigationControllerWordsWithTag animated: YES completion: nil];
-    }
-    
 }
 
 // Gestures

@@ -22,6 +22,7 @@
 		E19DD0A41A77854C004E55AE /* DMDictionaryWord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E19DD0A21A77854C004E55AE /* DMDictionaryWord.xcdatamodeld */; };
 		E1A145DF1A83332500B63A05 /* ViewControllerEditWord.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */; };
 		E1A145E01A83332500B63A05 /* ViewControllerEditWord.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */; };
+		E1A328211A8B371B008023B6 /* ViewControllerWordsWithTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A328201A8B371B008023B6 /* ViewControllerWordsWithTag.m */; };
 		E1A939001A890F9700969B02 /* ViewControllerTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A938FF1A890F9700969B02 /* ViewControllerTag.m */; };
 		E1FA7E831A821B6000FE6C93 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA7E821A821B6000FE6C93 /* Tag.m */; };
 		E1FA7E861A821B6000FE6C93 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA7E851A821B6000FE6C93 /* Word.m */; };
@@ -62,6 +63,8 @@
 		E1A145DC1A83332400B63A05 /* ViewControllerEditWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerEditWord.h; sourceTree = "<group>"; usesTabs = 0; };
 		E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerEditWord.m; sourceTree = "<group>"; };
 		E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerEditWord.xib; sourceTree = "<group>"; };
+		E1A3281F1A8B371B008023B6 /* ViewControllerWordsWithTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerWordsWithTag.h; sourceTree = "<group>"; };
+		E1A328201A8B371B008023B6 /* ViewControllerWordsWithTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerWordsWithTag.m; sourceTree = "<group>"; };
 		E1A938FE1A890F9700969B02 /* ViewControllerTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerTag.h; sourceTree = "<group>"; };
 		E1A938FF1A890F9700969B02 /* ViewControllerTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerTag.m; sourceTree = "<group>"; };
 		E1FA7E811A821B6000FE6C93 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tag.h; path = "Business Logic Layer/Tag.h"; sourceTree = "<group>"; };
@@ -215,6 +218,7 @@
 				E138C78A1A6A759F00FC8934 /* VCDictionary */,
 				E138C78B1A6A75B600FC8934 /* VCTags */,
 				E1A145E11A83333700B63A05 /* VCEditWord */,
+				E1A3281B1A8B215B008023B6 /* VCWordsWithTag */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -239,6 +243,15 @@
 				E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */,
 			);
 			name = VCEditWord;
+			sourceTree = "<group>";
+		};
+		E1A3281B1A8B215B008023B6 /* VCWordsWithTag */ = {
+			isa = PBXGroup;
+			children = (
+				E1A3281F1A8B371B008023B6 /* ViewControllerWordsWithTag.h */,
+				E1A328201A8B371B008023B6 /* ViewControllerWordsWithTag.m */,
+			);
+			name = VCWordsWithTag;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -379,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1FA7E831A821B6000FE6C93 /* Tag.m in Sources */,
+				E1A328211A8B371B008023B6 /* ViewControllerWordsWithTag.m in Sources */,
 				E19DD0A41A77854C004E55AE /* DMDictionaryWord.xcdatamodeld in Sources */,
 				E138C7551A6A57FE00FC8934 /* AppDelegate.m in Sources */,
 				E1FA7E861A821B6000FE6C93 /* Word.m in Sources */,

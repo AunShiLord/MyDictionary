@@ -31,8 +31,9 @@
 // Action performed after tapping on the cell
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ViewControllerDictionary *viewControllerWordsWithTag = [[ViewControllerDictionary alloc] init];
-    viewControllerWordsWithTag.entityName = @"Word";
+    ViewControllerWordsWithTag *viewControllerWordsWithTag = [[ViewControllerWordsWithTag alloc] initWithNibName: @"ViewControllerDictionary" bundle: nil];
+    viewControllerWordsWithTag.selectedTag = managedObjectsFromDictionary[indexPath.row];
+    viewControllerWordsWithTag.hidesBottomBarWhenPushed = YES;
     UINavigationController *navigationControllerWordsWithTag = [[UINavigationController alloc] initWithRootViewController: viewControllerWordsWithTag];
     [self presentViewController: navigationControllerWordsWithTag animated: YES completion: nil];
 }
