@@ -44,6 +44,11 @@
 {
     [super viewWillAppear: animated];
     
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
+    
+    self.navigationItem.title = self.selectedTag.name;
+    
     managedObjectsFromDictionary = [NSMutableArray arrayWithArray: [self.selectedTag.words allObjects]];
     
     // reloading data
