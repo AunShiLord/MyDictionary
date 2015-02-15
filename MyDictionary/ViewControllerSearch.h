@@ -14,10 +14,11 @@
 
 @class ViewControllerEditWord;
 
-@interface ViewControllerSearch : UIViewController <UITextFieldDelegate>
+@interface ViewControllerSearch : UIViewController <UITextFieldDelegate, NSURLConnectionDelegate>
 {
     BOOL isDataFound;
     NSString *wordTitle;
+    NSMutableData *onlineDictionaryHtmlData;
 }
 @property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
 

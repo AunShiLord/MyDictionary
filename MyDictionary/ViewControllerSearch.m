@@ -74,43 +74,89 @@
         // link to Yandex Dictionary.
         NSString *url_str = @"https://slovari.yandex.ru/~книги/Толковый словарь Даля/";
         url_str = [[url_str stringByAppendingString: [self.textField.text uppercaseString]] stringByAppendingString: @"/"];
+        
+        // converting url string to Percent Escapes format
         NSURL *dictionary_url = [NSURL URLWithString:
                              [url_str stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
 
-        NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL: dictionary_url];
+        //NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL: dictionary_url];
         
-        // is data exists
-        if (dictionaryHtmlData)
-        {
-            [self.navigationItem.leftBarButtonItem setEnabled: YES];
-            [self parseHtml: dictionaryHtmlData];
-        }
-        else
-        {
-            UIAlertView *hialert = [[UIAlertView alloc]
-                                    initWithTitle: @"Ops!" message: @"Word is not found :( \n Sorry!" delegate: nil cancelButtonTitle: @"Okey" otherButtonTitles: nil];
-            [hialert show];
-            self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
-            [self.navigationItem.leftBarButtonItem setEnabled: NO];
-        }
+        NSURLRequest *request = [NSURLRequest requestWithURL: dictionary_url];
+        
+        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        [connection start];
+        //[connection release];
+
     }
     
+}
+
+#pragma mark NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    // A response has been received, this is where we initialize the instance var you created
+    // so that we can append data to it in the didReceiveData method
+    onlineDictionaryHtmlData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    // Append the new data to the instance variable you declared
+    [onlineDictionaryHtmlData appendData:data];
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
+    // Return nil to indicate not necessary to store a cached response for this connection
+    return nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // The request is complete and data has been received
+    // You can parse the stuff in your instance variable now
+    [self.navigationItem.leftBarButtonItem setEnabled: YES];
+    [self parseHtml: onlineDictionaryHtmlData];
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    // The request has failed for some reason!
+    // Check the error var
+    [self showErrorMessage: @"Something bad happened!" withError: error];
+}
+
+// showing message
+-(void)showErrorMessage: (NSString *) errorString withError: (NSError *) error
+{
+    UIAlertView *hialert = [[UIAlertView alloc]
+                            initWithTitle: @"Ops!" message: errorString delegate: nil cancelButtonTitle: @"Okey" otherButtonTitles: nil];
+    [hialert show];
+    self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
+    [self.navigationItem.leftBarButtonItem setEnabled: NO];
+    NSLog(@"Error: %@", error.userInfo);
 }
 
 // Parsing dictionary html
 -(void) parseHtml: (NSData *) htmlData
 {
+    // creating parser and setting Xpath for it.
     TFHpple *dictionaryParser = [TFHpple hppleWithHTMLData: htmlData];
     
     NSString *XpathString = @"//div[@class='body article']/p";
     NSArray *dictionaryNodes = [dictionaryParser searchWithXPathQuery: XpathString];
-    NSArray *nonTextNodes = [[dictionaryNodes objectAtIndex: 0] children];
+    // if dictionaryNodes if empty, then the page is wrong
+    if ([dictionaryNodes count] == 0)
+        [self showErrorMessage: @"Word not found! \n Sorry :(" withError: nil];
+    else
+    {
+        // parsing block of data
+        NSArray *nonTextNodes = [[dictionaryNodes objectAtIndex: 0] children];
     
-    NSMutableAttributedString *parsedText = [[NSMutableAttributedString alloc] init];
-    parsedText = [self goDeepAndFindText: nonTextNodes];
+        NSMutableAttributedString *parsedText = [[NSMutableAttributedString alloc] init];
+        parsedText = [self goDeepAndFindText: nonTextNodes];
 
-    self.textView.attributedText = parsedText;
-    wordTitle = self.textField.text;
+        self.textView.attributedText = parsedText;
+        wordTitle = self.textField.text;
+    }
     
 }
 
@@ -124,7 +170,7 @@
         {
             
             UIFont *font;
-            // setting bold, italic, italic-bold or common font
+            // setting bold, italic, italic-bold or common font, according to tag and parent tag
             if ([i.parent.tagName isEqual: @"strong"])
             {
                 if ([i.parent.parent.tagName isEqual: @"em"])
