@@ -40,7 +40,6 @@
     // Do any additional setup after loading the view from its nib.
     
     self.textField.delegate = self;
-    //parsedWord = [parsedWord init];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -84,6 +83,12 @@
         NSURLRequest *request = [NSURLRequest requestWithURL: dictionary_url];
         
         NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        
+        urlConnectionHud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        urlConnectionHud.delegate = self;
+        urlConnectionHud.center = self.textField.center;
+        urlConnectionHud.userInteractionEnabled = NO;
+
         [connection start];
         //[connection release];
 
@@ -115,6 +120,7 @@
     // You can parse the stuff in your instance variable now
     [self.navigationItem.leftBarButtonItem setEnabled: YES];
     [self parseHtml: onlineDictionaryHtmlData];
+    [urlConnectionHud hide: YES];
     
 }
 
@@ -122,14 +128,26 @@
     // The request has failed for some reason!
     // Check the error var
     [self showErrorMessage: @"Something bad happened!" withError: error];
+    [urlConnectionHud hide: YES];
 }
 
 // showing message
 -(void)showErrorMessage: (NSString *) errorString withError: (NSError *) error
 {
-    UIAlertView *hialert = [[UIAlertView alloc]
-                            initWithTitle: @"Ops!" message: errorString delegate: nil cancelButtonTitle: @"Okey" otherButtonTitles: nil];
-    [hialert show];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo: self.view animated:YES];
+    
+    // Configure for text only and offset down
+    
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = errorString;
+    //[hud setCenter: CGPointMake (hud.center.x, self.textField.bounds.size.height)];
+    hud.yOffset = -10;
+    hud.margin = 15.f;
+    hud.userInteractionEnabled = NO;
+    hud.removeFromSuperViewOnHide = YES;
+    
+    [hud hide:YES afterDelay:2];
+
     self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
     [self.navigationItem.leftBarButtonItem setEnabled: NO];
     NSLog(@"Error: %@", error.userInfo);
@@ -145,7 +163,9 @@
     NSArray *dictionaryNodes = [dictionaryParser searchWithXPathQuery: XpathString];
     // if dictionaryNodes if empty, then the page is wrong
     if ([dictionaryNodes count] == 0)
+        dispatch_async(dispatch_get_main_queue(), ^{
         [self showErrorMessage: @"Word not found! \n Sorry :(" withError: nil];
+        });
     else
     {
         // parsing block of data
@@ -256,6 +276,14 @@
 
 }
 
+#pragma mark - MBProgressHUDDelegate
+
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+    // Remove HUD from screen when the HUD was hidded
+    [urlConnectionHud removeFromSuperview];
+    //[urlConnectionHud release];
+    urlConnectionHud = nil;
+}
 
 /*
 #pragma mark - Navigation

@@ -11,14 +11,16 @@
 #import <TFHpple.h>
 #import "AppDelegate.h"
 #import "Word.h"
+#import "MBProgressHUD.h"
 
 @class ViewControllerEditWord;
 
-@interface ViewControllerSearch : UIViewController <UITextFieldDelegate, NSURLConnectionDelegate>
+@interface ViewControllerSearch : UIViewController <UITextFieldDelegate, NSURLConnectionDelegate, MBProgressHUDDelegate>
 {
     BOOL isDataFound;
     NSString *wordTitle;
     NSMutableData *onlineDictionaryHtmlData;
+    MBProgressHUD *urlConnectionHud;
 }
 @property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
 
