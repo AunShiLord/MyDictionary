@@ -29,7 +29,6 @@
     {
         [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Add" style: UIBarButtonItemStylePlain target: self action: @selector(addWordToDatabase)]];
         [self.navigationItem.leftBarButtonItem setEnabled: NO];
-        isDataFound = NO;
     }
     
     return self;
@@ -56,15 +55,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-// Action on pressing "Go" on keyboard;
-- (BOOL) textFieldShouldReturn: (UITextField *) textField
-{
-    [textField resignFirstResponder];
-    [self getHtmlByWord];
-    
-    return YES;
-}
-
 // Getting an html Data from online dictionary
 - (IBAction) getHtmlByWord {
     
@@ -84,10 +74,14 @@
         
         NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         
-        urlConnectionHud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        urlConnectionHud.delegate = self;
-        urlConnectionHud.center = self.textField.center;
-        urlConnectionHud.userInteractionEnabled = NO;
+        if (urlConnectionHud == nil)
+        {
+            urlConnectionHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            urlConnectionHud.delegate = self;
+            urlConnectionHud.opacity = 0.5f;
+            urlConnectionHud.center = self.textField.center;
+            urlConnectionHud.userInteractionEnabled = NO;
+        }
 
         [connection start];
         //[connection release];
@@ -96,60 +90,23 @@
     
 }
 
-#pragma mark NSURLConnection Delegate Methods
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    // A response has been received, this is where we initialize the instance var you created
-    // so that we can append data to it in the didReceiveData method
-    onlineDictionaryHtmlData = [[NSMutableData alloc] init];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    // Append the new data to the instance variable you declared
-    [onlineDictionaryHtmlData appendData:data];
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
-    // Return nil to indicate not necessary to store a cached response for this connection
-    return nil;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    // The request is complete and data has been received
-    // You can parse the stuff in your instance variable now
-    [self.navigationItem.leftBarButtonItem setEnabled: YES];
-    [self parseHtml: onlineDictionaryHtmlData];
-    [urlConnectionHud hide: YES];
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    // The request has failed for some reason!
-    // Check the error var
-    [self showErrorMessage: @"Something bad happened!" withError: error];
-    [urlConnectionHud hide: YES];
-}
-
 // showing message
 -(void)showErrorMessage: (NSString *) errorString withError: (NSError *) error
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo: self.view animated:YES];
+    if (messageHud == nil)
+    {
+        messageHud = [MBProgressHUD showHUDAddedTo: self.view animated:YES];
     
-    // Configure for text only and offset down
+        // Configure for text only and offset down
+        messageHud.mode = MBProgressHUDModeText;
+        messageHud.delegate = self;
+        messageHud.labelText = errorString;
+        messageHud.yOffset = -20;
+        messageHud.margin = 10.f;
+        messageHud.userInteractionEnabled = NO;
     
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = errorString;
-    //[hud setCenter: CGPointMake (hud.center.x, self.textField.bounds.size.height)];
-    hud.yOffset = -10;
-    hud.margin = 15.f;
-    hud.userInteractionEnabled = NO;
-    hud.removeFromSuperViewOnHide = YES;
-    
-    [hud hide:YES afterDelay:2];
-
-    self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
-    [self.navigationItem.leftBarButtonItem setEnabled: NO];
+        [messageHud hide: YES afterDelay: 2];
+    }
     NSLog(@"Error: %@", error.userInfo);
 }
 
@@ -161,11 +118,14 @@
     
     NSString *XpathString = @"//div[@class='body article']/p";
     NSArray *dictionaryNodes = [dictionaryParser searchWithXPathQuery: XpathString];
+    
     // if dictionaryNodes if empty, then the page is wrong
     if ([dictionaryNodes count] == 0)
-        dispatch_async(dispatch_get_main_queue(), ^{
-        [self showErrorMessage: @"Word not found! \n Sorry :(" withError: nil];
-        });
+    {
+        [self showErrorMessage: @"Word not found!" withError: nil];
+        self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
+        [self.navigationItem.leftBarButtonItem setEnabled: NO];
+    }
     else
     {
         // parsing block of data
@@ -233,7 +193,7 @@
     return parsedText;
 }
 
-// Adding data to database // test method //
+// Adding data to database
 - (void) addWordToDatabase
 {
     
@@ -257,10 +217,9 @@
         wordFromOnlineDictionary.name = wordTitle;
         wordFromOnlineDictionary.definition = self.textView.attributedText;
         
-        //[context save: nil];
+        [self.managedObjectContext save: nil];
         
         self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
-        //self.viewControllerEditWord.navigationItem.title = wordFromOnlineDictionary.name;
         self.viewControllerEditWord.selectedWord = wordFromOnlineDictionary;
         self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
         UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
@@ -271,18 +230,74 @@
     else
     {
         // informing user that the word is already in datebase
-        NSLog(@"Word %@ is in the datebase!", wordTitle);
+        [self showErrorMessage: @"Word is already added!" withError: nil];
     }
 
+}
+
+#pragma mark - NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    // A response has been received, this is where we initialize the instance var you created
+    // so that we can append data to it in the didReceiveData method
+    onlineDictionaryHtmlData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    // Append the new data to the instance variable you declared
+    [onlineDictionaryHtmlData appendData:data];
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
+    // Return nil to indicate not necessary to store a cached response for this connection
+    return nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // The request is complete and data has been received
+    // You can parse the stuff in your instance variable now
+    [self.navigationItem.leftBarButtonItem setEnabled: YES];
+    [self parseHtml: onlineDictionaryHtmlData];
+    [urlConnectionHud hide: YES];
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    // The request has failed for some reason!
+    // Check the error var
+    [self showErrorMessage: @"Something bad happened!" withError: error];
+    [urlConnectionHud hide: YES];
+}
+
+#pragma mark - textField delegate
+// Action on pressing "Go" on keyboard;
+- (BOOL) textFieldShouldReturn: (UITextField *) textField
+{
+    [textField resignFirstResponder];
+    [self getHtmlByWord];
+    
+    return YES;
 }
 
 #pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {
     // Remove HUD from screen when the HUD was hidded
-    [urlConnectionHud removeFromSuperview];
-    //[urlConnectionHud release];
-    urlConnectionHud = nil;
+    
+    if (hud == urlConnectionHud)
+    {
+        [urlConnectionHud removeFromSuperview];
+        //[urlConnectionHud release];
+        urlConnectionHud = nil;
+    }
+    
+    if (hud == messageHud)
+    {
+        [messageHud removeFromSuperview];
+        messageHud = nil;
+    }
+
 }
 
 /*

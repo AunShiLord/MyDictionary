@@ -17,10 +17,10 @@
 
 @interface ViewControllerSearch : UIViewController <UITextFieldDelegate, NSURLConnectionDelegate, MBProgressHUDDelegate>
 {
-    BOOL isDataFound;
     NSString *wordTitle;
     NSMutableData *onlineDictionaryHtmlData;
     MBProgressHUD *urlConnectionHud;
+    MBProgressHUD *messageHud;
 }
 @property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
 
