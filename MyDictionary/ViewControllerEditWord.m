@@ -46,7 +46,7 @@
     for (Tag *tag in tags)
     {
         stringOfTags = [stringOfTags stringByAppendingString: tag.name];
-        stringOfTags = [stringOfTags stringByAppendingString: @","];
+        stringOfTags = [stringOfTags stringByAppendingString: @", "];
     }
     self.textViewTags.text = stringOfTags;
 }
@@ -80,8 +80,11 @@
     NSMutableString *stringOfTags = [NSMutableString stringWithString: self.textViewTags.text];
     NSArray *components = [stringOfTags componentsSeparatedByString:@","];
     
-    for (NSString *component in components)
+    for (NSString __strong *component in components)
     {
+        // deleting spaces and \n at the brgining and at the and of each tag
+        component = [component stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
         // check if this tag exists
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name LIKE[c] %@", component];
