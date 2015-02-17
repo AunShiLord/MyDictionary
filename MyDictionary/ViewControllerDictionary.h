@@ -9,19 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 #import "Word.h"
+#import "MBProgressHUD.h"
 
 @class ViewControllerEditWord;
 
-@interface ViewControllerDictionary : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate>
+@interface ViewControllerDictionary : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate>
 {
-    NSMutableArray *managedObjectsFromDictionary;
+    NSMutableArray  *managedObjectsFromDictionary;
+    MBProgressHUD   *messageHud;
 }
 // name of entity in CoreData
-@property (strong, nonatomic) NSString *entityName;
-@property (strong, nonatomic) IBOutlet UITextField *textField;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) IBOutlet UITableView *dictionaryTableView;
-@property (strong, nonatomic) ViewControllerEditWord *viewControllerEditWord;
+@property (strong, nonatomic) NSString                  *entityName;
+@property (strong, nonatomic) IBOutlet UITextField      *textField;
+@property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
+@property (strong, nonatomic) IBOutlet UITableView      *dictionaryTableView;
+@property (strong, nonatomic) ViewControllerEditWord    *viewControllerEditWord;
 
 
 -(void) handleSwipeLeft: gestureRecognizer;

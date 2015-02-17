@@ -113,6 +113,8 @@
     if (indexPath)
     {
         // delete object from CoreData, MutableArray and tableview
+        [self showMessageWithString: [NSString stringWithFormat: @"%@ %@ removed", self.entityName,
+         [managedObjectsFromDictionary[indexPath.row] valueForKey: @"name"]]];
         [self.managedObjectContext deleteObject: managedObjectsFromDictionary[indexPath.row]];
         [managedObjectsFromDictionary removeObjectAtIndex: indexPath.row];
         
@@ -162,6 +164,38 @@
     
     return YES;
 }
+
+-(void) showMessageWithString: (NSString *) string
+{
+    if (messageHud == nil)
+    {
+        messageHud = [MBProgressHUD showHUDAddedTo: self.view animated:YES];
+        
+        // Configure for text only and offset down
+        messageHud.mode = MBProgressHUDModeText;
+        messageHud.delegate = self;
+        messageHud.labelText = string;
+        messageHud.margin = 10.f;
+        messageHud.userInteractionEnabled = NO;
+        
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGRect tableviewRect = [self.dictionaryTableView bounds];
+        NSLog(@"Screen: %f   Table: %f   HUD: %f   Y_hud: %f", screenRect.size.height, tableviewRect.size.height, messageHud.center.y, messageHud.yOffset);
+        messageHud.yOffset = screenRect.size.height * 3 / 9;
+        NSLog(@"Screen: %f   Table: %f   HUD: %f   Y_hud: %f", screenRect.size.height, tableviewRect.size.height, messageHud.center.y, messageHud.yOffset);
+        [messageHud hide: YES afterDelay: 2];
+    }
+}
+
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
+    // Remove HUD from screen when the HUD was hidded
+    [messageHud removeFromSuperview];
+    //[messageHud release];
+    messageHud = nil;
+
+}
+
 
 /*
 #pragma mark - Navigation

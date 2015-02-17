@@ -82,8 +82,12 @@
     
     for (NSString __strong *component in components)
     {
-        // deleting spaces and \n at the brgining and at the and of each tag
+        // deleting spaces and \n at the beginning and at the and of each tag
         component = [component stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        // check if component is blank string ("")
+        if ([component isEqual: @""])
+            continue;
         
         // check if this tag exists
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
