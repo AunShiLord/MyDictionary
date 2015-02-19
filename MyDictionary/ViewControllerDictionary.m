@@ -167,6 +167,10 @@
 
 -(void) showMessageWithString: (NSString *) string
 {
+    if ((messageHud != nil) && !(messageHud.hidden))
+    {
+        messageHud.labelText = string;
+    }
     if (messageHud == nil)
     {
         messageHud = [MBProgressHUD showHUDAddedTo: self.view animated:YES];
@@ -179,11 +183,11 @@
         messageHud.userInteractionEnabled = NO;
         
         CGRect screenRect = [[UIScreen mainScreen] bounds];
-        CGRect tableviewRect = [self.dictionaryTableView bounds];
-        NSLog(@"Screen: %f   Table: %f   HUD: %f   Y_hud: %f", screenRect.size.height, tableviewRect.size.height, messageHud.center.y, messageHud.yOffset);
-        messageHud.yOffset = screenRect.size.height * 3 / 9;
-        NSLog(@"Screen: %f   Table: %f   HUD: %f   Y_hud: %f", screenRect.size.height, tableviewRect.size.height, messageHud.center.y, messageHud.yOffset);
-        [messageHud hide: YES afterDelay: 2];
+        // setting position. By default yOffset = 0, which means CENTER of the screen.
+        // screenRect.size.height / 2 == bottom of the screen
+        // screenRect.size.height / 3 == little bit higher
+        messageHud.yOffset = screenRect.size.height / 3;
+        [messageHud hide: YES afterDelay: 3];
     }
 }
 
@@ -193,7 +197,6 @@
     [messageHud removeFromSuperview];
     //[messageHud release];
     messageHud = nil;
-
 }
 
 
