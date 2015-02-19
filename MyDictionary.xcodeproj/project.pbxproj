@@ -20,6 +20,7 @@
 		E15BFDA01A70EAD2009494AF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E15BFD9F1A70EAD2009494AF /* libxml2.dylib */; };
 		E19DD0A11A7782C6004E55AE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19DD0A01A7782C6004E55AE /* CoreData.framework */; };
 		E19DD0A41A77854C004E55AE /* DMDictionaryWord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E19DD0A21A77854C004E55AE /* DMDictionaryWord.xcdatamodeld */; };
+		E19E04611A9604FF00E5317C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E19E045F1A9604FF00E5317C /* Localizable.strings */; };
 		E1A145DF1A83332500B63A05 /* ViewControllerEditWord.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */; };
 		E1A145E01A83332500B63A05 /* ViewControllerEditWord.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */; };
 		E1A328211A8B371B008023B6 /* ViewControllerWordsWithTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A328201A8B371B008023B6 /* ViewControllerWordsWithTag.m */; };
@@ -61,6 +62,9 @@
 		E15BFD9F1A70EAD2009494AF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		E19DD0A01A7782C6004E55AE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E19DD0A31A77854C004E55AE /* DMDictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DMDictionary.xcdatamodel; sourceTree = "<group>"; };
+		E19E04601A9604FF00E5317C /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		E19E04621A96076000E5317C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E19E04631A96082A00E5317C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E1A145DC1A83332400B63A05 /* ViewControllerEditWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerEditWord.h; sourceTree = "<group>"; usesTabs = 0; };
 		E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerEditWord.m; sourceTree = "<group>"; };
 		E1A145DE1A83332500B63A05 /* ViewControllerEditWord.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerEditWord.xib; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 		E138C74F1A6A57FE00FC8934 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E19E045F1A9604FF00E5317C /* Localizable.strings */,
 				E138C7501A6A57FE00FC8934 /* Info.plist */,
 				E138C7511A6A57FE00FC8934 /* main.m */,
 			);
@@ -332,6 +337,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = E138C7431A6A57FE00FC8934;
 			productRefGroup = E138C74D1A6A57FE00FC8934 /* Products */;
@@ -350,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E138C7791A6A5A8F00FC8934 /* ViewControllerSearch.xib in Resources */,
+				E19E04611A9604FF00E5317C /* Localizable.strings in Resources */,
 				E138C75D1A6A57FE00FC8934 /* Images.xcassets in Resources */,
 				E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */,
 				E1A145E01A83332500B63A05 /* ViewControllerEditWord.xib in Resources */,
@@ -435,6 +442,19 @@
 			targetProxy = E138C7661A6A57FE00FC8934 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E19E045F1A9604FF00E5317C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E19E04601A9604FF00E5317C /* en */,
+				E19E04621A96076000E5317C /* Base */,
+				E19E04631A96082A00E5317C /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E138C76D1A6A57FE00FC8934 /* Debug */ = {

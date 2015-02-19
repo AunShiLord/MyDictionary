@@ -113,8 +113,7 @@
     if (indexPath)
     {
         // delete object from CoreData, MutableArray and tableview
-        [self showMessageWithString: [NSString stringWithFormat: @"%@ %@ removed", self.entityName,
-         [managedObjectsFromDictionary[indexPath.row] valueForKey: @"name"]]];
+        [self showMessageWithString: [NSString stringWithFormat: NSLocalizedString(@"%@ %@ removed", "Word or tag removed"), self.entityName, [managedObjectsFromDictionary[indexPath.row] valueForKey: @"name"]]];
         [self.managedObjectContext deleteObject: managedObjectsFromDictionary[indexPath.row]];
         [managedObjectsFromDictionary removeObjectAtIndex: indexPath.row];
         

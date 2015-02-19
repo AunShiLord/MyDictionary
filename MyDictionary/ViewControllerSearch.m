@@ -27,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Add" style: UIBarButtonItemStylePlain target: self action: @selector(addWordToDatabase)]];
+        [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Add", @"Button ""Add"" name") style: UIBarButtonItemStylePlain target: self action: @selector(addWordToDatabase)]];
         [self.navigationItem.leftBarButtonItem setEnabled: NO];
     }
     
@@ -122,7 +122,7 @@
     // if dictionaryNodes if empty, then the page is wrong
     if ([dictionaryNodes count] == 0)
     {
-        [self showErrorMessage: @"Word not found!" withError: nil];
+        [self showErrorMessage: NSLocalizedString(@"Word not found!", @"Error, word not found") withError: nil];
         self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
         [self.navigationItem.leftBarButtonItem setEnabled: NO];
     }
@@ -230,7 +230,7 @@
     else
     {
         // informing user that the word is already in datebase
-        [self showErrorMessage: @"Word is already added!" withError: nil];
+        [self showErrorMessage: NSLocalizedString(@"Word is already added!", "Error") withError: nil];
     }
 
 }
@@ -266,7 +266,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // The request has failed for some reason!
     // Check the error var
-    [self showErrorMessage: @"Something bad happened!" withError: error];
+    [self showErrorMessage: NSLocalizedString(@"Something bad happened!", @"Unknow error") withError: error];
     [urlConnectionHud hide: YES];
 }
 
