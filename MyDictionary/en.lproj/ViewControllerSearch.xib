@@ -34,7 +34,7 @@
                     <attributedString key="attributedText"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Барда" borderStyle="roundedRect" placeholder="Type a word.." minimumFontSize="17" id="Tyx-8n-FOB">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Барда" borderStyle="roundedRect" placeholder="Type a word..." minimumFontSize="17" id="Tyx-8n-FOB">
                     <rect key="frame" x="8" y="74" width="235" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>

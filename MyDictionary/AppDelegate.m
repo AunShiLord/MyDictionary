@@ -32,17 +32,17 @@
     // first tab viewController. Search in online dictionary
     ViewControllerSearch *VCS = [[ViewControllerSearch alloc] init ];
     UINavigationController *NCVCS = [[UINavigationController alloc] initWithRootViewController: VCS];
-    [NCVCS.tabBarItem setTitle: @"Search"];
+    [NCVCS.tabBarItem setTitle: NSLocalizedString(@"Search", @"Tab for search view")];
     
     // second tab viewController. CoreData database, display words.
     ViewControllerWords *VCW = [[ViewControllerWords alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
     VCW.entityName = @"Word";
-    [VCW.tabBarItem setTitle: @"Words"];
+    [VCW.tabBarItem setTitle: NSLocalizedString(@"Words", @"Tab for words view")];
     
     // third tab viewController. CoreData database, display tags.
     ViewControllerTag *VCT = [[ViewControllerTag alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
     VCT.entityName = @"Tag";
-    [VCT.tabBarItem setTitle: @"Tags"];
+    [VCT.tabBarItem setTitle: NSLocalizedString(@"Tags", @"Tab for tags view")];
     
     [TBC setViewControllers: @[NCVCS, VCW, VCT]];
     
