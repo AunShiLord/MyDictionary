@@ -12,8 +12,9 @@
 #import "AppDelegate.h"
 
 
-@interface ViewControllerEditWord : UIViewController
+@interface ViewControllerEditWord : UIViewController <UITextViewDelegate>
 
 @property (strong, nonatomic) Word *selectedWord;
+@property (nonatomic)         BOOL deleteWordOnBack;
 
 @end

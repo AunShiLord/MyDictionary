@@ -20,18 +20,19 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self)
-    {
-        // initiating Gesture Recognizer
-        UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeLeft:)];
-        swipeLeft.numberOfTouchesRequired = 1;
-        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer: swipeLeft];
+    {        
+        // initiating Tap Gesture Recognizer
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+        tapGesture.cancelsTouchesInView = NO;
+        [self.view addGestureRecognizer: tapGesture];
+
     }
     
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -48,11 +49,6 @@
     [super viewWillAppear: animated];
 }
 */
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 // -- TableView --
 
@@ -100,29 +96,26 @@
     [self presentViewController: NCvcEditWord animated: YES completion: nil];
 }
 
-// Gestures
-// handling left swipe gesture
--(void) handleSwipeLeft: (UISwipeGestureRecognizer *) gestureRecognizer
+// swipe to the left and deleting word
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Get location of the swipe
-    CGPoint location = [gestureRecognizer locationInView: self.dictionaryTableView];
     
-    // Get corresponding index path within the table view
-    NSIndexPath *indexPath = [self.dictionaryTableView indexPathForRowAtPoint: location];
+    // delete object from CoreData, MutableArray and tableview
+    [self showMessageWithString: [NSString stringWithFormat: NSLocalizedString(@"%@ %@ removed", "Word or tag removed"), self.entityName, [managedObjectsFromDictionary[indexPath.row] valueForKey: @"name"]]];
+    [self.managedObjectContext deleteObject: managedObjectsFromDictionary[indexPath.row]];
+    [managedObjectsFromDictionary removeObjectAtIndex: indexPath.row];
     
-    if (indexPath)
-    {
-        // delete object from CoreData, MutableArray and tableview
-        [self showMessageWithString: [NSString stringWithFormat: NSLocalizedString(@"%@ %@ removed", "Word or tag removed"), self.entityName, [managedObjectsFromDictionary[indexPath.row] valueForKey: @"name"]]];
-        [self.managedObjectContext deleteObject: managedObjectsFromDictionary[indexPath.row]];
-        [managedObjectsFromDictionary removeObjectAtIndex: indexPath.row];
-        
-        [self.dictionaryTableView beginUpdates];
-        [self.dictionaryTableView deleteRowsAtIndexPaths: @[indexPath] withRowAnimation: UITableViewRowAnimationLeft];
-        [self.dictionaryTableView endUpdates];
-        
-        [self.managedObjectContext save: nil];
-    }
+    [self.dictionaryTableView beginUpdates];
+    [self.dictionaryTableView deleteRowsAtIndexPaths: @[indexPath] withRowAnimation: UITableViewRowAnimationLeft];
+    [self.dictionaryTableView endUpdates];
+    
+    [self.managedObjectContext save: nil];
+}
+
+// Dismiss keyboard on tap
+-(void)dismissKeyboard
+{
+    [self.view endEditing:YES];
 }
 
 // Text Field
@@ -197,16 +190,5 @@
     //[messageHud release];
     messageHud = nil;
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

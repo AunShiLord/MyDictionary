@@ -13,7 +13,11 @@
 
 @class ViewControllerEditWord;
 
-@interface ViewControllerDictionary : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate>
+@interface ViewControllerDictionary : UIViewController <UITableViewDelegate,
+                                                        UITableViewDataSource,
+                                                        UITextFieldDelegate,
+                                                        UIGestureRecognizerDelegate,
+                                                        MBProgressHUDDelegate>
 {
     NSMutableArray  *managedObjectsFromDictionary;
     MBProgressHUD   *messageHud;
@@ -24,8 +28,5 @@
 @property (nonatomic, retain) NSManagedObjectContext    *managedObjectContext;
 @property (strong, nonatomic) IBOutlet UITableView      *dictionaryTableView;
 @property (strong, nonatomic) ViewControllerEditWord    *viewControllerEditWord;
-
-
--(void) handleSwipeLeft: gestureRecognizer;
 
 @end

@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <TFHpple.h>
-#import "AppDelegate.h"
-#import "Word.h"
 #import "MBProgressHUD.h"
 
 @class ViewControllerEditWord;
 
-@interface ViewControllerSearch : UIViewController <UITextFieldDelegate, NSURLConnectionDelegate, MBProgressHUDDelegate>
+@interface ViewControllerSearch : UIViewController <UITextFieldDelegate,
+                                                    NSURLConnectionDelegate,
+                                                    MBProgressHUDDelegate>
 {
-    NSString *wordTitle;
+    NSString      *wordTitle;
     NSMutableData *onlineDictionaryHtmlData;
     MBProgressHUD *urlConnectionHud;
     MBProgressHUD *messageHud;

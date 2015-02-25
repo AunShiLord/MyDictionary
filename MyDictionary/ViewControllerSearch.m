@@ -34,9 +34,13 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.navigationController.view addGestureRecognizer: tapGesture];
     
     self.textField.delegate = self;
 }
@@ -50,13 +54,9 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 // Getting an html Data from online dictionary
-- (IBAction) getHtmlByWord {
+- (IBAction) getHtmlByWord
+{
     
     if ( ![self.textField.text isEqual: @""] )
     {
@@ -135,7 +135,9 @@
         parsedText = [self goDeepAndFindText: nonTextNodes];
 
         self.textView.attributedText = parsedText;
-        wordTitle = self.textField.text;
+        // formatting word. First letter in uppercase, other in lowercase.
+        NSString *firstLetter = [self.textField.text substringToIndex: 1];
+        wordTitle = [[firstLetter uppercaseString] stringByAppendingString: [[self.textField.text lowercaseString] substringFromIndex:1]];
     }
     
 }
@@ -222,6 +224,7 @@
         self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
         self.viewControllerEditWord.selectedWord = wordFromOnlineDictionary;
         self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
+        self.viewControllerEditWord.deleteWordOnBack = YES;
         UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
         //[self.navigationController presentViewController: self.viewControllerEditWord animated:YES completion: nil];
         //[self.navigationController pushViewController: NCvcEditWord animated: YES];
@@ -235,26 +238,36 @@
 
 }
 
+// Dismiss keyboard on tap
+-(void)dismissKeyboard
+{
+    [self.view endEditing:YES];
+}
+
 #pragma mark - NSURLConnection Delegate Methods
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
     // A response has been received, this is where we initialize the instance var you created
     // so that we can append data to it in the didReceiveData method
     onlineDictionaryHtmlData = [[NSMutableData alloc] init];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
     // Append the new data to the instance variable you declared
     [onlineDictionaryHtmlData appendData:data];
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse
+{
     // Return nil to indicate not necessary to store a cached response for this connection
     return nil;
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
     // The request is complete and data has been received
     // You can parse the stuff in your instance variable now
     [self.navigationItem.leftBarButtonItem setEnabled: YES];
@@ -263,7 +276,8 @@
     
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
     // The request has failed for some reason!
     // Check the error var
     [self showErrorMessage: NSLocalizedString(@"Something bad happened!", @"Unknow error") withError: error];
@@ -282,7 +296,8 @@
 
 #pragma mark - MBProgressHUDDelegate
 
-- (void)hudWasHidden:(MBProgressHUD *)hud {
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
     // Remove HUD from screen when the HUD was hidded
     
     if (hud == urlConnectionHud)
@@ -299,15 +314,5 @@
     }
 
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -17,10 +17,10 @@
 		E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */ = {isa = PBXBuildFile; fileRef = E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */; };
 		E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E138C78C1A6F942100FC8934 /* Default-568h@2x.png */; };
 		E15BFDA01A70EAD2009494AF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E15BFD9F1A70EAD2009494AF /* libxml2.dylib */; };
+		E197D43E1A9DC3DE0098E387 /* ViewControllerSearch.xib in Resources */ = {isa = PBXBuildFile; fileRef = E197D43D1A9DC3DE0098E387 /* ViewControllerSearch.xib */; };
+		E197D4401A9DC3F20098E387 /* ViewControllerEditWord.xib in Resources */ = {isa = PBXBuildFile; fileRef = E197D43F1A9DC3F20098E387 /* ViewControllerEditWord.xib */; };
 		E19DD0A11A7782C6004E55AE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19DD0A01A7782C6004E55AE /* CoreData.framework */; };
 		E19DD0A41A77854C004E55AE /* DMDictionaryWord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E19DD0A21A77854C004E55AE /* DMDictionaryWord.xcdatamodeld */; };
-		E19E04641A9710D000E5317C /* ViewControllerSearch.xib in Resources */ = {isa = PBXBuildFile; fileRef = E19E04661A9710D000E5317C /* ViewControllerSearch.xib */; };
-		E19E046B1A97114600E5317C /* ViewControllerEditWord.xib in Resources */ = {isa = PBXBuildFile; fileRef = E19E046D1A97114600E5317C /* ViewControllerEditWord.xib */; };
 		E19E04801A972C5C00E5317C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E19E047E1A972C5C00E5317C /* Localizable.strings */; };
 		E1A145DF1A83332500B63A05 /* ViewControllerEditWord.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */; };
 		E1A328211A8B371B008023B6 /* ViewControllerWordsWithTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A328201A8B371B008023B6 /* ViewControllerWordsWithTag.m */; };
@@ -59,12 +59,10 @@
 		E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerDictionary.xib; sourceTree = "<group>"; };
 		E138C78C1A6F942100FC8934 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Pictures/Default-568h@2x.png"; sourceTree = "<group>"; };
 		E15BFD9F1A70EAD2009494AF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		E197D43D1A9DC3DE0098E387 /* ViewControllerSearch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerSearch.xib; sourceTree = "<group>"; };
+		E197D43F1A9DC3F20098E387 /* ViewControllerEditWord.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerEditWord.xib; sourceTree = "<group>"; };
 		E19DD0A01A7782C6004E55AE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E19DD0A31A77854C004E55AE /* DMDictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DMDictionary.xcdatamodel; sourceTree = "<group>"; };
-		E19E047A1A97130A00E5317C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewControllerSearch.xib; sourceTree = "<group>"; };
-		E19E047B1A97130B00E5317C /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/ViewControllerSearch.xib; sourceTree = "<group>"; };
-		E19E047C1A9713A500E5317C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewControllerEditWord.xib; sourceTree = "<group>"; };
-		E19E047D1A9713A500E5317C /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/ViewControllerEditWord.xib; sourceTree = "<group>"; };
 		E19E047F1A972C5C00E5317C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E19E04811A972C6300E5317C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E1A145DC1A83332400B63A05 /* ViewControllerEditWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerEditWord.h; sourceTree = "<group>"; usesTabs = 0; };
@@ -126,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				E138C74E1A6A57FE00FC8934 /* MyDictionary */,
-				E15BFDA11A70F3C4009494AF /* Pictures */,
 				E138C7681A6A57FE00FC8934 /* MyDictionaryTests */,
 				E138C74D1A6A57FE00FC8934 /* Products */,
 				8CB160D6D006F2A4526736B3 /* Pods */,
@@ -152,6 +149,7 @@
 				E138C7541A6A57FE00FC8934 /* AppDelegate.m */,
 				E138C75C1A6A57FE00FC8934 /* Images.xcassets */,
 				E138C74F1A6A57FE00FC8934 /* Supporting Files */,
+				E15BFDA11A70F3C4009494AF /* Pictures */,
 			);
 			path = MyDictionary;
 			sourceTree = "<group>";
@@ -188,7 +186,7 @@
 			children = (
 				E138C7751A6A5A8F00FC8934 /* ViewControllerSearch.h */,
 				E138C7761A6A5A8F00FC8934 /* ViewControllerSearch.m */,
-				E19E04661A9710D000E5317C /* ViewControllerSearch.xib */,
+				E197D43D1A9DC3DE0098E387 /* ViewControllerSearch.xib */,
 			);
 			name = VCSearch;
 			sourceTree = "<group>";
@@ -221,6 +219,7 @@
 				E138C78C1A6F942100FC8934 /* Default-568h@2x.png */,
 			);
 			name = Pictures;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		E19DD0971A766D1D004E55AE /* User Interface */ = {
@@ -250,7 +249,7 @@
 			children = (
 				E1A145DC1A83332400B63A05 /* ViewControllerEditWord.h */,
 				E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */,
-				E19E046D1A97114600E5317C /* ViewControllerEditWord.xib */,
+				E197D43F1A9DC3F20098E387 /* ViewControllerEditWord.xib */,
 			);
 			name = VCEditWord;
 			sourceTree = "<group>";
@@ -356,11 +355,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E19E04641A9710D000E5317C /* ViewControllerSearch.xib in Resources */,
+				E197D43E1A9DC3DE0098E387 /* ViewControllerSearch.xib in Resources */,
 				E19E04801A972C5C00E5317C /* Localizable.strings in Resources */,
 				E138C75D1A6A57FE00FC8934 /* Images.xcassets in Resources */,
 				E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */,
-				E19E046B1A97114600E5317C /* ViewControllerEditWord.xib in Resources */,
+				E197D4401A9DC3F20098E387 /* ViewControllerEditWord.xib in Resources */,
 				E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,24 +444,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E19E04661A9710D000E5317C /* ViewControllerSearch.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E19E047A1A97130A00E5317C /* en */,
-				E19E047B1A97130B00E5317C /* ru */,
-			);
-			name = ViewControllerSearch.xib;
-			sourceTree = "<group>";
-		};
-		E19E046D1A97114600E5317C /* ViewControllerEditWord.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E19E047C1A9713A500E5317C /* en */,
-				E19E047D1A9713A500E5317C /* ru */,
-			);
-			name = ViewControllerEditWord.xib;
-			sourceTree = "<group>";
-		};
 		E19E047E1A972C5C00E5317C /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -62,11 +62,6 @@
     [self.dictionaryTableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 // Action performed after tapping on the cell
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -10,10 +10,6 @@
 #import <CoreData/CoreData.h>
 #import <Foundation/Foundation.h>
 
-@class ViewControllerSearch;
-@class ViewControllerTag;
-@class ViewControllerWords;
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
