@@ -25,6 +25,9 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
         tapGesture.cancelsTouchesInView = NO;
         [self.view addGestureRecognizer: tapGesture];
+        
+        // Notification text did change
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
 
     }
     
@@ -42,13 +45,6 @@
     self.dictionaryTableView.dataSource = self;
     
 }
-
-/*
--(void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear: animated];
-}
-*/
 
 // -- TableView --
 
@@ -122,6 +118,9 @@
 // Reloading data in tableview on typing in textfield
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    // Notification text did change to change first letter to uppercase
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
+    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName: self.entityName inManagedObjectContext: self.managedObjectContext];
@@ -155,6 +154,20 @@
     [self.dictionaryTableView reloadData];
     
     return YES;
+}
+
+// making first letter uppercase
+-(void) textFieldDidChange: (NSNotification *)notification
+{
+    // removing observer from notification (to make sure it won't call twice)
+    [[NSNotificationCenter defaultCenter] removeObserver: self name:  UITextFieldTextDidChangeNotification object: nil];
+
+    if (self.textField.text.length == 1)
+        // check if first letter is not uppercase
+        if (![[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember: [self.textField.text characterAtIndex: 0]])
+            // make first letter uppercase
+            self.textField.text = [self.textField.text stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.textField.text substringToIndex:1] uppercaseString]];
+
 }
 
 -(void) showMessageWithString: (NSString *) string

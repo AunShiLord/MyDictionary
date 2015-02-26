@@ -244,6 +244,30 @@
     [self.view endEditing:YES];
 }
 
+#pragma mark - textField Delegate
+
+-(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    // Notification text did change to change first letter to uppercase
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    return YES;
+}
+
+// making first letter uppercase
+-(void) textFieldDidChange: (NSNotification *)notification
+{
+    // removing observer from notification (to make sure it won't call twice)
+    [[NSNotificationCenter defaultCenter] removeObserver: self name:  UITextFieldTextDidChangeNotification object: nil];
+    
+    if (self.textField.text.length == 1)
+        // check if first letter is not uppercase
+        if (![[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember: [self.textField.text characterAtIndex: 0]])
+            // make first letter uppercase
+            self.textField.text = [self.textField.text stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.textField.text substringToIndex:1] uppercaseString]];
+    
+}
+
 #pragma mark - NSURLConnection Delegate Methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
