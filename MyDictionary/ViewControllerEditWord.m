@@ -37,6 +37,9 @@
 {
     [super viewDidLoad];
     
+    self.textViewTags.delegate = self;
+    self.textViewWordDefinition.delegate = self;
+    
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
@@ -57,8 +60,22 @@
         stringOfTags = [stringOfTags stringByAppendingString: @", "];
     }
     
-    self.textViewTags.delegate = self;
     self.textViewTags.text = stringOfTags;
+    
+    // Adding a Done button to keyboard
+    UIBarButtonItem *barButtonDoneWordDefinition = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target: self.textViewWordDefinition action: @selector (resignFirstResponder)];
+    UIBarButtonItem *barButtonDoneTags = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target: self.textViewTags action: @selector (resignFirstResponder)];
+    UIBarButtonItem *flexibleSpaceBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UIToolbar *toolbarWordDefinition = [[UIToolbar alloc] initWithFrame: CGRectMake(0, 0, 320, 44)];
+    toolbarWordDefinition.items = [NSArray arrayWithObjects: flexibleSpaceBarButton, barButtonDoneWordDefinition, nil];
+    
+    UIToolbar *toolbarTags = [[UIToolbar alloc] initWithFrame: CGRectMake(0, 0, 320, 44)];
+    toolbarTags.items = [NSArray arrayWithObjects: flexibleSpaceBarButton, barButtonDoneTags, nil];
+    self.textViewTags.inputAccessoryView = toolbarTags;
+    self.textViewWordDefinition.inputAccessoryView = toolbarWordDefinition;
+    
+    
 }
 
 // get keyboard size
@@ -86,7 +103,10 @@
 {
     if ([textView isEqual: self.textViewTags])
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+        
+      //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+        
+        [self animatedScrollTo: 0];
 
     }
     [self.view endEditing:YES];
@@ -96,25 +116,31 @@
 // action on keyboard did show
 - (void)keyboardDidShow:(NSNotification *)notification
 {
-    
+
     CGRect keyboardFrame = [self keyboardFrame:notification];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self name:UIKeyboardDidShowNotification object:nil];
     
     [self animatedScrollTo: -keyboardFrame.size.height];
     
 }
 
+/*
 // action on keyboard did hide
 -(void)keyboardDidHide:(NSNotification *)notification
 {
-    [self animatedScrollTo: 0];
+    [[NSNotificationCenter defaultCenter] removeObserver: self name:UIKeyboardDidHideNotification object:nil];
+    
+   // [self animatedScrollTo: 0];
 }
+ */
 
 // animated scroll by Y
 -(void) animatedScrollTo: (CGFloat) y
 {
     [UIView beginAnimations:@"registerScroll" context:NULL];
     [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.4];
+    [UIView setAnimationDuration: 0.3];
     self.view.transform = CGAffineTransformMakeTranslation(0, y);
     [UIView commitAnimations];
 }
