@@ -29,20 +29,30 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     UITabBarController *TBC = [[UITabBarController alloc] init ];
+    // REVIEW Лишний пробел.
     
     // first tab viewController. Search in online dictionary
     ViewControllerSearch *VCS = [[ViewControllerSearch alloc] init ];
+    // REVIEW Лишний пробел.
+    // REVIEW Необходимо использовать camelCase, т.е. vcs.
     UINavigationController *NCVCS = [[UINavigationController alloc] initWithRootViewController: VCS];
+    // REVIEW Необходимо использовать camelCase.
+    // REVIEW Лишний пробел.
     NCVCS.title = @"Search";
+    // REVIEW Почему не используется NSLocalizedString?
     [NCVCS.tabBarItem setTitle: NSLocalizedString(@"Search", @"Tab for search view")];
     
     // second tab viewController. CoreData database, display words.
     ViewControllerWords *VCW = [[ViewControllerWords alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
+    // REVIEW Лишний пробел. Разбить на строки. camelCase.
     VCW.entityName = @"Word";
+    // REVIEW Почему не используется NSLocalizedString?
     [VCW.tabBarItem setTitle: NSLocalizedString(@"Words", @"Tab for words view")];
     
     // third tab viewController. CoreData database, display tags.
     ViewControllerTag *VCT = [[ViewControllerTag alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
+    // REVIEW Лишний пробел. Разбить на строки. camelCase.
+    VCW.entityName = @"Word";
     VCT.entityName = @"Tag";
     [VCT.tabBarItem setTitle: NSLocalizedString(@"Tags", @"Tab for tags view")];
     
