@@ -23,8 +23,10 @@
     {        
         // initiating Tap Gesture Recognizer
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+        // REVIEW Разбить на строки.
         tapGesture.cancelsTouchesInView = NO;
         [self.view addGestureRecognizer: tapGesture];
+        // REVIEW Лишний пробел.
         
         // Notification text did change
         //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
@@ -62,11 +64,13 @@
 
 // Performing actions to update the cell in tableview
 -(UITableViewCell *) tableView: (UITableView *) tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+// REVIEW Не хватает пробелов. Лишние пробелы.
 {
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
     if (cell == nil)
+        // REVIEW Это точно нужно? Как работает dequeueReusableCell?
     {
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier: CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -75,7 +79,8 @@
     cell.textLabel.text = [managedObjectsFromDictionary[indexPath.row] valueForKey: @"name"];
     if ([self.entityName isEqual: @"Word"])
         cell.detailTextLabel.text = [[managedObjectsFromDictionary[indexPath.row] valueForKey: @"definition"] string];
-    
+    // REVIEW Зачем 2 раза запрашивать один и тот же словарь, если можно один
+    // REVIEW один раз его запросить, а потом взять с него 2 раза значения?
     return cell;
 }
 
@@ -84,12 +89,17 @@
 {
     // initialize new view controller
     self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
+    // REVIEW Зачем при каждом выборе создавать? Достаточно сделать это
+    // REVIEW лишь раз, а потом использовать повторно.
     
     // setting selected word
     self.viewControllerEditWord.selectedWord = managedObjectsFromDictionary[indexPath.row];
     self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
     UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
+    // REVIEW Тоже не нужно каждый раз создавать.
+    // REVIEW Лишние пробелы. camelCase.
     [self presentViewController: NCvcEditWord animated: YES completion: nil];
+    // REVIEW Лишние пробелы. camelCase.
 }
 
 // swipe to the left and deleting word
@@ -98,8 +108,10 @@
     
     // delete object from CoreData, MutableArray and tableview
     [self showMessageWithString: [NSString stringWithFormat: NSLocalizedString(@"%@ %@ removed", "Word or tag removed"), self.entityName, [managedObjectsFromDictionary[indexPath.row] valueForKey: @"name"]]];
+    // REVIEW Зачем [NSString stringWithFormat]?
     [self.managedObjectContext deleteObject: managedObjectsFromDictionary[indexPath.row]];
     [managedObjectsFromDictionary removeObjectAtIndex: indexPath.row];
+    // REVIEW Опять несколько раз запрос словаря. Сделать запрос лишь раз.
     
     [self.dictionaryTableView beginUpdates];
     [self.dictionaryTableView deleteRowsAtIndexPaths: @[indexPath] withRowAnimation: UITableViewRowAnimationLeft];
@@ -120,6 +132,7 @@
 {
     // Notification text did change to change first letter to uppercase
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
+    // REVIEW Зачем подписываться каждый раз?
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
@@ -161,6 +174,7 @@
 {
     // removing observer from notification (to make sure it won't call twice)
     [[NSNotificationCenter defaultCenter] removeObserver: self name:  UITextFieldTextDidChangeNotification object: nil];
+    // REVIEW Зачем каждый раз отписываться?
 
     if (self.textField.text.length == 1)
         // check if first letter is not uppercase
@@ -179,6 +193,8 @@
     if (messageHud == nil)
     {
         messageHud = [MBProgressHUD showHUDAddedTo: self.view animated:YES];
+        // REVIEW Почему бы сразу не создать?
+        // REVIEW Почему не toast?
         
         // Configure for text only and offset down
         messageHud.mode = MBProgressHUDModeText;
