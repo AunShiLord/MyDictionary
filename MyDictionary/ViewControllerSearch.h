@@ -8,21 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <TFHpple.h>
-#import "MBProgressHUD.h"
 
+@class MBProgressHUD;
 @class ViewControllerEditWord;
 
-@interface ViewControllerSearch : UIViewController <UITextFieldDelegate,
-                                                    NSURLConnectionDelegate,
-                                                    MBProgressHUDDelegate>
+@interface ViewControllerSearch : UIViewController
 {
-    NSString      *wordTitle;
-    NSMutableData *onlineDictionaryHtmlData;
-    MBProgressHUD *urlConnectionHud;
-    MBProgressHUD *messageHud;
+    NSManagedObjectContext *managedObjectContex;
 }
-@property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
-
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end

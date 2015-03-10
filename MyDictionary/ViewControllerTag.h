@@ -6,10 +6,8 @@
 //  Copyright (c) 2015 ashi. All rights reserved.
 //
 
-#import "ViewControllerWordsWithTag.h"
+#import "ViewControllerDictionary.h"
 
-@class ViewControllerDictionary;
-
-@interface ViewControllerTag: ViewControllerDictionary
+@interface ViewControllerTag : ViewControllerDictionary
 
 @end

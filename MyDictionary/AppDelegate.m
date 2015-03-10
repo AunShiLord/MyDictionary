@@ -28,38 +28,47 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    UITabBarController *TBC = [[UITabBarController alloc] init ];
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
     // REVIEW Лишний пробел.
     
     // first tab viewController. Search in online dictionary
-    ViewControllerSearch *VCS = [[ViewControllerSearch alloc] init ];
+    ViewControllerSearch *viewControllerSearch = [[ViewControllerSearch alloc] init];
+    viewControllerSearch.managedObjectContext = self.managedObjectContext;
     // REVIEW Лишний пробел.
     // REVIEW Необходимо использовать camelCase, т.е. vcs.
-    UINavigationController *NCVCS = [[UINavigationController alloc] initWithRootViewController: VCS];
+    UINavigationController *navigationControllerSearch = [[UINavigationController alloc]
+                                                          initWithRootViewController:viewControllerSearch];
     // REVIEW Необходимо использовать camelCase.
     // REVIEW Лишний пробел.
-    NCVCS.title = @"Search";
+    
     // REVIEW Почему не используется NSLocalizedString?
-    [NCVCS.tabBarItem setTitle: NSLocalizedString(@"Search", @"Tab for search view")];
+    // ANSWER Эта строка здесь просто не нужна. Использовал ее для эксперемента )
+    [navigationControllerSearch.tabBarItem setTitle:NSLocalizedString(@"Search", @"Tab for search view")];
     
     // second tab viewController. CoreData database, display words.
-    ViewControllerWords *VCW = [[ViewControllerWords alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
+    ViewControllerWords *viewControllerWords = [[ViewControllerWords alloc]
+                                                initWithNibName:@"ViewControllerDictionary"
+                                                bundle:nil];
     // REVIEW Лишний пробел. Разбить на строки. camelCase.
-    VCW.entityName = @"Word";
+    viewControllerWords.managedObjectContext = self.managedObjectContext;
+    viewControllerWords.entityName = @"Word";
     // REVIEW Почему не используется NSLocalizedString?
-    [VCW.tabBarItem setTitle: NSLocalizedString(@"Words", @"Tab for words view")];
+    // ANSWER Здесь это не нужно. Это строка определяет какое Entity использовать
+    [viewControllerWords.tabBarItem setTitle:NSLocalizedString(@"Words", @"Tab for words view")];
     
     // third tab viewController. CoreData database, display tags.
-    ViewControllerTag *VCT = [[ViewControllerTag alloc] initWithNibName: @"ViewControllerDictionary" bundle:nil];
+    ViewControllerTag *viewControllerTag = [[ViewControllerTag alloc]
+                                            initWithNibName:@"ViewControllerDictionary"
+                                            bundle:nil];
     // REVIEW Лишний пробел. Разбить на строки. camelCase.
-    VCW.entityName = @"Word";
-    VCT.entityName = @"Tag";
-    [VCT.tabBarItem setTitle: NSLocalizedString(@"Tags", @"Tab for tags view")];
+    viewControllerTag.entityName = @"Tag";
+    viewControllerTag.managedObjectContext = self.managedObjectContext;
+    [viewControllerTag.tabBarItem setTitle:NSLocalizedString(@"Tags", @"Tab for tags view")];
     
-    [TBC setViewControllers: @[NCVCS, VCW, VCT]];
+    [tabBarController setViewControllers:@[navigationControllerSearch, viewControllerWords, viewControllerTag]];
     
     [self.window makeKeyAndVisible];
-    [self.window setRootViewController: TBC];
+    [self.window setRootViewController:tabBarController];
     
     return YES;
 }
@@ -73,7 +82,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate:when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -99,8 +108,8 @@
         return _managedObjectModel;
     }
     
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource: @"DMDictionaryWord" withExtension: @"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL: modelURL];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"DMDictionaryWord" withExtension:@"momd"];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     
     return _managedObjectModel;
 }
@@ -112,11 +121,16 @@
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationsDocumentsDirectory] URLByAppendingPathComponent: @"MyDictionary.sqlite"];
+    NSURL *storeURL = [[self applicationsDocumentsDirectory] URLByAppendingPathComponent:@"MyDictionary.sqlite"];
     
     NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration: nil URL: storeURL options: nil error: &error])
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
+                                   initWithManagedObjectModel:[self managedObjectModel]];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:nil
+                                                           error:&error])
     {
         NSLog(@"Error acquired %@, %@", error, [error userInfo]);
         abort();
@@ -136,7 +150,7 @@
     if (coordinator != nil)
     {
         _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator: coordinator];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     
     return _managedObjectContext;
@@ -144,7 +158,7 @@
 
 - (NSURL *) applicationsDocumentsDirectory
 {
-    return  [[[NSFileManager defaultManager] URLsForDirectory: NSDocumentDirectory inDomains: NSUserDomainMask] lastObject];
+    return  [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 - (void)saveContext
@@ -154,9 +168,9 @@
     
     if (managedObjectContext != nil)
     {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save: &error] )
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error] )
         {
-            NSLog(@"Error: %@, %@", error, [error userInfo]);
+            NSLog(@"Error:%@, %@", error, [error userInfo]);
             abort();
         }
     }

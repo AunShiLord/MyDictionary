@@ -8,15 +8,28 @@
 
 #import "ViewControllerSearch.h"
 #import "ViewControllerEditWord.h"
+#import <TFHpple.h>
+#import "MBProgressHUD.h"
+#import "Word.h"
+
+@interface ViewControllerSearch () <UITextFieldDelegate,
+                                    NSURLConnectionDelegate,
+                                    MBProgressHUDDelegate>
+
+@property (strong, nonatomic) IBOutlet UITextField  *textField;
+@property (strong, nonatomic) IBOutlet UIButton     *searchButton;
+@property (strong, nonatomic) IBOutlet UITextView   *textView;
 
 
-@interface ViewControllerSearch ()
+@property (strong, nonatomic) NSString      *wordTitle;
+@property (strong, nonatomic) NSMutableData *onlineDictionaryHtmlData;
+@property (strong, nonatomic) MBProgressHUD *urlConnectionHud;
+@property (strong, nonatomic) MBProgressHUD *messageHud;
 
-@property (strong, nonatomic) IBOutlet UITextField *textField;
-@property (strong, nonatomic) IBOutlet UIButton *searchButton;
-@property (strong, nonatomic) IBOutlet UITextView *textView;
+@property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
+@property (strong,nonatomic) UINavigationController *navigationControllerEditWord;
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+
 
 @end
 
@@ -27,8 +40,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: NSLocalizedString(@"Add", @"Button ""Add"" name") style: UIBarButtonItemStylePlain target: self action: @selector(addWordToDatabase)]];
-        [self.navigationItem.leftBarButtonItem setEnabled: NO];
+        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc]
+                                                    initWithTitle:NSLocalizedString(@"Add", @"Button ""Add"" name")
+                                                    style:UIBarButtonItemStylePlain
+                                                    target:self
+                                                    action:@selector(addWordToDatabase)]];
+        [self.navigationItem.leftBarButtonItem setEnabled:NO];
     }
     
     return self;
@@ -37,50 +54,55 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    // init new viewController
+    self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
+    self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
+    self.viewControllerEditWord.deleteWordOnBack = YES;
+    self.navigationControllerEditWord = [[UINavigationController alloc] initWithRootViewController:self.viewControllerEditWord];
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.navigationController.view addGestureRecognizer: tapGesture];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
+                                          initWithTarget:self
+                                          action:@selector(dismissKeyboard)];
+    [self.navigationController.view addGestureRecognizer:tapGesture];
     
     self.textField.delegate = self;
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear: animated];
-    
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
+    [super viewWillAppear:animated];
     
 }
 
 // Getting an html Data from online dictionary
-- (IBAction) getHtmlByWord
+- (IBAction)getHtmlByWord
 {
     
-    if ( ![self.textField.text isEqual: @""] )
+    if ( ![self.textField.text isEqual:@""] )
     {
         // link to Yandex Dictionary.
         NSString *url_str = @"https://slovari.yandex.ru/~книги/Толковый словарь Даля/";
-        url_str = [[url_str stringByAppendingString: [self.textField.text uppercaseString]] stringByAppendingString: @"/"];
+        url_str = [[url_str stringByAppendingString:[self.textField.text uppercaseString]]
+                   stringByAppendingString:@"/"];
         
         // converting url string to Percent Escapes format
         NSURL *dictionary_url = [NSURL URLWithString:
-                             [url_str stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
+                             [url_str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
-        //NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL: dictionary_url];
+        //NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL:dictionary_url];
         
-        NSURLRequest *request = [NSURLRequest requestWithURL: dictionary_url];
+        NSURLRequest *request = [NSURLRequest requestWithURL:dictionary_url];
         
         NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         
-        if (urlConnectionHud == nil)
+        if (self.urlConnectionHud == nil)
         {
-            urlConnectionHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            urlConnectionHud.delegate = self;
-            urlConnectionHud.opacity = 0.5f;
-            urlConnectionHud.center = self.textField.center;
-            urlConnectionHud.userInteractionEnabled = NO;
+            self.urlConnectionHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.urlConnectionHud.delegate = self;
+            self.urlConnectionHud.opacity = 0.5f;
+            self.urlConnectionHud.center = self.textField.center;
+            self.urlConnectionHud.userInteractionEnabled = NO;
         }
 
         [connection start];
@@ -91,104 +113,97 @@
 }
 
 // showing message
--(void)showErrorMessage: (NSString *) errorString withError: (NSError *) error
+- (void)showErrorMessage:(NSString *)errorString withError:(NSError *)error
 {
-    if (messageHud == nil)
+    if (self.messageHud == nil)
     {
-        messageHud = [MBProgressHUD showHUDAddedTo: self.view animated:YES];
+        self.messageHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
         // Configure for text only and offset down
-        messageHud.mode = MBProgressHUDModeText;
-        messageHud.delegate = self;
-        messageHud.labelText = errorString;
-        messageHud.yOffset = -20;
-        messageHud.margin = 10.f;
-        messageHud.userInteractionEnabled = NO;
+        self.messageHud.mode = MBProgressHUDModeText;
+        self.messageHud.delegate = self;
+        self.messageHud.labelText = errorString;
+        self.messageHud.yOffset = -20;
+        self.messageHud.margin = 10.f;
+        self.messageHud.userInteractionEnabled = NO;
     
-        [messageHud hide: YES afterDelay: 2];
+        [self.messageHud hide:YES afterDelay:2];
     }
-    NSLog(@"Error: %@", error.userInfo);
+    NSLog(@"Error:%@", error.userInfo);
 }
 
 // Parsing dictionary html
--(void) parseHtml: (NSData *) htmlData
+- (void)parseHtml:(NSData *)htmlData
 {
     // creating parser and setting Xpath for it.
-    TFHpple *dictionaryParser = [TFHpple hppleWithHTMLData: htmlData];
+    TFHpple *dictionaryParser = [TFHpple hppleWithHTMLData:htmlData];
     
     NSString *XpathString = @"//div[@class='body article']/p";
-    NSArray *dictionaryNodes = [dictionaryParser searchWithXPathQuery: XpathString];
+    NSArray *dictionaryNodes = [dictionaryParser searchWithXPathQuery:XpathString];
     
     // if dictionaryNodes if empty, then the page is wrong
     if ([dictionaryNodes count] == 0)
     {
-        [self showErrorMessage: NSLocalizedString(@"Word not found!", @"Error, word not found") withError: nil];
-        self.textView.attributedText = [[NSAttributedString alloc] initWithString: @""];
-        [self.navigationItem.leftBarButtonItem setEnabled: NO];
+        [self showErrorMessage:NSLocalizedString(@"Word not found!", @"Error, word not found") withError:nil];
+        self.textView.attributedText = [[NSAttributedString alloc] initWithString:@""];
+        [self.navigationItem.leftBarButtonItem setEnabled:NO];
     }
     else
     {
         // parsing block of data
-        NSArray *nonTextNodes = [[dictionaryNodes objectAtIndex: 0] children];
+        NSArray *nonTextNodes = [[dictionaryNodes objectAtIndex:0] children];
     
         NSMutableAttributedString *parsedText = [[NSMutableAttributedString alloc] init];
-        parsedText = [self goDeepAndFindText: nonTextNodes];
+        parsedText = [self goDeepAndFindText:nonTextNodes];
 
         self.textView.attributedText = parsedText;
         // formatting word. First letter in uppercase, other in lowercase.
-        NSString *firstLetter = [self.textField.text substringToIndex: 1];
-        wordTitle = [[firstLetter uppercaseString] stringByAppendingString: [[self.textField.text lowercaseString] substringFromIndex:1]];
+        NSString *firstLetter = [self.textField.text substringToIndex:1];
+        self.wordTitle = [[firstLetter uppercaseString] stringByAppendingString:[[self.textField.text lowercaseString] substringFromIndex:1]];
     }
     
 }
 
 // Recursive function that goes deep into the childs nodes tree and return right-attributed text.
--(NSMutableAttributedString *) goDeepAndFindText: (NSArray *) childsNodes
+- (NSMutableAttributedString *)goDeepAndFindText:(NSArray *)childsNodes
 {
     NSMutableAttributedString *parsedText = [[NSMutableAttributedString alloc] init];
     for (TFHppleElement *i in childsNodes)
     {
-        if ([i.tagName isEqual: @"text"])
+        if ([i.tagName isEqual:@"text"])
         {
             
             UIFont *font;
             // setting bold, italic, italic-bold or common font, according to tag and parent tag
-            if ([i.parent.tagName isEqual: @"strong"])
+            if ([i.parent.tagName isEqual:@"strong"])
             {
-                if ([i.parent.parent.tagName isEqual: @"em"])
-                {
-                    font = [UIFont fontWithName: @"Helvetica-BoldOblique" size: [UIFont systemFontSize]];
-                }
+                if ([i.parent.parent.tagName isEqual:@"em"])
+                    font = [UIFont fontWithName:@"Helvetica-BoldOblique" size:[UIFont systemFontSize]];
                 else
-                {
-                    font = [UIFont fontWithName: @"Helvetica-Bold" size: [UIFont systemFontSize]];
-                }
+                    font = [UIFont fontWithName:@"Helvetica-Bold" size:[UIFont systemFontSize]];
             }
             
-            else if ([i.parent.tagName isEqual: @"em"])
+            else if ([i.parent.tagName isEqual:@"em"])
             {
-                if ([i.parent.parent.tagName isEqual: @"strong"])
-                {
-                    font = [UIFont fontWithName: @"Helvetica-BoldOblique" size: [UIFont systemFontSize]];
-                }
+                if ([i.parent.parent.tagName isEqual:@"strong"])
+                    font = [UIFont fontWithName:@"Helvetica-BoldOblique" size:[UIFont systemFontSize]];
                 else
-                {
-                    font = [UIFont fontWithName: @"Helvetica-Oblique" size: [UIFont systemFontSize]];
-                }
+                    font = [UIFont fontWithName:@"Helvetica-Oblique" size:[UIFont systemFontSize]];
             }
             
             else
             {
-                font = [UIFont fontWithName: @"Helvetica" size: [UIFont systemFontSize]];
+                font = [UIFont fontWithName:@"Helvetica" size:[UIFont systemFontSize]];
             }
             
             // appending string with attributes
-            [parsedText appendAttributedString: [[NSMutableAttributedString alloc] initWithString: i.content
-                                                                                       attributes: @{NSFontAttributeName : font} ]];
+            [parsedText appendAttributedString:[[NSMutableAttributedString alloc]
+                                                 initWithString:i.content
+                                                 attributes:@{NSFontAttributeName:font} ]];
         }
         else
         {
-            [parsedText appendAttributedString: [self goDeepAndFindText: i.children]];
+            [parsedText appendAttributedString:[self goDeepAndFindText:i.children]];
         }
     }
         
@@ -196,50 +211,47 @@
 }
 
 // Adding data to database
-- (void) addWordToDatabase
+- (void)addWordToDatabase
 {
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Word" inManagedObjectContext: self.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Word" inManagedObjectContext:self.managedObjectContext];
     
     // creating fetch request and predicate
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name LIKE[c] %@", wordTitle];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name LIKE[c] %@", self.wordTitle];
     
-    [fetchRequest setEntity: entity];
-    [fetchRequest setPredicate: predicate];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
     
     NSError *error = nil;
-    NSUInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error: &error];
+    NSUInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:&error];
     
-    if (count == 0)
+    if (!error)
     {
-        // adding word to date base
-        Word *wordFromOnlineDictionary = [NSEntityDescription insertNewObjectForEntityForName: @"Word" inManagedObjectContext: self.managedObjectContext];
-    
-        wordFromOnlineDictionary.name = wordTitle;
-        wordFromOnlineDictionary.definition = self.textView.attributedText;
+        if (count == 0)
+        {
+            // adding word to date base
+            Word *wordFromOnlineDictionary = [NSEntityDescription insertNewObjectForEntityForName:@"Word" inManagedObjectContext:self.managedObjectContext];
+            wordFromOnlineDictionary.name = self.wordTitle;
+            wordFromOnlineDictionary.definition = self.textView.attributedText;
+            
+            [self.managedObjectContext save:nil];
+            
+            self.viewControllerEditWord.selectedWord = wordFromOnlineDictionary;
         
-        [self.managedObjectContext save: nil];
-        
-        self.viewControllerEditWord = [[ViewControllerEditWord alloc] init];
-        self.viewControllerEditWord.selectedWord = wordFromOnlineDictionary;
-        self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
-        self.viewControllerEditWord.deleteWordOnBack = YES;
-        UINavigationController *NCvcEditWord = [[UINavigationController alloc] initWithRootViewController: self.viewControllerEditWord];
-        //[self.navigationController presentViewController: self.viewControllerEditWord animated:YES completion: nil];
-        //[self.navigationController pushViewController: NCvcEditWord animated: YES];
-        [self presentViewController: NCvcEditWord animated: YES completion: nil];
+            [self presentViewController:self.navigationControllerEditWord animated:YES completion:nil];
+        }
+        else
+            // informing user that the word is already in datebase
+            [self showErrorMessage:NSLocalizedString(@"Word is already added!", "Error") withError:nil];
     }
     else
-    {
-        // informing user that the word is already in datebase
-        [self showErrorMessage: NSLocalizedString(@"Word is already added!", "Error") withError: nil];
-    }
+        NSLog(@"%@ \n %@", error, error.userInfo);
 
 }
 
 // Dismiss keyboard on tap
--(void)dismissKeyboard
+- (void)dismissKeyboard
 {
     [self.view endEditing:YES];
 }
@@ -255,14 +267,14 @@
 }
 
 // making first letter uppercase
--(void) textFieldDidChange: (NSNotification *)notification
+- (void)textFieldDidChange:(NSNotification *)notification
 {
     // removing observer from notification (to make sure it won't call twice)
-    [[NSNotificationCenter defaultCenter] removeObserver: self name:  UITextFieldTextDidChangeNotification object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name: UITextFieldTextDidChangeNotification object:nil];
     
     if (self.textField.text.length == 1)
         // check if first letter is not uppercase
-        if (![[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember: [self.textField.text characterAtIndex: 0]])
+        if (![[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[self.textField.text characterAtIndex:0]])
             // make first letter uppercase
             self.textField.text = [self.textField.text stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.textField.text substringToIndex:1] uppercaseString]];
     
@@ -274,13 +286,13 @@
 {
     // A response has been received, this is where we initialize the instance var you created
     // so that we can append data to it in the didReceiveData method
-    onlineDictionaryHtmlData = [[NSMutableData alloc] init];
+    self.onlineDictionaryHtmlData = [[NSMutableData alloc] init];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     // Append the new data to the instance variable you declared
-    [onlineDictionaryHtmlData appendData:data];
+    [self.onlineDictionaryHtmlData appendData:data];
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
@@ -294,9 +306,9 @@
 {
     // The request is complete and data has been received
     // You can parse the stuff in your instance variable now
-    [self.navigationItem.leftBarButtonItem setEnabled: YES];
-    [self parseHtml: onlineDictionaryHtmlData];
-    [urlConnectionHud hide: YES];
+    [self.navigationItem.leftBarButtonItem setEnabled:YES];
+    [self parseHtml:self.onlineDictionaryHtmlData];
+    [self.urlConnectionHud hide:YES];
     
 }
 
@@ -304,13 +316,13 @@
 {
     // The request has failed for some reason!
     // Check the error var
-    [self showErrorMessage: NSLocalizedString(@"Something bad happened!", @"Unknow error") withError: error];
-    [urlConnectionHud hide: YES];
+    [self showErrorMessage:NSLocalizedString(@"Something bad happened!", @"Unknow error") withError:error];
+    [self.urlConnectionHud hide:YES];
 }
 
 #pragma mark - textField delegate
 // Action on pressing "Go" on keyboard;
-- (BOOL) textFieldShouldReturn: (UITextField *) textField
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     [self getHtmlByWord];
@@ -324,17 +336,17 @@
 {
     // Remove HUD from screen when the HUD was hidded
     
-    if (hud == urlConnectionHud)
+    if (hud == self.urlConnectionHud)
     {
-        [urlConnectionHud removeFromSuperview];
+        [self.urlConnectionHud removeFromSuperview];
         //[urlConnectionHud release];
-        urlConnectionHud = nil;
+        self.urlConnectionHud = nil;
     }
     
-    if (hud == messageHud)
+    if (hud == self.messageHud)
     {
-        [messageHud removeFromSuperview];
-        messageHud = nil;
+        [self.messageHud removeFromSuperview];
+        self.messageHud = nil;
     }
 
 }

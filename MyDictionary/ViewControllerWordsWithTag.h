@@ -7,7 +7,7 @@
 //
 
 #import "ViewControllerDictionary.h"
-#import "Tag.h"
+@class Tag;
 
 @interface ViewControllerWordsWithTag : ViewControllerDictionary
 

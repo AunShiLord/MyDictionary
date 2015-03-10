@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Word.h"
-#import "Tag.h"
 #import "AppDelegate.h"
+@class Word;
 
-
-@interface ViewControllerEditWord : UIViewController <UITextViewDelegate>
+@interface ViewControllerEditWord : UIViewController 
 
 @property (strong, nonatomic) Word *selectedWord;
 @property (nonatomic)         BOOL deleteWordOnBack;
