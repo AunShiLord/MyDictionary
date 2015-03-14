@@ -17,13 +17,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" id="LcM-cn-mss">
-                    <rect key="frame" x="8" y="112.00000075663928" width="295" height="386"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" red="0.94427614795918369" green="0.94427614795918369" blue="0.94427614795918369" alpha="1" colorSpace="calibratedRGB"/>
-                    <attributedString key="attributedText"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Мужчина" borderStyle="roundedRect" placeholder="Type a word..." minimumFontSize="17" id="Tyx-8n-FOB">
                     <rect key="frame" x="8" y="74" width="235" height="30"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -40,6 +33,13 @@
                         <action selector="getHtmlByWord" destination="-1" eventType="touchUpInside" id="5Fh-fy-Jde"/>
                     </connections>
                 </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" id="LcM-cn-mss">
+                    <rect key="frame" x="8" y="112" width="295" height="448"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.94427614795918369" green="0.94427614795918369" blue="0.94427614795918369" alpha="1" colorSpace="calibratedRGB"/>
+                    <attributedString key="attributedText"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="140" y="154"/>

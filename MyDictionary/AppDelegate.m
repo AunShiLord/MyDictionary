@@ -29,6 +29,14 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    //tabBarController.tabBar.translucent = NO;
+    //[tabBarController.tabBar setTintColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
+    [tabBarController.tabBar setBackgroundColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
+    //tabBarController.tabBar.viewForBaselineLayout.backgroundColor = [UIColor redColor];
+    //[tabBarController.tabBar setBackgroundColor:[UIColor redColor]];
+   
+    [tabBarController.tabBar setBackgroundImage: [UIImage imageNamed: @"tabBarBackground.png"]];
+    [tabBarController.tabBar setTintColor: [UIColor whiteColor]];
     // REVIEW Лишний пробел.
     
     // first tab viewController. Search in online dictionary
@@ -43,7 +51,12 @@
     
     // REVIEW Почему не используется NSLocalizedString?
     // ANSWER Эта строка здесь просто не нужна. Использовал ее для эксперемента )
-    [navigationControllerSearch.tabBarItem setTitle:NSLocalizedString(@"Search", @"Tab for search view")];
+    //[navigationControllerSearch.tabBarItem setTitle:NSLocalizedString(@"Search", @"Tab for search view")];
+    navigationControllerSearch.tabBarItem = [[UITabBarItem alloc]
+                                             initWithTitle:NSLocalizedString(@"Search", @"Tab for search view")
+                                             image:[UIImage imageNamed:@"searchIcon"]
+                                             selectedImage:[UIImage imageNamed:@"searchIcon"]];
+    //[navigationControllerSearch.tabBarController.tabBar setBackgroundColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
     
     // second tab viewController. CoreData database, display words.
     ViewControllerWords *viewControllerWords = [[ViewControllerWords alloc]
@@ -54,7 +67,10 @@
     viewControllerWords.entityName = @"Word";
     // REVIEW Почему не используется NSLocalizedString?
     // ANSWER Здесь это не нужно. Это строка определяет какое Entity использовать
-    [viewControllerWords.tabBarItem setTitle:NSLocalizedString(@"Words", @"Tab for words view")];
+    viewControllerWords.tabBarItem = [[UITabBarItem alloc]
+                                      initWithTitle:NSLocalizedString(@"Words", @"Tab for words view")
+                                      image:[UIImage imageNamed:@"wordsIcon"]
+                                      selectedImage:[UIImage imageNamed:@"wordsIcon"]];
     
     // third tab viewController. CoreData database, display tags.
     ViewControllerTag *viewControllerTag = [[ViewControllerTag alloc]
@@ -63,7 +79,10 @@
     // REVIEW Лишний пробел. Разбить на строки. camelCase.
     viewControllerTag.entityName = @"Tag";
     viewControllerTag.managedObjectContext = self.managedObjectContext;
-    [viewControllerTag.tabBarItem setTitle:NSLocalizedString(@"Tags", @"Tab for tags view")];
+    viewControllerTag.tabBarItem = [[UITabBarItem alloc]
+                                    initWithTitle:NSLocalizedString(@"Tags", @"Tab for tags view")
+                                    image:[UIImage imageNamed:@"tagsIcon"]
+                                    selectedImage:[UIImage imageNamed:@"tagsIcon"]];
     
     [tabBarController setViewControllers:@[navigationControllerSearch, viewControllerWords, viewControllerTag]];
     

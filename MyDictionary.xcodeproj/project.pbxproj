@@ -25,6 +25,11 @@
 		E1A145DF1A83332500B63A05 /* ViewControllerEditWord.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A145DD1A83332500B63A05 /* ViewControllerEditWord.m */; };
 		E1A328211A8B371B008023B6 /* ViewControllerWordsWithTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A328201A8B371B008023B6 /* ViewControllerWordsWithTag.m */; };
 		E1A328251A8CB233008023B6 /* ViewControllerWords.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A328241A8CB233008023B6 /* ViewControllerWords.m */; };
+		E1A72E221AB1969000F2B711 /* tabBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A72E1C1AB1969000F2B711 /* tabBarBackground@2x.png */; };
+		E1A72E241AB1969000F2B711 /* appBackground@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1A72E1E1AB1969000F2B711 /* appBackground@2x.jpg */; };
+		E1A72E251AB1969000F2B711 /* searchIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A72E1F1AB1969000F2B711 /* searchIcon@2x.png */; };
+		E1A72E261AB1969000F2B711 /* tagsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A72E201AB1969000F2B711 /* tagsIcon@2x.png */; };
+		E1A72E271AB1969000F2B711 /* wordsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A72E211AB1969000F2B711 /* wordsIcon@2x.png */; };
 		E1A939001A890F9700969B02 /* ViewControllerTag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A938FF1A890F9700969B02 /* ViewControllerTag.m */; };
 		E1FA7E831A821B6000FE6C93 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA7E821A821B6000FE6C93 /* Tag.m */; };
 		E1FA7E861A821B6000FE6C93 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA7E851A821B6000FE6C93 /* Word.m */; };
@@ -71,6 +76,11 @@
 		E1A328201A8B371B008023B6 /* ViewControllerWordsWithTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerWordsWithTag.m; sourceTree = "<group>"; };
 		E1A328231A8CB233008023B6 /* ViewControllerWords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerWords.h; sourceTree = "<group>"; };
 		E1A328241A8CB233008023B6 /* ViewControllerWords.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerWords.m; sourceTree = "<group>"; };
+		E1A72E1C1AB1969000F2B711 /* tabBarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tabBarBackground@2x.png"; path = "Pictures/tabBarBackground@2x.png"; sourceTree = "<group>"; };
+		E1A72E1E1AB1969000F2B711 /* appBackground@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "appBackground@2x.jpg"; path = "Pictures/appBackground@2x.jpg"; sourceTree = "<group>"; };
+		E1A72E1F1AB1969000F2B711 /* searchIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "searchIcon@2x.png"; path = "Pictures/searchIcon@2x.png"; sourceTree = "<group>"; };
+		E1A72E201AB1969000F2B711 /* tagsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tagsIcon@2x.png"; path = "Pictures/tagsIcon@2x.png"; sourceTree = "<group>"; };
+		E1A72E211AB1969000F2B711 /* wordsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wordsIcon@2x.png"; path = "Pictures/wordsIcon@2x.png"; sourceTree = "<group>"; };
 		E1A938FE1A890F9700969B02 /* ViewControllerTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerTag.h; sourceTree = "<group>"; };
 		E1A938FF1A890F9700969B02 /* ViewControllerTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerTag.m; sourceTree = "<group>"; };
 		E1FA7E811A821B6000FE6C93 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tag.h; path = "Business Logic Layer/Tag.h"; sourceTree = "<group>"; };
@@ -216,6 +226,11 @@
 		E15BFDA11A70F3C4009494AF /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				E1A72E1C1AB1969000F2B711 /* tabBarBackground@2x.png */,
+				E1A72E1E1AB1969000F2B711 /* appBackground@2x.jpg */,
+				E1A72E1F1AB1969000F2B711 /* searchIcon@2x.png */,
+				E1A72E201AB1969000F2B711 /* tagsIcon@2x.png */,
+				E1A72E211AB1969000F2B711 /* wordsIcon@2x.png */,
 				E138C78C1A6F942100FC8934 /* Default-568h@2x.png */,
 			);
 			name = Pictures;
@@ -355,11 +370,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1A72E261AB1969000F2B711 /* tagsIcon@2x.png in Resources */,
+				E1A72E271AB1969000F2B711 /* wordsIcon@2x.png in Resources */,
 				E197D43E1A9DC3DE0098E387 /* ViewControllerSearch.xib in Resources */,
 				E19E04801A972C5C00E5317C /* Localizable.strings in Resources */,
 				E138C75D1A6A57FE00FC8934 /* Images.xcassets in Resources */,
 				E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */,
 				E197D4401A9DC3F20098E387 /* ViewControllerEditWord.xib in Resources */,
+				E1A72E241AB1969000F2B711 /* appBackground@2x.jpg in Resources */,
+				E1A72E251AB1969000F2B711 /* searchIcon@2x.png in Resources */,
+				E1A72E221AB1969000F2B711 /* tabBarBackground@2x.png in Resources */,
 				E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
