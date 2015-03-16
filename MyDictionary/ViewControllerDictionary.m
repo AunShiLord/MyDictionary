@@ -31,10 +31,8 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
                                               initWithTarget:self
                                               action:@selector(dismissKeyboard)];
-        // REVIEW Разбить на строки.
         tapGesture.cancelsTouchesInView = NO;
         [self.view addGestureRecognizer:tapGesture];
-        // REVIEW Лишний пробел.
         
         // Notification text did change
         //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
@@ -78,16 +76,11 @@
 
 // Performing actions to update the cell in tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-// REVIEW Не хватает пробелов. Лишние пробелы.
 {
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
-        // REVIEW Это точно нужно? Как работает dequeueReusableCell?
-        // ANSWER Кажется, все же нужно. dequeueReusableCell возвращает уже использованную
-        // ANSWER ячейку, если такая существует с указанным идентифекатором.
-        // ANSWER Но при первом обращении она возвращает nil, так как таких ячеек еще нет.
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -96,10 +89,6 @@
     cell.textLabel.text = [managedObject valueForKey:@"name"];
     if ([self.entityName isEqual:@"Word"])
         cell.detailTextLabel.text = [[managedObject valueForKey:@"definition"] string];
-    // REVIEW Зачем 2 раза запрашивать один и тот же словарь, если можно один
-    // REVIEW один раз его запросить, а потом взять с него 2 раза значения?
-    // ANSWER А что плохого брать значение из NSArray по индексу?
-    // ANSWER Исправил, добавив дополнительную переменную.
     
     return cell;
 }
@@ -110,7 +99,6 @@
     // setting selected word
     self.viewControllerEditWord.selectedWord = self.managedObjectsFromDictionary[indexPath.row];
     [self presentViewController:self.navigationControllerEditWord animated:YES completion:nil];
-    // REVIEW Лишние пробелы. camelCase.
 }
 
 // swipe to the left and deleting word
@@ -120,12 +108,8 @@
     // delete object from CoreData, MutableArray and tableview
     [self showMessageWithString:
      [NSString stringWithFormat:NSLocalizedString(@"%@ %@ removed", "Word or tag removed"), self.entityName, [managedObject valueForKey:@"name"]]];
-    // REVIEW Зачем [NSString stringWithFormat]?
-    // ANSWER Чтобы не париться с конкатенацией разных строк, пробелов и т.д.
     [self.managedObjectContext deleteObject: managedObject];
     [self.managedObjectsFromDictionary removeObjectAtIndex:indexPath.row];
-    // REVIEW Опять несколько раз запрос словаря. Сделать запрос лишь раз.
-    // ANSWER вроде бы испарвил.
     
     [self.dictionaryTableView beginUpdates];
     [self.dictionaryTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
@@ -146,9 +130,6 @@
 {
     // Notification text did change to change first letter to uppercase
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
-    // REVIEW Зачем подписываться каждый раз?
-    // ANSWER Потому что ниже я каждый раз отписываюсь.
-    // ANSWER Зачем отписываюсь объяснил ниже.
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
@@ -190,10 +171,6 @@
 {
     // removing observer from notification (to make sure it won't call twice)
     [[NSNotificationCenter defaultCenter] removeObserver:self name: UITextFieldTextDidChangeNotification object:nil];
-    // REVIEW Зачем каждый раз отписываться?
-    // ANSWER Если не отписаться, метод будет вызываться несколько раз,
-    // ANSWER так как в самом конце я опять меняю строку.
-    // NSLog(@"Blabla");
 
     if (self.textField.text.length == 1)
         // check if first letter is not uppercase
@@ -212,12 +189,6 @@
     if (self.messageHud == nil)
     {
         self.messageHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        // REVIEW Почему бы сразу не создать?
-        // REVIEW Почему не toast?
-        // ANSWER На сколько я изучил MBProgressHUD, это самый удобный способ вывода.
-        // ANSWER В демо приложении от авторов используется этот способ.
-        // ANSWER На iOS вроде нет аналогов toast.
-        // ANSWER Этот фреймворк выполянет функции toast и к нем много разных опций.
         
         // Configure for text only and offset down
         self.messageHud.mode = MBProgressHUDModeText;

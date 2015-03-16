@@ -50,15 +50,10 @@
     self.textViewWordDefinition.delegate = self;
 
     self.managedObjectContext = self.selectedWord.managedObjectContext;
-    // REVIEW Ни в коем случае нельзя использовать неявно Application.
-    // REVIEW Передавать напрямую в класс из-вне.
-    // ANSWER Исправил здесь и на всех других вьюшках
     
     // initiating gesture recognizer
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.navigationController.view addGestureRecognizer:tapGesture];
-    // REVIEW Почему не просто self.view?
-    // ANSWER Так жесты рапознаются в том числе и на панели навигации
     
     // setting word name and definition
     [self.navigationItem setTitle:self.selectedWord.name];
@@ -80,37 +75,26 @@
                                                     initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                     target:self.textViewWordDefinition
                                                     action:@selector (resignFirstResponder)];
-    // REVIEW Рзабить на строки.
     UIBarButtonItem *barButtonDoneTags = [[UIBarButtonItem alloc]
                                           initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                           target:self.textViewTags
                                           action:@selector(resignFirstResponder)];
-    // REVIEW Рзабить на строки.
     UIBarButtonItem *flexibleSpaceBarButton = [[UIBarButtonItem alloc]
                                                initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                target:nil
                                                action:nil];
-    // REVIEW Рзабить на строки.
     
     UIToolbar *toolbarWordDefinition = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
-    // REVIEW Почему 320 и 44? Что будет на других экранах?
-    // ANSWER Ширина тулбара всегда равна ширине занимаемого вью. Высоту советуют 44 пикселя.
     toolbarWordDefinition.items = [NSArray arrayWithObjects:flexibleSpaceBarButton, barButtonDoneWordDefinition, nil];
     
     UIToolbar *toolbarTags = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
-    // REVIEW Почему 320 и 44? Что будет на других экранах?
     toolbarTags.items = [NSArray arrayWithObjects:flexibleSpaceBarButton, barButtonDoneTags, nil];
     self.textViewTags.inputAccessoryView = toolbarTags;
     self.textViewWordDefinition.inputAccessoryView = toolbarWordDefinition;
-    // REVIEW Зачем кнопка Done над клавиатурой?
-    // ANSWER Чтобы скрыть клавиатуру. Когда клавиатура открыта, почти не остается места
-    // ANSWER для Тапа, закрывающего ее. Было решено исправить проблему таким образом.
-    
 }
 
 // get keyboard size
 - (CGRect)keyboardFrame:(NSNotification *)notification
-// REVIEW Не хватает пробела.
 {
     NSDictionary *info  = notification.userInfo;
     NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
@@ -122,7 +106,6 @@
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-// REVIEW Не хватает пробела.
 {
     if ([textView isEqual:self.textViewTags])
     {
@@ -130,10 +113,6 @@
                                                  selector:@selector(keyboardDidShow:)
                                                      name:UIKeyboardDidShowNotification
                                                    object:nil];
-        // REVIEW Зачем каждый раз подписываться?
-        // ANSWER При тапе на self.textViewTags (но не на self.textViewWordDefinition)
-        // ANSWER необходимо скролить вью вверх. Если подписаться один раз, то скролл
-        // ANSWER будет происходить каждый раз при появлении клавиатуры, а это не нужно.
     }
     return YES;
 }
@@ -155,15 +134,11 @@
 // action on keyboard did show
 - (void)keyboardDidShow:(NSNotification *)notification
 {
-
     CGRect keyboardFrame = [self keyboardFrame:notification];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    // REVIEW Зачем каждый раз отписываться?
-    // ANSWER Так как каждый раз подписываюсь. (объяснил выше)
     
     [self animatedScrollTo:-keyboardFrame.size.height];
-    
 }
 
 /*
@@ -178,7 +153,6 @@
 
 // animated scroll by Y
 - (void)animatedScrollTo:(CGFloat)y
-// REVIEW Не хватает пробела. Лишние пробелы.
 {
     [UIView beginAnimations:@"registerScroll" context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -189,26 +163,22 @@
 
 // Dismiss keyboard on tap
 - (void)dismissKeyboard
-// REVIEW Не хватает пробела.
 {
     [self.view endEditing:YES];
 }
 
 // Cancel changes and returning to prev view
 - (IBAction)back
-// REVIEW Не хватает пробела. Лишний пробел.
 {
     // check if the word is new added (from ViewControllerSearch)
     if (self.deleteWordOnBack)
         [self.managedObjectContext deleteObject:self.selectedWord];
     
     [self dismissViewControllerAnimated:YES completion:nil];
-    // REVIEW Лишние пробелы.
 }
 
 // Save changes and returning to prev view
 - (IBAction)done
-// REVIEW Не хватает пробела. Лишний пробел.
 {
     // saving word definition
     self.selectedWord.definition = self.textViewWordDefinition.attributedText;
@@ -225,8 +195,6 @@
     NSArray *components = [stringOfTags componentsSeparatedByString:@","];
     
     for (NSString __strong *component in components)
-        // REVIEW Зачем __strong?
-        // ANSWER Иначе, при включенном ARC, нельзя редактировать component
     {
         // deleting spaces and \n at the beginning and at the and of each tag
         component = [component stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -272,8 +240,6 @@
         }
         
     }
-    // REVIEW Нет обработаки ошибки.
-    // ANSWER Исправил
     
     [self.managedObjectContext save:nil];
 }

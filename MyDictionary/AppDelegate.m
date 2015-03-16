@@ -37,21 +37,12 @@
    
     [tabBarController.tabBar setBackgroundImage: [UIImage imageNamed: @"tabBarBackground.png"]];
     [tabBarController.tabBar setTintColor: [UIColor whiteColor]];
-    // REVIEW Лишний пробел.
     
     // first tab viewController. Search in online dictionary
     ViewControllerSearch *viewControllerSearch = [[ViewControllerSearch alloc] init];
     viewControllerSearch.managedObjectContext = self.managedObjectContext;
-    // REVIEW Лишний пробел.
-    // REVIEW Необходимо использовать camelCase, т.е. vcs.
     UINavigationController *navigationControllerSearch = [[UINavigationController alloc]
                                                           initWithRootViewController:viewControllerSearch];
-    // REVIEW Необходимо использовать camelCase.
-    // REVIEW Лишний пробел.
-    
-    // REVIEW Почему не используется NSLocalizedString?
-    // ANSWER Эта строка здесь просто не нужна. Использовал ее для эксперемента )
-    //[navigationControllerSearch.tabBarItem setTitle:NSLocalizedString(@"Search", @"Tab for search view")];
     navigationControllerSearch.tabBarItem = [[UITabBarItem alloc]
                                              initWithTitle:NSLocalizedString(@"Search", @"Tab for search view")
                                              image:[UIImage imageNamed:@"searchIcon"]
@@ -62,11 +53,8 @@
     ViewControllerWords *viewControllerWords = [[ViewControllerWords alloc]
                                                 initWithNibName:@"ViewControllerDictionary"
                                                 bundle:nil];
-    // REVIEW Лишний пробел. Разбить на строки. camelCase.
     viewControllerWords.managedObjectContext = self.managedObjectContext;
     viewControllerWords.entityName = @"Word";
-    // REVIEW Почему не используется NSLocalizedString?
-    // ANSWER Здесь это не нужно. Это строка определяет какое Entity использовать
     viewControllerWords.tabBarItem = [[UITabBarItem alloc]
                                       initWithTitle:NSLocalizedString(@"Words", @"Tab for words view")
                                       image:[UIImage imageNamed:@"wordsIcon"]
@@ -76,7 +64,6 @@
     ViewControllerTag *viewControllerTag = [[ViewControllerTag alloc]
                                             initWithNibName:@"ViewControllerDictionary"
                                             bundle:nil];
-    // REVIEW Лишний пробел. Разбить на строки. camelCase.
     viewControllerTag.entityName = @"Tag";
     viewControllerTag.managedObjectContext = self.managedObjectContext;
     viewControllerTag.tabBarItem = [[UITabBarItem alloc]
