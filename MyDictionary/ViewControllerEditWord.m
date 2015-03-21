@@ -167,6 +167,7 @@
 }
 
 #pragma mark - Navigation bar buttons methods
+
 // Cancel changes and returning to prev view
 - (IBAction)back
 {
