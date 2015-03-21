@@ -20,29 +20,29 @@
 
 @implementation ViewControllerEditWord
 
+#pragma mark - System methods
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc]
-                                                    initWithTitle:@"Back"
-                                                    style:UIBarButtonItemStylePlain
-                                                    target:self
-                                                    action:@selector(back)]];
-        // REVIEW Разбить на строки.
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc]
-                                                     initWithTitle:@"Save"
-                                                     style:UIBarButtonItemStylePlain
-                                                     target:self
-                                                     action:@selector(done)]];
+        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                                   style:UIBarButtonItemStylePlain
+                                                                                  target:self
+                                                                                  action:@selector(back)]];
+        
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                                                    style:UIBarButtonItemStylePlain
+                                                                                   target:self
+                                                                                   action:@selector(done)]];
     }
     
     return self;
 }
 
-- (void)viewDidLoad
+-(void)viewDidLoad
 {
     [super viewDidLoad];
     
@@ -54,21 +54,6 @@
     // initiating gesture recognizer
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.navigationController.view addGestureRecognizer:tapGesture];
-    
-    // setting word name and definition
-    [self.navigationItem setTitle:self.selectedWord.name];
-    self.textViewWordDefinition.attributedText = self.selectedWord.definition;
-    
-    // setting list of tags
-    NSSet *tags = [self.selectedWord tags];
-    NSString *stringOfTags = @"";
-    for (Tag *tag in tags)
-    {
-        stringOfTags = [stringOfTags stringByAppendingString:tag.name];
-        stringOfTags = [stringOfTags stringByAppendingString:@", "];
-    }
-    
-    self.textViewTags.text = stringOfTags;
     
     // Adding a Done button to keyboard
     UIBarButtonItem *barButtonDoneWordDefinition = [[UIBarButtonItem alloc]
@@ -91,7 +76,29 @@
     toolbarTags.items = [NSArray arrayWithObjects:flexibleSpaceBarButton, barButtonDoneTags, nil];
     self.textViewTags.inputAccessoryView = toolbarTags;
     self.textViewWordDefinition.inputAccessoryView = toolbarWordDefinition;
+    
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self viewDidAppear:YES];
+    
+    // setting word name and definition
+    [self.navigationItem setTitle:self.selectedWord.name];
+    self.textViewWordDefinition.attributedText = self.selectedWord.definition;
+    
+    // setting list of tags
+    NSSet *tags = [self.selectedWord tags];
+    NSString *stringOfTags = @"";
+    for (Tag *tag in tags)
+    {
+        stringOfTags = [stringOfTags stringByAppendingString:tag.name];
+        stringOfTags = [stringOfTags stringByAppendingString:@", "];
+    }
+    
+    self.textViewTags.text = stringOfTags;
+}
+
+#pragma mark - Custom methods
 
 // get keyboard size
 - (CGRect)keyboardFrame:(NSNotification *)notification
@@ -104,6 +111,8 @@
     
     return keyboardFrame;
 }
+
+#pragma mark - TextField methods
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
@@ -141,16 +150,6 @@
     [self animatedScrollTo:-keyboardFrame.size.height];
 }
 
-/*
-// action on keyboard did hide
--(void)keyboardDidHide:(NSNotification *)notification
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-    
-   // [self animatedScrollTo:0];
-}
- */
-
 // animated scroll by Y
 - (void)animatedScrollTo:(CGFloat)y
 {
@@ -167,6 +166,7 @@
     [self.view endEditing:YES];
 }
 
+#pragma mark - Navigation bar buttons methods
 // Cancel changes and returning to prev view
 - (IBAction)back
 {

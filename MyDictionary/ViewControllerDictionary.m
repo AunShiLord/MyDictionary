@@ -14,12 +14,14 @@
 @interface ViewControllerDictionary () <UITableViewDelegate,
                                         UITableViewDataSource,
                                         UITextFieldDelegate,
-                                        MBProgressHUDDelegate >
+                                        MBProgressHUDDelegate>
 
 
 @end
 
 @implementation ViewControllerDictionary
+
+#pragma mark - System methods
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,7 +61,7 @@
     
 }
 
-#pragma mark tableview
+#pragma mark - Tableview methods
 
 // Number of sections in tableview
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -117,7 +119,7 @@
     [self.managedObjectContext save:nil];
 }
 
-#pragma mark - Text Field Delegete
+#pragma mark - Text Field methods
 
 // Switching gesture recognizer to cancel all events in view
 -(void)textFieldDidBeginEditing:(UITextField *)textField
@@ -182,7 +184,7 @@
 
 }
 
-#pragma mark - custom methods
+#pragma mark - Custom methods
 // Dismiss keyboard on tap and make view catch events again
 - (void)dismissKeyboard
 {

@@ -35,16 +35,17 @@
 
 @implementation ViewControllerSearch
 
+#pragma mark - System methods
+
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc]
-                                                    initWithTitle:NSLocalizedString(@"Add", @"Button ""Add"" name")
-                                                    style:UIBarButtonItemStylePlain
-                                                    target:self
-                                                    action:@selector(addWordToDatabase)]];
+        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"Button ""Add"" name")
+                                                                                   style:UIBarButtonItemStylePlain
+                                                                                  target:self
+                                                                                  action:@selector(addWordToDatabase)]];
         [self.navigationItem.leftBarButtonItem setEnabled:NO];
     }
     
@@ -62,9 +63,8 @@
     self.navigationControllerEditWord.navigationBar.translucent = NO;
     
     
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
-                                          initWithTarget:self
-                                          action:@selector(dismissKeyboard)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(dismissKeyboard)];
     [self.navigationController.view addGestureRecognizer:tapGesture];
     
     self.textField.delegate = self;
@@ -75,6 +75,8 @@
     [super viewWillAppear:animated];
     
 }
+
+#pragma mark - custom methods
 
 // Getting an html Data from online dictionary
 - (IBAction)getHtmlByWord
@@ -90,8 +92,6 @@
         // converting url string to Percent Escapes format
         NSURL *dictionary_url = [NSURL URLWithString:
                              [url_str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-
-        //NSData *dictionaryHtmlData = [NSData dataWithContentsOfURL:dictionary_url];
         
         NSURLRequest *request = [NSURLRequest requestWithURL:dictionary_url];
         
@@ -107,7 +107,6 @@
         }
 
         [connection start];
-        //[connection release];
 
     }
     
@@ -142,7 +141,7 @@
     NSString *XpathString = @"//div[@class='body article']/p";
     NSArray *dictionaryNodes = [dictionaryParser searchWithXPathQuery:XpathString];
     
-    // if dictionaryNodes if empty, then the page is wrong
+    // if dictionaryNodes is empty, then the page is wrong
     if ([dictionaryNodes count] == 0)
     {
         [self showErrorMessage:NSLocalizedString(@"Word not found!", @"Error, word not found") withError:nil];
@@ -257,12 +256,21 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - textField Delegate
+#pragma mark - textField methods
 
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     // Notification text did change to change first letter to uppercase
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    return YES;
+}
+
+// Action on pressing "Go" on keyboard;
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    [self getHtmlByWord];
     
     return YES;
 }
@@ -319,16 +327,6 @@
     // Check the error var
     [self showErrorMessage:NSLocalizedString(@"Something bad happened!", @"Unknow error") withError:error];
     [self.urlConnectionHud hide:YES];
-}
-
-#pragma mark - textField delegate
-// Action on pressing "Go" on keyboard;
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    [self getHtmlByWord];
-    
-    return YES;
 }
 
 #pragma mark - MBProgressHUDDelegate
