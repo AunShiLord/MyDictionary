@@ -13,6 +13,7 @@
 
 @interface ViewControllerDictionary : UIViewController
 
+// array of managedObjects from dictionary
 @property (strong, nonatomic) NSMutableArray            *managedObjectsFromDictionary;
 @property (strong, nonatomic) MBProgressHUD             *messageHud;
 // name of entity in CoreData
@@ -22,5 +23,6 @@
 @property (strong, nonatomic) IBOutlet UITableView      *dictionaryTableView;
 @property (strong, nonatomic) ViewControllerEditWord    *viewControllerEditWord;
 @property (strong, nonatomic) UINavigationController    *navigationControllerEditWord;
+@property (strong, nonatomic) UITapGestureRecognizer    *tapGesture;
 
 @end

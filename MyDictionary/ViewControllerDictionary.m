@@ -14,8 +14,8 @@
 @interface ViewControllerDictionary () <UITableViewDelegate,
                                         UITableViewDataSource,
                                         UITextFieldDelegate,
-                                        UIGestureRecognizerDelegate,
                                         MBProgressHUDDelegate >
+
 
 @end
 
@@ -28,14 +28,13 @@
     if (self)
     {
         // initiating Tap Gesture Recognizer
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
-                                              initWithTarget:self
-                                              action:@selector(dismissKeyboard)];
-        tapGesture.cancelsTouchesInView = NO;
-        [self.view addGestureRecognizer:tapGesture];
+        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                  action:@selector(dismissKeyboard)];
+        self.tapGesture.cancelsTouchesInView = NO;
+        [self.view addGestureRecognizer:self.tapGesture];
         
-        // Notification text did change
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
+        // notification on keyboard did hide
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide) name:UIKeyboardDidHideNotification object:nil];
 
     }
     
@@ -60,7 +59,7 @@
     
 }
 
-// -- TableView --
+#pragma mark tableview
 
 // Number of sections in tableview
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -118,13 +117,16 @@
     [self.managedObjectContext save:nil];
 }
 
-// Dismiss keyboard on tap
-- (void)dismissKeyboard
+#pragma mark - Text Field Delegete
+
+// Switching gesture recognizer to cancel all events in view
+-(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self.view endEditing:YES];
+    // taping on table view will close keyboard instead of opening the cell.
+    // see also
+    self.tapGesture.cancelsTouchesInView = YES;
 }
 
-// Text Field
 // Reloading data in tableview on typing in textfield
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -180,6 +182,20 @@
 
 }
 
+#pragma mark - custom methods
+// Dismiss keyboard on tap and make view catch events again
+- (void)dismissKeyboard
+{
+    [self.view endEditing:YES];
+}
+
+// allow view to catch touches when keyboard is down
+-(void)keyboardDidHide
+{
+    self.tapGesture.cancelsTouchesInView = NO;
+}
+
+// Show message in hud
 - (void)showMessageWithString:(NSString *)string
 {
     if ((self.messageHud != nil) && !(self.messageHud.hidden))
@@ -206,6 +222,7 @@
     }
 }
 
+#pragma mark - MBProgressHUD delegete
 - (void)hudWasHidden:(MBProgressHUD *)hud
 {
     // Remove HUD from screen when the HUD was hidded
