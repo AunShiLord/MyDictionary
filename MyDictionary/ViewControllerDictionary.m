@@ -50,6 +50,7 @@
     
     // setting delegates
     self.textField.delegate = self;
+    self.textField.placeholder = NSLocalizedString(@"Dictionary word placeholder", nil);
     self.dictionaryTableView.delegate = self;
     self.dictionaryTableView.dataSource = self;
     
@@ -106,9 +107,16 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *managedObject = self.managedObjectsFromDictionary[indexPath.row];
+    NSString *locEntityName;
+    if ([self.entityName isEqualToString: @"Tag"])
+        locEntityName = NSLocalizedString(@"Tag", nil);
+    else
+        locEntityName = NSLocalizedString(@"Word", nil);
+
+    NSString *locRemoveString = NSLocalizedString(@"Remove", nil);
     // delete object from CoreData, MutableArray and tableview
     [self showMessageWithString:
-     [NSString stringWithFormat:NSLocalizedString(@"%@ %@ removed", "Word or tag removed"), self.entityName, [managedObject valueForKey:@"name"]]];
+     [NSString stringWithFormat:@"%@ %@ %@", locEntityName, [managedObject valueForKey:@"name"], locRemoveString]];
     [self.managedObjectContext deleteObject: managedObject];
     [self.managedObjectsFromDictionary removeObjectAtIndex:indexPath.row];
     

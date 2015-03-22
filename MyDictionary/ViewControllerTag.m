@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view from its nib.
     
     self.entityName = @"Tag";
-    self.textField.placeholder = @"Type a tag...";
+    self.textField.placeholder = NSLocalizedString(@"Dictionary tag placeholder", nil);
     
     self.viewControllerWordsWithTag = [[ViewControllerWordsWithTag alloc]
                                        initWithNibName:@"ViewControllerDictionary"

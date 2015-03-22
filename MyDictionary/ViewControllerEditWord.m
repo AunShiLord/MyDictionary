@@ -112,7 +112,7 @@
     return keyboardFrame;
 }
 
-#pragma mark - TextField methods
+#pragma mark - TextView methods
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {

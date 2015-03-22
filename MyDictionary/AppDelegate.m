@@ -28,7 +28,6 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     //tabBarController.tabBar.translucent = NO;
     //[tabBarController.tabBar setTintColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];

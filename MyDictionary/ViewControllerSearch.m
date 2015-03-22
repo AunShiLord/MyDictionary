@@ -68,6 +68,8 @@
     [self.navigationController.view addGestureRecognizer:tapGesture];
     
     self.textField.delegate = self;
+    self.textField.placeholder = NSLocalizedString(@"Dictionary word placeholder", nil);
+    [self.searchButton setTitle:NSLocalizedString(@"Search button", nil) forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated
