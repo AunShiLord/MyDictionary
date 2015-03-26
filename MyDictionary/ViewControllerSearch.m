@@ -60,7 +60,6 @@
     self.viewControllerEditWord.hidesBottomBarWhenPushed = YES;
     self.viewControllerEditWord.deleteWordOnBack = YES;
     self.navigationControllerEditWord = [[UINavigationController alloc] initWithRootViewController:self.viewControllerEditWord];
-    self.navigationControllerEditWord.navigationBar.translucent = NO;
     
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self

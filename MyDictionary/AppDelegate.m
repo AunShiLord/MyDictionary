@@ -27,6 +27,7 @@
     // Override point for customization after application launch.
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"appBackground@2x.jpg"]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     //tabBarController.tabBar.translucent = NO;

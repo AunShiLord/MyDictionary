@@ -34,7 +34,6 @@
     [super viewDidLoad];
     
     self.entityName = @"Word";
-    self.textField.placeholder = @"Type a word...";
     
     NSLog(@"%@", self.selectedTag.name);
     // changing position of textfield and tableview

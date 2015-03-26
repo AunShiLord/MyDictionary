@@ -20,7 +20,6 @@
     [super viewDidLoad];
     
     self.entityName = @"Word";
-    self.textField.placeholder = @"Type a word...";
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -15,7 +15,6 @@
 		E138C7781A6A5A8F00FC8934 /* ViewControllerSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = E138C7761A6A5A8F00FC8934 /* ViewControllerSearch.m */; };
 		E138C7821A6A6B8600FC8934 /* ViewControllerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E138C7801A6A6B8600FC8934 /* ViewControllerDictionary.m */; };
 		E138C7831A6A6B8600FC8934 /* ViewControllerDictionary.xib in Resources */ = {isa = PBXBuildFile; fileRef = E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */; };
-		E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E138C78C1A6F942100FC8934 /* Default-568h@2x.png */; };
 		E15BFDA01A70EAD2009494AF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E15BFD9F1A70EAD2009494AF /* libxml2.dylib */; };
 		E197D43E1A9DC3DE0098E387 /* ViewControllerSearch.xib in Resources */ = {isa = PBXBuildFile; fileRef = E197D43D1A9DC3DE0098E387 /* ViewControllerSearch.xib */; };
 		E197D4401A9DC3F20098E387 /* ViewControllerEditWord.xib in Resources */ = {isa = PBXBuildFile; fileRef = E197D43F1A9DC3F20098E387 /* ViewControllerEditWord.xib */; };
@@ -62,7 +61,6 @@
 		E138C77F1A6A6B8600FC8934 /* ViewControllerDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerDictionary.h; sourceTree = "<group>"; };
 		E138C7801A6A6B8600FC8934 /* ViewControllerDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerDictionary.m; sourceTree = "<group>"; };
 		E138C7811A6A6B8600FC8934 /* ViewControllerDictionary.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerDictionary.xib; sourceTree = "<group>"; };
-		E138C78C1A6F942100FC8934 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Pictures/Default-568h@2x.png"; sourceTree = "<group>"; };
 		E15BFD9F1A70EAD2009494AF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		E197D43D1A9DC3DE0098E387 /* ViewControllerSearch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerSearch.xib; sourceTree = "<group>"; };
 		E197D43F1A9DC3F20098E387 /* ViewControllerEditWord.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerEditWord.xib; sourceTree = "<group>"; };
@@ -231,7 +229,6 @@
 				E1A72E1F1AB1969000F2B711 /* searchIcon@2x.png */,
 				E1A72E201AB1969000F2B711 /* tagsIcon@2x.png */,
 				E1A72E211AB1969000F2B711 /* wordsIcon@2x.png */,
-				E138C78C1A6F942100FC8934 /* Default-568h@2x.png */,
 			);
 			name = Pictures;
 			path = ..;
@@ -375,7 +372,6 @@
 				E197D43E1A9DC3DE0098E387 /* ViewControllerSearch.xib in Resources */,
 				E19E04801A972C5C00E5317C /* Localizable.strings in Resources */,
 				E138C75D1A6A57FE00FC8934 /* Images.xcassets in Resources */,
-				E138C78D1A6F942100FC8934 /* Default-568h@2x.png in Resources */,
 				E197D4401A9DC3F20098E387 /* ViewControllerEditWord.xib in Resources */,
 				E1A72E241AB1969000F2B711 /* appBackground@2x.jpg in Resources */,
 				E1A72E251AB1969000F2B711 /* searchIcon@2x.png in Resources */,
@@ -515,7 +511,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -555,7 +551,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SDKROOT)/usr/include/libxml2",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

@@ -14,6 +14,8 @@
 @interface ViewControllerEditWord () <UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITextView *textViewWordDefinition;
 @property (strong, nonatomic) IBOutlet UITextView *textViewTags;
+@property (weak, nonatomic)   IBOutlet UILabel    *labelWord;
+@property (weak, nonatomic)   IBOutlet UILabel    *labelTag;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @end
@@ -45,6 +47,8 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBar.translucent = NO;
     
     self.textViewTags.delegate = self;
     self.textViewWordDefinition.delegate = self;
@@ -82,6 +86,8 @@
 {
     [self viewDidAppear:YES];
     
+    self.labelWord.backgroundColor = [UIColor clearColor];
+    
     // setting word name and definition
     [self.navigationItem setTitle:self.selectedWord.name];
     self.textViewWordDefinition.attributedText = self.selectedWord.definition;
@@ -98,6 +104,30 @@
     self.textViewTags.text = stringOfTags;
 }
 
+-(void)viewWillLayoutSubviews
+{
+    // placing textFields and textViews verticaly one by one.
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat textViewHeight = (screenRect.size.height - 2 * self.labelWord.frame.size.height - self.navigationController.navigationBar.frame.size.height - 20) / 2; // 20 for status bar
+
+    //self.labelWord.frame = CGRectOffset(self.labelWord.frame, 0, 0);
+    self.textViewWordDefinition.frame = CGRectMake(0,
+                                                   self.labelWord.frame.origin.y + self.labelWord.frame.size.height,
+                                                   screenWidth,
+                                                   textViewHeight);
+
+    self.labelTag.frame = CGRectMake(8,
+                                     self.textViewWordDefinition.frame.origin.y + self.textViewWordDefinition.frame.size.height,
+                                     self.labelTag.frame.size.width,
+                                     self.labelTag.frame.size.height);
+
+    self.textViewTags.frame = CGRectMake(0,
+                                         self.labelTag.frame.origin.y + self.labelTag.frame.size.height,
+                                         screenWidth,
+                                         textViewHeight);
+
+}
 #pragma mark - Custom methods
 
 // get keyboard size
@@ -147,7 +177,10 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     
-    [self animatedScrollTo:-keyboardFrame.size.height];
+    
+    // mayby should redisign and remove some methods
+    //[self animatedScrollTo:keyboardFrame.size.height];
+    [self animatedScrollTo:self.labelTag.frame.origin.y];
 }
 
 // animated scroll by Y
@@ -156,7 +189,7 @@
     [UIView beginAnimations:@"registerScroll" context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.3];
-    self.view.transform = CGAffineTransformMakeTranslation(0, y);
+    self.view.transform = CGAffineTransformMakeTranslation(0, -y);
     [UIView commitAnimations];
 }
 
@@ -173,7 +206,11 @@
 {
     // check if the word is new added (from ViewControllerSearch)
     if (self.deleteWordOnBack)
+    {
         [self.managedObjectContext deleteObject:self.selectedWord];
+        [self.managedObjectContext save:nil];
+    }
+    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
