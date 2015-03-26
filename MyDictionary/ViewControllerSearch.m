@@ -42,10 +42,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"Button ""Add"" name")
-                                                                                   style:UIBarButtonItemStylePlain
-                                                                                  target:self
-                                                                                  action:@selector(addWordToDatabase)]];
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"Button ""Add"" name")
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(addWordToDatabase)];
+        leftBarButtonItem.tintColor = [UIColor colorWithRed:208/255.0 green:237/255.0 blue:255/255.0 alpha:1.0];
+        [self.navigationItem setLeftBarButtonItem:leftBarButtonItem];
         [self.navigationItem.leftBarButtonItem setEnabled:NO];
     }
     
@@ -69,12 +71,21 @@
     self.textField.delegate = self;
     self.textField.placeholder = NSLocalizedString(@"Dictionary word placeholder", nil);
     [self.searchButton setTitle:NSLocalizedString(@"Search button", nil) forState:UIControlStateNormal];
+    
+    // settin navigation bar color
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    //[[UINavigationBar appearance] setBarTintColor:[UIColor yellowColor]];
+    //[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:110/255 green:177/255 blue:219/255 alpha:1.0]];
+    //self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:110/255 green:177/255 blue:219/255 alpha:1.0];
 }
 
 #pragma mark - custom methods

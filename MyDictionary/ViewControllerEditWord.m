@@ -8,13 +8,16 @@
 
 #import "ViewControllerEditWord.h"
 #import "ViewControllerSearch.h"
+#import <QuartzCore/QuartzCore.h>
 #import "Word.h"
 #import "Tag.h"
 
 @interface ViewControllerEditWord () <UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITextView *textViewWordDefinition;
 @property (strong, nonatomic) IBOutlet UITextView *textViewTags;
+@property (weak, nonatomic)   IBOutlet UIView     *labelWordContainer;
 @property (weak, nonatomic)   IBOutlet UILabel    *labelWord;
+@property (weak, nonatomic)   IBOutlet UIView     *labelTagContainer;
 @property (weak, nonatomic)   IBOutlet UILabel    *labelTag;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -30,12 +33,12 @@
     
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
-                                                                                   style:UIBarButtonItemStylePlain
+        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                   target:self
                                                                                   action:@selector(back)]];
+
         
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Save"
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"saveButton"]
                                                                                     style:UIBarButtonItemStylePlain
                                                                                    target:self
                                                                                    action:@selector(done)]];
@@ -81,12 +84,23 @@
     self.textViewTags.inputAccessoryView = toolbarTags;
     self.textViewWordDefinition.inputAccessoryView = toolbarWordDefinition;
     
+    // navigation bar color
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1.0];
+    
+    // seting localized text to labels
+    self.labelTag.text = NSLocalizedString(@"Tags:", nil);
+    self.labelWord.text = NSLocalizedString(@"New word:", nil);
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [self viewDidAppear:YES];
     
-    self.labelWord.backgroundColor = [UIColor clearColor];
+    //self.labelWord.backgroundColor = [UIColor clearColor];
     
     // setting word name and definition
     [self.navigationItem setTitle:self.selectedWord.name];
@@ -102,28 +116,49 @@
     }
     
     self.textViewTags.text = stringOfTags;
+    
+    // making shadows!
+    self.labelWordContainer.layer.masksToBounds = NO;
+    self.labelWordContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.labelWordContainer.layer.shadowOffset = CGSizeMake(0, 0);
+    self.labelWordContainer.layer.shadowOpacity = 0.8;
+    self.labelWordContainer.layer.shadowRadius = 5;
+    self.labelWordContainer.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.labelWordContainer.layer.bounds] CGPath];
+    
+    self.labelTagContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.labelTagContainer.layer.shadowOffset = CGSizeMake(0, 0);
+    self.labelTagContainer.layer.shadowOpacity = 0.8;
+    self.labelTagContainer.layer.shadowRadius = 5;
+    self.labelTagContainer.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.labelTagContainer.layer.bounds] CGPath];
+
 }
 
+// placing Views with labels and textViews verticaly one by one.
 -(void)viewWillLayoutSubviews
 {
-    // placing textFields and textViews verticaly one by one.
+    // finding screen size
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
-    CGFloat textViewHeight = (screenRect.size.height - 2 * self.labelWord.frame.size.height - self.navigationController.navigationBar.frame.size.height - 20) / 2; // 20 for status bar
+    self.labelWordContainer.frame = CGRectMake(0, 0, screenWidth, self.labelWordContainer.frame.size.height);
+    
+    // finding textViews height
+    CGFloat textViewHeight = (screenRect.size.height - 2 * self.labelWordContainer.frame.size.height - self.navigationController.navigationBar.frame.size.height - 20) / 2; // 20 for status bar
+    
+    NSLog(@"textViewHeight: %f", textViewHeight);
 
     //self.labelWord.frame = CGRectOffset(self.labelWord.frame, 0, 0);
+    NSLog(@"%f %f %f %f", self.labelWordContainer.frame.size.width, self.labelWordContainer.frame.size.height, self.labelWordContainer.frame.origin.x, self.labelWordContainer.frame.origin.y);
     self.textViewWordDefinition.frame = CGRectMake(0,
-                                                   self.labelWord.frame.origin.y + self.labelWord.frame.size.height,
+                                                   self.labelWordContainer.frame.origin.y + self.labelWordContainer.frame.size.height,
                                                    screenWidth,
                                                    textViewHeight);
-
-    self.labelTag.frame = CGRectMake(8,
+    self.labelTagContainer.frame = CGRectMake(0,
                                      self.textViewWordDefinition.frame.origin.y + self.textViewWordDefinition.frame.size.height,
-                                     self.labelTag.frame.size.width,
-                                     self.labelTag.frame.size.height);
+                                     screenWidth,
+                                     self.labelWordContainer.frame.size.height);
 
     self.textViewTags.frame = CGRectMake(0,
-                                         self.labelTag.frame.origin.y + self.labelTag.frame.size.height,
+                                         self.labelTagContainer.frame.origin.y + self.labelTagContainer.frame.size.height,
                                          screenWidth,
                                          textViewHeight);
 
@@ -147,7 +182,7 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if ([textView isEqual:self.textViewTags])
-        [self animatedScrollTo:self.labelTag.frame.origin.y];
+        [self animatedScrollTo:self.labelTagContainer.frame.origin.y];
 
     return YES;
 }

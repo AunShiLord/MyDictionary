@@ -60,6 +60,9 @@
     self.viewControllerEditWord.deleteWordOnBack = NO;
     self.navigationControllerEditWord = [[UINavigationController alloc] initWithRootViewController:self.viewControllerEditWord];
     
+    // setting navigation bar and status bar color
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0];
 }
 
 #pragma mark - Tableview methods
@@ -108,15 +111,21 @@
 {
     NSManagedObject *managedObject = self.managedObjectsFromDictionary[indexPath.row];
     NSString *locEntityName;
+    NSString *locRemoveString;
     if ([self.entityName isEqualToString: @"Tag"])
+    {
         locEntityName = NSLocalizedString(@"Tag", nil);
+        locRemoveString = NSLocalizedString(@"Remove1", nil);
+    }
     else
+    {
         locEntityName = NSLocalizedString(@"Word", nil);
+        locRemoveString = NSLocalizedString(@"Remove2", nil);
+    }
 
-    NSString *locRemoveString = NSLocalizedString(@"Remove", nil);
     // delete object from CoreData, MutableArray and tableview
     [self showMessageWithString:
-     [NSString stringWithFormat:@"%@ %@ %@", locEntityName, [managedObject valueForKey:@"name"], locRemoveString]];
+     [NSString stringWithFormat:@"%@ '%@' %@", locEntityName, [managedObject valueForKey:@"name"], locRemoveString]];
     [self.managedObjectContext deleteObject: managedObject];
     [self.managedObjectsFromDictionary removeObjectAtIndex:indexPath.row];
     
