@@ -147,40 +147,18 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if ([textView isEqual:self.textViewTags])
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyboardDidShow:)
-                                                     name:UIKeyboardDidShowNotification
-                                                   object:nil];
-    }
+        [self animatedScrollTo:self.labelTag.frame.origin.y];
+
     return YES;
 }
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     if ([textView isEqual:self.textViewTags])
-    {
-        
-      //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
-        
         [self animatedScrollTo:0];
-
-    }
+    
     [self.view endEditing:YES];
     return YES;
-}
-
-// action on keyboard did show
-- (void)keyboardDidShow:(NSNotification *)notification
-{
-    CGRect keyboardFrame = [self keyboardFrame:notification];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    
-    
-    // mayby should redisign and remove some methods
-    //[self animatedScrollTo:keyboardFrame.size.height];
-    [self animatedScrollTo:self.labelTag.frame.origin.y];
 }
 
 // animated scroll by Y
