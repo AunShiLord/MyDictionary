@@ -33,9 +33,11 @@
     
     if (self)
     {
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                  target:self
-                                                                                  action:@selector(back)]];
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
+                                                                                           target:self
+                                                                                           action:@selector(back)];
+        leftBarButtonItem.tintColor = [UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0];
+        [self.navigationItem setLeftBarButtonItem:leftBarButtonItem];
 
         
         [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"saveButton"]
@@ -116,20 +118,6 @@
     }
     
     self.textViewTags.text = stringOfTags;
-    
-    // making shadows!
-    self.labelWordContainer.layer.masksToBounds = NO;
-    self.labelWordContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.labelWordContainer.layer.shadowOffset = CGSizeMake(0, 0);
-    self.labelWordContainer.layer.shadowOpacity = 0.8;
-    self.labelWordContainer.layer.shadowRadius = 5;
-    self.labelWordContainer.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.labelWordContainer.layer.bounds] CGPath];
-    
-    self.labelTagContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.labelTagContainer.layer.shadowOffset = CGSizeMake(0, 0);
-    self.labelTagContainer.layer.shadowOpacity = 0.8;
-    self.labelTagContainer.layer.shadowRadius = 5;
-    self.labelTagContainer.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.labelTagContainer.layer.bounds] CGPath];
 
 }
 
@@ -144,10 +132,6 @@
     // finding textViews height
     CGFloat textViewHeight = (screenRect.size.height - 2 * self.labelWordContainer.frame.size.height - self.navigationController.navigationBar.frame.size.height - 20) / 2; // 20 for status bar
     
-    NSLog(@"textViewHeight: %f", textViewHeight);
-
-    //self.labelWord.frame = CGRectOffset(self.labelWord.frame, 0, 0);
-    NSLog(@"%f %f %f %f", self.labelWordContainer.frame.size.width, self.labelWordContainer.frame.size.height, self.labelWordContainer.frame.origin.x, self.labelWordContainer.frame.origin.y);
     self.textViewWordDefinition.frame = CGRectMake(0,
                                                    self.labelWordContainer.frame.origin.y + self.labelWordContainer.frame.size.height,
                                                    screenWidth,
@@ -161,6 +145,20 @@
                                          self.labelTagContainer.frame.origin.y + self.labelTagContainer.frame.size.height,
                                          screenWidth,
                                          textViewHeight);
+    
+    // making shadows!
+    self.labelWordContainer.layer.masksToBounds = NO;
+    self.labelWordContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.labelWordContainer.layer.shadowOffset = CGSizeMake(0, 0);
+    self.labelWordContainer.layer.shadowOpacity = 0.8;
+    self.labelWordContainer.layer.shadowRadius = 5;
+    self.labelWordContainer.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.labelWordContainer.layer.bounds] CGPath];
+    
+    self.labelTagContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.labelTagContainer.layer.shadowOffset = CGSizeMake(0, 0);
+    self.labelTagContainer.layer.shadowOpacity = 0.8;
+    self.labelTagContainer.layer.shadowRadius = 5;
+    self.labelTagContainer.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.labelTagContainer.layer.bounds] CGPath];
 
 }
 #pragma mark - Custom methods
@@ -182,7 +180,12 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if ([textView isEqual:self.textViewTags])
-        [self animatedScrollTo:self.labelTagContainer.frame.origin.y];
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardDidShow:)
+                                                     name:UIKeyboardDidShowNotification
+                                                   object:nil];
+    }
 
     return YES;
 }
@@ -194,6 +197,19 @@
     
     [self.view endEditing:YES];
     return YES;
+}
+
+// action on keyboard did show
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    CGRect keyboardFrame = [self keyboardFrame:notification];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+
+    if (keyboardFrame.size.height > self.textViewTags.frame.size.height)
+        [self animatedScrollTo:keyboardFrame.size.height];
+    else
+        [self animatedScrollTo:self.labelTagContainer.frame.origin.y];
 }
 
 // animated scroll by Y

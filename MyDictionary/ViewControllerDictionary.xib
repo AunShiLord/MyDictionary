@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="dictionaryTableView" destination="Bae-PP-ene" id="EQh-PW-Ecc"/>
                 <outlet property="textField" destination="mt3-a5-fxh" id="UdI-9D-RUg"/>
+                <outlet property="textFieldConteiner" destination="q3R-pX-3BT" id="t7T-GR-0KK"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,7 +24,7 @@
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type a word..." minimumFontSize="17" id="mt3-a5-fxh">
                             <rect key="frame" x="8" y="28" width="304" height="30"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>

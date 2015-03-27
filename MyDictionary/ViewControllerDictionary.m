@@ -60,9 +60,6 @@
     self.viewControllerEditWord.deleteWordOnBack = NO;
     self.navigationControllerEditWord = [[UINavigationController alloc] initWithRootViewController:self.viewControllerEditWord];
     
-    // setting navigation bar and status bar color
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0];
 }
 
 #pragma mark - Tableview methods

@@ -30,25 +30,25 @@
     self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"appBackground@2x.jpg"]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    //tabBarController.tabBar.translucent = NO;
-    //[tabBarController.tabBar setTintColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
-    [tabBarController.tabBar setBackgroundColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
-    //tabBarController.tabBar.viewForBaselineLayout.backgroundColor = [UIColor redColor];
-    //[tabBarController.tabBar setBackgroundColor:[UIColor redColor]];
-   
-    [tabBarController.tabBar setBackgroundImage: [UIImage imageNamed: @"tabBarBackground.png"]];
+
+    //[tabBarController.tabBar setBackgroundColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
     [tabBarController.tabBar setTintColor: [UIColor whiteColor]];
+    [tabBarController.tabBar setBarTintColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
     
     // first tab viewController. Search in online dictionary
     ViewControllerSearch *viewControllerSearch = [[ViewControllerSearch alloc] init];
     viewControllerSearch.managedObjectContext = self.managedObjectContext;
     UINavigationController *navigationControllerSearch = [[UINavigationController alloc]
                                                           initWithRootViewController:viewControllerSearch];
-    navigationControllerSearch.tabBarItem = [[UITabBarItem alloc]
-                                             initWithTitle:NSLocalizedString(@"Search", @"Tab for search view")
-                                             image:[UIImage imageNamed:@"searchIcon"]
-                                             selectedImage:[UIImage imageNamed:@"searchIcon"]];
-    //[navigationControllerSearch.tabBarController.tabBar setBackgroundColor:[UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0]];
+   
+    navigationControllerSearch.tabBarItem = [[UITabBarItem alloc]initWithTitle:NSLocalizedString(@"Search", @"Tab for search view")
+                                                                         image:[UIImage imageNamed:@"searchIcon"]
+                                                                 selectedImage:[UIImage imageNamed:@"searchIcon"]];
+
+    [navigationControllerSearch.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:208/255.0 green:237/255.0 blue:255/255.0 alpha:1.0]}
+                                                         forState:UIControlStateNormal];
+    [navigationControllerSearch.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}
+                                                         forState:UIControlStateSelected];
     
     // second tab viewController. CoreData database, display words.
     ViewControllerWords *viewControllerWords = [[ViewControllerWords alloc]
@@ -60,6 +60,10 @@
                                       initWithTitle:NSLocalizedString(@"Words", @"Tab for words view")
                                       image:[UIImage imageNamed:@"wordsIcon"]
                                       selectedImage:[UIImage imageNamed:@"wordsIcon"]];
+    [viewControllerWords.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:208/255.0 green:237/255.0 blue:255/255.0 alpha:1.0]}
+                                                         forState:UIControlStateNormal];
+    [viewControllerWords.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}
+                                                         forState:UIControlStateSelected];
     
     // third tab viewController. CoreData database, display tags.
     ViewControllerTag *viewControllerTag = [[ViewControllerTag alloc]
@@ -71,6 +75,10 @@
                                     initWithTitle:NSLocalizedString(@"Tags", @"Tab for tags view")
                                     image:[UIImage imageNamed:@"tagsIcon"]
                                     selectedImage:[UIImage imageNamed:@"tagsIcon"]];
+    [viewControllerTag.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:208/255.0 green:237/255.0 blue:255/255.0 alpha:1.0]}
+                                                         forState:UIControlStateNormal];
+    [viewControllerTag.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}
+                                                         forState:UIControlStateSelected];
     
     [tabBarController setViewControllers:@[navigationControllerSearch, viewControllerWords, viewControllerTag]];
     

@@ -23,7 +23,12 @@
     if (self)
     {
         // Left button on navigation controller
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back)]];
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(back)];
+        leftBarButtonItem.tintColor = [UIColor colorWithRed:208/255.0 green:237/255.0 blue:244/255.0 alpha:1.0];
+        [self.navigationItem setLeftBarButtonItem:leftBarButtonItem];
         
     }
     return self;
@@ -40,6 +45,7 @@
     [self.navigationItem setTitle:self.selectedTag.name];
     self.textField.center = CGPointMake(self.textField.center.x, self.textField.center.y + 30);
     self.dictionaryTableView.center = CGPointMake(self.dictionaryTableView.center.x, self.dictionaryTableView.center.y + 30);
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -54,6 +60,29 @@
     
     // reloading data
     [self.dictionaryTableView reloadData];
+    
+    // setting navigation bar and status bar color
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:110/255.0 green:177/255.0 blue:219/255.0 alpha:1.0];
+}
+
+-(void)viewWillLayoutSubviews
+{
+    self.textFieldConteiner.frame = CGRectMake(0,
+                                               -20,
+                                               self.textFieldConteiner.frame.size.width,
+                                               self.textFieldConteiner.frame.size.height);
+    self.textField.frame = CGRectMake(self.textField.frame.origin.x,
+                                      28,
+                                      self.textField.frame.size.width,
+                                      self.textField.frame.size.height);
+    self.dictionaryTableView.frame = CGRectMake(0,
+                                                self.textFieldConteiner.frame.origin.y + self.textFieldConteiner.frame.size.height,
+                                                self.dictionaryTableView.frame.size.width,
+                                                self.dictionaryTableView.frame.size.height);
 }
 
 // Reloading data in tableview on typing in textfield

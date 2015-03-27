@@ -24,5 +24,6 @@
 @property (strong, nonatomic) ViewControllerEditWord    *viewControllerEditWord;
 @property (strong, nonatomic) UINavigationController    *navigationControllerEditWord;
 @property (strong, nonatomic) UITapGestureRecognizer    *tapGesture;
+@property (weak, nonatomic)   IBOutlet UIView           *textFieldConteiner;
 
 @end

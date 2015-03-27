@@ -42,13 +42,13 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"Button ""Add"" name")
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(addWordToDatabase)];
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                           target:self
+                                                                                           action:@selector(addWordToDatabase)];
         leftBarButtonItem.tintColor = [UIColor colorWithRed:208/255.0 green:237/255.0 blue:255/255.0 alpha:1.0];
         [self.navigationItem setLeftBarButtonItem:leftBarButtonItem];
         [self.navigationItem.leftBarButtonItem setEnabled:NO];
+
     }
     
     return self;
