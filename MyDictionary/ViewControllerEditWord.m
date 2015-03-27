@@ -102,7 +102,10 @@
 {
     [self viewDidAppear:YES];
     
-    //self.labelWord.backgroundColor = [UIColor clearColor];
+    if (self.deleteWordOnBack)
+        self.labelWord.text = NSLocalizedString(@"New word:", nil);
+    else
+        self.labelWord.text = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"Word", nil)];
     
     // setting word name and definition
     [self.navigationItem setTitle:self.selectedWord.name];

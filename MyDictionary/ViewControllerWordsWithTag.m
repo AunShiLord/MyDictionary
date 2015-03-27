@@ -54,9 +54,30 @@
     
     self.navigationItem.title = self.selectedTag.name;
     
-    self.managedObjectsFromDictionary = [NSMutableArray arrayWithArray:[self.selectedTag.words allObjects]];
-    
     self.managedObjectContext = self.selectedTag.managedObjectContext;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:self.entityName inManagedObjectContext:self.managedObjectContext];
+    
+    // creating sort descriptor
+    NSSortDescriptor *nameDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    NSArray *sortDescriptors = @[nameDescriptor];
+    
+    // creating predicate
+    NSMutableString *predicateString = [NSMutableString stringWithString:self.textField.text];
+    
+    // if length of string in textfiled is more than 2, then Core Data will search words with format "_wordPart_*", else all words in database
+    predicateString = [NSMutableString stringWithFormat:@"name LIKE[c] '%@*' AND ANY tags.name LIKE[c] '%@'",  predicateString, self.selectedTag.name];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+    
+    // setting FetchRequest
+    [request setEntity:entity];
+    [request setIncludesPropertyValues:YES];
+    [request setSortDescriptors:sortDescriptors];
+    [request setPredicate:predicate];
+    self.managedObjectsFromDictionary = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:request error:nil]];
     
     // reloading data
     [self.dictionaryTableView reloadData];

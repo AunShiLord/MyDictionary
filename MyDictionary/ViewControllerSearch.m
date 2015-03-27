@@ -26,8 +26,9 @@
 @property (strong, nonatomic) MBProgressHUD *urlConnectionHud;
 @property (strong, nonatomic) MBProgressHUD *messageHud;
 
-@property (strong,nonatomic) ViewControllerEditWord *viewControllerEditWord;
-@property (strong,nonatomic) UINavigationController *navigationControllerEditWord;
+@property (strong,nonatomic)  ViewControllerEditWord *viewControllerEditWord;
+@property (strong,nonatomic)  UINavigationController *navigationControllerEditWord;
+@property (weak, nonatomic)   IBOutlet UIImageView   *appTitle;
 
 
 
@@ -42,12 +43,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                           target:self
-                                                                                           action:@selector(addWordToDatabase)];
-        leftBarButtonItem.tintColor = [UIColor colorWithRed:208/255.0 green:237/255.0 blue:255/255.0 alpha:1.0];
-        [self.navigationItem setLeftBarButtonItem:leftBarButtonItem];
-        [self.navigationItem.leftBarButtonItem setEnabled:NO];
 
     }
     
@@ -63,14 +58,15 @@
     self.viewControllerEditWord.deleteWordOnBack = YES;
     self.navigationControllerEditWord = [[UINavigationController alloc] initWithRootViewController:self.viewControllerEditWord];
     
+    [self.searchButton setEnabled: NO];
+    [self.appTitle setHidden: NO];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(dismissKeyboard)];
-    [self.navigationController.view addGestureRecognizer:tapGesture];
+    [self.view addGestureRecognizer:tapGesture];
     
     self.textField.delegate = self;
     self.textField.placeholder = NSLocalizedString(@"Dictionary word placeholder", nil);
-    [self.searchButton setTitle:NSLocalizedString(@"Search button", nil) forState:UIControlStateNormal];
     
     // settin navigation bar color
     self.navigationController.navigationBar.translucent = NO;
@@ -83,15 +79,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //[[UINavigationBar appearance] setBarTintColor:[UIColor yellowColor]];
-    //[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:110/255 green:177/255 blue:219/255 alpha:1.0]];
-    //self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:110/255 green:177/255 blue:219/255 alpha:1.0];
 }
 
 #pragma mark - custom methods
 
 // Getting an html Data from online dictionary
-- (IBAction)getHtmlByWord
+- (void)getHtmlByWord
 {
     
     if ( ![self.textField.text isEqual:@""] )
@@ -158,7 +151,8 @@
     {
         [self showErrorMessage:NSLocalizedString(@"Word not found!", @"Error, word not found") withError:nil];
         self.textView.attributedText = [[NSAttributedString alloc] initWithString:@""];
-        [self.navigationItem.leftBarButtonItem setEnabled:NO];
+        [self.searchButton setEnabled:NO];
+        [self.appTitle setHidden: NO];
     }
     else
     {
@@ -223,7 +217,7 @@
 }
 
 // Adding data to database
-- (void)addWordToDatabase
+- (IBAction)addWordToDatabase
 {
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Word" inManagedObjectContext:self.managedObjectContext];
@@ -292,7 +286,7 @@
 {
     // removing observer from notification (to make sure it won't call twice)
     [[NSNotificationCenter defaultCenter] removeObserver:self name: UITextFieldTextDidChangeNotification object:nil];
-    
+
     if (self.textField.text.length == 1)
         // check if first letter is not uppercase
         if (![[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[self.textField.text characterAtIndex:0]])
@@ -327,7 +321,8 @@
 {
     // The request is complete and data has been received
     // You can parse the stuff in your instance variable now
-    [self.navigationItem.leftBarButtonItem setEnabled:YES];
+    [self.searchButton setEnabled:YES];
+    [self.appTitle setHidden: YES];
     [self parseHtml:self.onlineDictionaryHtmlData];
     [self.urlConnectionHud hide:YES];
     

@@ -139,7 +139,6 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     // taping on table view will close keyboard instead of opening the cell.
-    // see also
     self.tapGesture.cancelsTouchesInView = YES;
 }
 
